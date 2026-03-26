@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صيانة البرمجيات</title>
+    <meta name="description" content="صفحة بصرية لتوضيح مفاهيم صيانة البرمجيات بصورة أخف وأوضح.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="software">
+    <div class="page-aura"></div>
+
+    <header class="site-header">
+        <div class="container topbar">
+            <a class="brand" href="index.html">
+                <span class="brand-mark">PC</span>
+                <div>
+                    <strong>مختبر صيانة الحاسوب</strong>
+                    <span>صفحة الدرس الثالث</span>
+                </div>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="site-nav" class="main-nav">
+                <a href="index.html">الرئيسية</a>
+                <a href="intro.html">المقدمة</a>
+                <a href="hardware.html">المكونات المادية</a>
+                <a href="software.html">البرمجيات</a>
+                <a href="data-protection.html">حماية البيانات</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero topic-hero" data-reveal>
+            <div class="hero-copy">
+                <span class="eyebrow">الدرس 03</span>
+                <h1>صيانة البرمجيات</h1>
+                <p>
+                    في هذا الدرس تصبح الصيانة أقل ارتباطاً بالمفك وأكثر ارتباطاً بالقرار: أي برنامج
+                    نثبت، متى ننشئ نقطة استعادة، وكيف نرفع الأداء من دون كسر استقرار النظام.
+                </p>
+            </div>
+
+            <aside class="hero-panel">
+                <h3>المفاهيم الثلاثة</h3>
+                <ul class="feature-list">
+                    <li>ترخيص موثوق</li>
+                    <li>استعادة قبل وبعد التغيير</li>
+                    <li>تحسين أداء منظم</li>
+                </ul>
+            </aside>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">الشرح البصري</span>
+                <h2>مفاهيم البرمجيات كمشاهد متتابعة</h2>
+            </div>
+
+            <div class="visual-shell" data-visual-group>
+                <div class="visual-nav">
+                    <button class="visual-tab is-active" type="button" data-visual-target="software-visual-license">الترخيص</button>
+                    <button class="visual-tab" type="button" data-visual-target="software-visual-restore">الاستعادة</button>
+                    <button class="visual-tab" type="button" data-visual-target="software-visual-speed">الأداء</button>
+                </div>
+
+                <div class="visual-panels">
+                    <article id="software-visual-license" class="visual-panel is-active">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>برنامج مطلوب</strong>
+                                <p>توجد عدة نسخ، لكن ليست كلها آمنة أو قانونية أو مستقرة.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>قرار</span>
+                                <strong>اختيار المصدر</strong>
+                                <p>النسخة المقرصنة قد تبدو سهلة لكنها تفتح باباً للخلل والمخاطر.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>ترخيص موثوق</strong>
+                                <p>تصبح التحديثات والدعم والاستقرار جزءاً من بيئة النظام.</p>
+                            </article>
+                        </div>
+                    </article>
+
+                    <article id="software-visual-restore" class="visual-panel">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>تغيير مهم</strong>
+                                <p>تعريف جديد أو تحديث كبير قد يؤثر في عمل الجهاز.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>قرار</span>
+                                <strong>نقطة استعادة</strong>
+                                <p>تُنشأ قبل التغيير لتبقى لديك نقطة رجوع إذا ظهر خلل.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>رجوع منظم</strong>
+                                <p>يمكن إعادة النظام إلى حالة مستقرة من دون قفز إلى حلول كبيرة.</p>
+                            </article>
+                        </div>
+                    </article>
+
+                    <article id="software-visual-speed" class="visual-panel">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>بطء وبرامج كثيرة</strong>
+                                <p>الإقلاع مزدحم والملفات المؤقتة كثيرة والتحديثات مؤجلة.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>قرار</span>
+                                <strong>تنظيف وتحديث</strong>
+                                <p>ابدأ بالأدوات الموثوقة والبرامج الضرورية فقط.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>أداء مستقر</strong>
+                                <p>ترتفع الاستجابة من دون التضحية بالأمان أو التوافق.</p>
+                            </article>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">مشاهد القرار</span>
+                <h2>ثلاث مواقف تمثل صيانة البرمجيات في الواقع</h2>
+            </div>
+
+            <div class="scenario-shell" data-scenario-group>
+                <div class="scenario-tabs">
+                    <button class="scenario-tab is-active" type="button" data-scenario-target="software-license">اختيار البرنامج</button>
+                    <button class="scenario-tab" type="button" data-scenario-target="software-restore">التحديث والرجوع</button>
+                    <button class="scenario-tab" type="button" data-scenario-target="software-speed">رفع الأداء</button>
+                </div>
+
+                <div class="scenario-panels">
+                    <article id="software-license" class="scenario-panel is-active">
+                        <h3>المشهد: برنامج جديد للحصة</h3>
+                        <p>اختيار النسخة القانونية أو البديل المجاني الموثوق أفضل من حل سريع مجهول المصدر.</p>
+                    </article>
+                    <article id="software-restore" class="scenario-panel">
+                        <h3>المشهد: تحديث سبب مشكلة</h3>
+                        <p>إذا كانت نقطة الاستعادة موجودة، يصبح الرجوع أقل كلفة وأكثر دقة.</p>
+                    </article>
+                    <article id="software-speed" class="scenario-panel">
+                        <h3>المشهد: النظام بطيء</h3>
+                        <p>ابدأ بمراجعة الإقلاع والتنظيف والتحديثات، لا ببرامج سحرية غير موثوقة.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">سؤال تثبيت</span>
+                <h2>ما القرار الأدق؟</h2>
+            </div>
+
+            <article class="quiz-card">
+                <p>قبل تثبيت تعريف جديد مهم، ما الخطوة التي تمنحك طريق رجوع آمناً؟</p>
+                <div class="answer-grid">
+                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: نقطة الاستعادة تُنشأ قبل التغيير حتى تملك حالة مستقرة ترجع إليها.">إنشاء نقطة استعادة قبل التحديث</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: حذف نقاط الاستعادة يزيل شبكة الأمان.">حذف نقاط الاستعادة لتوفير المساحة</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: تعطيل التحديثات نهائياً لا يعالج الموقف بل يؤجله.">إيقاف التحديثات نهائياً</button>
+                </div>
+                <p class="answer-feedback" hidden></p>
+            </article>
+        </section>
+
+        <section class="cta-strip" data-reveal>
+            <div>
+                <span class="eyebrow">التالي</span>
+                <h2>آخر صفحة في المسار هي حماية البيانات.</h2>
+            </div>
+            <a class="button" href="data-protection.html">افتح صفحة حماية البيانات</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-layout">
+            <div>
+                <strong>الدرس 03: صيانة البرمجيات</strong>
+                <p>تحولت الصفحة إلى مشاهد بصرية أقصر بدلاً من كتل نصية كثيرة.</p>
+            </div>
+            <div class="footer-links">
+                <a href="hardware.html">السابق</a>
+                <a href="data-protection.html">التالي</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>

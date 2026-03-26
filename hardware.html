@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صيانة المكونات المادية</title>
+    <meta name="description" content="صفحة بصرية لشرح صيانة المكونات المادية مع استخدام نموذج PC.fbx ومشاهد قرار واضحة.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="hardware">
+    <div class="page-aura"></div>
+
+    <header class="site-header">
+        <div class="container topbar">
+            <a class="brand" href="index.html">
+                <span class="brand-mark">PC</span>
+                <div>
+                    <strong>مختبر صيانة الحاسوب</strong>
+                    <span>صفحة الدرس الثاني</span>
+                </div>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="site-nav" class="main-nav">
+                <a href="index.html">الرئيسية</a>
+                <a href="intro.html">المقدمة</a>
+                <a href="hardware.html">المكونات المادية</a>
+                <a href="software.html">البرمجيات</a>
+                <a href="data-protection.html">حماية البيانات</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero topic-hero" data-reveal>
+            <div class="hero-copy">
+                <span class="eyebrow">الدرس 02</span>
+                <h1>صيانة المكونات المادية</h1>
+                <p>
+                    هنا يجب أن يرى الطالب الجهاز لا أن يقرأ عنه فقط. لذلك هذه الصفحة تركز على
+                    النموذج ثلاثي الأبعاد، ومسارات الحرارة والطاقة، وفكرة الترقية الآمنة.
+                </p>
+                <div class="panel-chip-row">
+                    <span class="panel-chip">نموذج حقيقي</span>
+                    <span class="panel-chip">مفاهيم أقل ازدحاماً</span>
+                    <span class="panel-chip">مشاهد قرار أوضح</span>
+                </div>
+            </div>
+
+            <aside class="hero-panel">
+                <h3>المخرجات الرئيسية</h3>
+                <ul class="feature-list">
+                    <li>رؤية عامة لشكل الجهاز ومناطقه المهمة</li>
+                    <li>فهم علاقة الحرارة والطاقة والتوافق بالأعطال</li>
+                    <li>اتخاذ قرار صحيح قبل لمس أي قطعة أو استبدالها</li>
+                </ul>
+            </aside>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">مختبر النموذج</span>
+                <h2>استخدم نموذج الجهاز الحقيقي لفهم مناطق الصيانة</h2>
+            </div>
+
+            <div class="model-lab">
+                <div class="model-stage">
+                    <div id="pc-model-viewer" class="model-viewer" data-model-viewer></div>
+                    <div class="model-overlay">
+                        <strong>النموذج: `PC.fbx`</strong>
+                        <span>اسحب للدوران واستخدم أزرار التركيز لتبديل زاوية العرض.</span>
+                    </div>
+                </div>
+
+                <aside class="viewer-aside">
+                    <div class="focus-pills">
+                        <button class="focus-pill is-active" type="button" data-model-focus="overview">نظرة عامة</button>
+                        <button class="focus-pill" type="button" data-model-focus="airflow">مسار الهواء</button>
+                        <button class="focus-pill" type="button" data-model-focus="core">القلب الداخلي</button>
+                        <button class="focus-pill" type="button" data-model-focus="power">منطقة الطاقة</button>
+                    </div>
+
+                    <article class="viewer-info">
+                        <span class="eyebrow">منطقة التركيز</span>
+                        <h3 id="viewer-focus-title">نظرة عامة</h3>
+                        <p id="viewer-focus-text">هذه الزاوية تعطي تصوراً عاماً للجهاز قبل الدخول في المخاطر أو خطوات الصيانة.</p>
+                        <div id="viewer-focus-points" class="mini-points"></div>
+                    </article>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">الشرح البصري</span>
+                <h2>كل مفهوم هنا يظهر كمشهد من ثلاث خطوات</h2>
+            </div>
+
+            <div class="visual-shell" data-visual-group>
+                <div class="visual-nav">
+                    <button class="visual-tab is-active" type="button" data-visual-target="hardware-visual-heat">الحرارة</button>
+                    <button class="visual-tab" type="button" data-visual-target="hardware-visual-power">الطاقة</button>
+                    <button class="visual-tab" type="button" data-visual-target="hardware-visual-upgrade">الترقية</button>
+                </div>
+
+                <div class="visual-panels">
+                    <article id="hardware-visual-heat" class="visual-panel is-active">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>هواء محجوب</strong>
+                                <p>الغبار والكابلات يضيقان المسار حول المراوح والمبرّد.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>أثناء</span>
+                                <strong>ارتفاع الحرارة</strong>
+                                <p>الضوضاء تزيد، الأداء يهبط، واحتمال الإيقاف المفاجئ يرتفع.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>تنظيف وتنظيم</strong>
+                                <p>التبريد يعود مستقراً ويصبح الجهاز جاهزاً للعمل الطبيعي.</p>
+                            </article>
+                        </div>
+                    </article>
+
+                    <article id="hardware-visual-power" class="visual-panel">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>مصدر غير مستقر</strong>
+                                <p>تذبذب كهربائي أو مزود طاقة ضعيف يهددان استقرار الجهاز.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>أثناء</span>
+                                <strong>انطفاء متكرر</strong>
+                                <p>الجهاز يفصل فجأة ويصبح من الخطر مواصلة الضغط على زر التشغيل.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>عزل واستبدال صحيح</strong>
+                                <p>يتم علاج المصدر الفعلي مع إضافة حماية مناسبة من الاندفاعات.</p>
+                            </article>
+                        </div>
+                    </article>
+
+                    <article id="hardware-visual-upgrade" class="visual-panel">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>حاجة غير محسومة</strong>
+                                <p>الجهاز بطيء، لكن المطلوب أولاً معرفة هل المشكلة ذاكرة أم تخزين أم شيء آخر.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>أثناء</span>
+                                <strong>اختيار خاطئ</strong>
+                                <p>شراء أقوى قطعة لا يضمن التحسن إذا غاب التوافق والتحليل.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>ترقية متوافقة</strong>
+                                <p>تُثبت القطعة الصحيحة بأمان فتتحسن الاستجابة من دون خلق خطر جديد.</p>
+                            </article>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">مشاهد القرار</span>
+                <h2>ماذا تفعل عندما ترى العرض أمامك؟</h2>
+            </div>
+
+            <div class="scenario-shell" data-scenario-group>
+                <div class="scenario-tabs">
+                    <button class="scenario-tab is-active" type="button" data-scenario-target="hardware-heat">ارتفاع الحرارة</button>
+                    <button class="scenario-tab" type="button" data-scenario-target="hardware-power">خلل الطاقة</button>
+                    <button class="scenario-tab" type="button" data-scenario-target="hardware-upgrade">الترقية</button>
+                </div>
+
+                <div class="scenario-panels">
+                    <article id="hardware-heat" class="scenario-panel is-active">
+                        <h3>المشهد: الهيكل ساخن وصوت المراوح مرتفع</h3>
+                        <p>الإجراء الأول الصحيح هو إيقاف الجهاز وفصل الطاقة ثم فحص التهوية، لا تركه يعمل تحت الحرارة.</p>
+                    </article>
+                    <article id="hardware-power" class="scenario-panel">
+                        <h3>المشهد: انطفاء متكرر بعد تذبذب كهربائي</h3>
+                        <p>التحقيق يجب أن يبدأ من مزود الطاقة ووسائل الحماية، لا من البرامج أو إعادة التشغيل المستمرة.</p>
+                    </article>
+                    <article id="hardware-upgrade" class="scenario-panel">
+                        <h3>المشهد: الرغبة في أداء أفضل</h3>
+                        <p>حدد الحاجة أولاً ثم افحص التوافق قبل الشراء، وبعدها نفذ التركيب بأسلوب خال من الشحنة الساكنة.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">سؤال تثبيت</span>
+                <h2>ما القرار الأكثر أماناً؟</h2>
+            </div>
+
+            <article class="quiz-card">
+                <p>ظهرت رائحة خفيفة قرب مزود الطاقة مع انطفاء متكرر. ما الخطوة الأدق؟</p>
+                <div class="answer-grid">
+                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: يجب فصل الكهرباء والتحقق من مزود الطاقة والحماية قبل أي تشغيل جديد.">فصل الكهرباء وفحص مزود الطاقة والحماية</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: إعادة التشغيل تحت خلل كهربائي قد تزيد التلف.">إعادة تشغيل الجهاز مرات متتالية</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: المشكلة هنا ليست في التخزين أو تنظيف الملفات.">فتح النظام وتنظيف الملفات المؤقتة</button>
+                </div>
+                <p class="answer-feedback" hidden></p>
+            </article>
+        </section>
+
+        <section class="cta-strip" data-reveal>
+            <div>
+                <span class="eyebrow">التالي</span>
+                <h2>بعد رؤية العتاد، انتقل إلى صيانة البرمجيات.</h2>
+            </div>
+            <a class="button" href="software.html">افتح صفحة البرمجيات</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-layout">
+            <div>
+                <strong>الدرس 02: صيانة المكونات المادية</strong>
+                <p>الآن الصفحة تستخدم النموذج المحلي `PC.fbx` وتعرض المفاهيم كمشاهد بصرية أخف.</p>
+            </div>
+            <div class="footer-links">
+                <a href="intro.html">السابق</a>
+                <a href="software.html">التالي</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>

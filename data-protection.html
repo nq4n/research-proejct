@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حماية البيانات</title>
+    <meta name="description" content="صفحة بصرية لشرح حماية البيانات مع مقياس كلمة مرور ومشاهد أمنية واضحة.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="security">
+    <div class="page-aura"></div>
+
+    <header class="site-header">
+        <div class="container topbar">
+            <a class="brand" href="index.html">
+                <span class="brand-mark">PC</span>
+                <div>
+                    <strong>مختبر صيانة الحاسوب</strong>
+                    <span>صفحة الدرس الرابع</span>
+                </div>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="site-nav" class="main-nav">
+                <a href="index.html">الرئيسية</a>
+                <a href="intro.html">المقدمة</a>
+                <a href="hardware.html">المكونات المادية</a>
+                <a href="software.html">البرمجيات</a>
+                <a href="data-protection.html">حماية البيانات</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero topic-hero" data-reveal>
+            <div class="hero-copy">
+                <span class="eyebrow">الدرس 04</span>
+                <h1>حماية البيانات</h1>
+                <p>
+                    هذه الصفحة تركز على السلوك الآمن: كيف نتصرف أمام البريد المشبوه، وكيف نبني
+                    كلمة مرور قوية، وكيف نحمي الملفات بخطة نسخ احتياطي قابلة للاسترجاع.
+                </p>
+            </div>
+
+            <aside class="hero-panel">
+                <h3>المفاهيم الثلاثة</h3>
+                <ul class="feature-list">
+                    <li>رد فعل صحيح أمام التهديد</li>
+                    <li>قوة كلمة المرور وسريتها</li>
+                    <li>نسخ احتياطي محلي وسحابي</li>
+                </ul>
+            </aside>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">الشرح البصري</span>
+                <h2>الحماية كمشهد دفاعي متكامل</h2>
+            </div>
+
+            <div class="visual-shell" data-visual-group>
+                <div class="visual-nav">
+                    <button class="visual-tab is-active" type="button" data-visual-target="security-visual-mail">التهديدات</button>
+                    <button class="visual-tab" type="button" data-visual-target="security-visual-password">كلمة المرور</button>
+                    <button class="visual-tab" type="button" data-visual-target="security-visual-backup">النسخ الاحتياطي</button>
+                </div>
+
+                <div class="visual-panels">
+                    <article id="security-visual-mail" class="visual-panel is-active">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>رسالة مشبوهة</strong>
+                                <p>مرسل غير معروف أو مرفق غير متوقع أو لغة مستعجلة.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>قرار</span>
+                                <strong>عدم الفتح</strong>
+                                <p>يتم الإبلاغ عن الرسالة وتحديث أدوات الحماية بدلاً من المجازفة.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>احتواء الخطر</strong>
+                                <p>يتم منع التهديد من الوصول إلى الملفات أو النظام.</p>
+                            </article>
+                        </div>
+                    </article>
+
+                    <article id="security-visual-password" class="visual-panel">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>حساب جديد</strong>
+                                <p>المستخدم يحتاج كلمة مرور سهلة التذكر لكن قوية في الوقت نفسه.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>قرار</span>
+                                <strong>عبارة مرور</strong>
+                                <p>طويلة، متنوعة، وغير مرتبطة بمعلومة شخصية واضحة.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>حساب أقوى</strong>
+                                <p>يرتفع مستوى الأمان إذا بقيت الكلمة سرية ولم تُشارك مع الآخرين.</p>
+                            </article>
+                        </div>
+                    </article>
+
+                    <article id="security-visual-backup" class="visual-panel">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>ملفات مهمة</strong>
+                                <p>مشاريع وملفات دراسة لا يجب أن تبقى في مكان واحد فقط.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>قرار</span>
+                                <strong>خطة نسخ مزدوجة</strong>
+                                <p>نسخة محلية سريعة ونسخة سحابية إضافية للاسترجاع عند الكوارث.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>بعد</span>
+                                <strong>تعافٍ أسرع</strong>
+                                <p>إذا وقع عطل أو تشفير، يصبح الرجوع للملفات أكثر أماناً.</p>
+                            </article>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">مقياس بصري</span>
+                <h2>اختبر قوة كلمة المرور مباشرة</h2>
+            </div>
+
+            <div class="password-lab">
+                <label class="password-field">
+                    <span>اكتب كلمة مرور تجريبية</span>
+                    <input id="password-input" type="text" placeholder="مثال: Pass2026!">
+                </label>
+                <div class="password-meter">
+                    <div class="strength-bar">
+                        <span id="password-strength-fill" class="strength-fill"></span>
+                    </div>
+                    <strong id="password-strength-label">لم يبدأ التقييم بعد</strong>
+                    <p id="password-strength-text">جرّب كلمة أطول وأكثر تنوعاً لترى كيف يتغير المقياس.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">مشاهد القرار</span>
+                <h2>كيف تتصرف في المواقف الأمنية الأساسية؟</h2>
+            </div>
+
+            <div class="scenario-shell" data-scenario-group>
+                <div class="scenario-tabs">
+                    <button class="scenario-tab is-active" type="button" data-scenario-target="security-mail">بريد مشبوه</button>
+                    <button class="scenario-tab" type="button" data-scenario-target="security-password">سرية الحساب</button>
+                    <button class="scenario-tab" type="button" data-scenario-target="security-backup">استرجاع الملفات</button>
+                </div>
+
+                <div class="scenario-panels">
+                    <article id="security-mail" class="scenario-panel is-active">
+                        <h3>المشهد: رسالة غير متوقعة فيها مرفق</h3>
+                        <p>الإجراء الآمن هو عدم الفتح والإبلاغ عنها ثم التأكد من أن أدوات الحماية تعمل وتُحدّث.</p>
+                    </article>
+                    <article id="security-password" class="scenario-panel">
+                        <h3>المشهد: زميل يطلب كلمة المرور</h3>
+                        <p>البديل الصحيح هو حساب منفصل أو وصول بإشراف، لا مشاركة السر نفسه.</p>
+                    </article>
+                    <article id="security-backup" class="scenario-panel">
+                        <h3>المشهد: تعطل أو هجوم تشفير</h3>
+                        <p>تعتمد سرعة النجاة هنا على وجود نسخة سليمة منفصلة عن الجهاز المصاب.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">سؤال تثبيت</span>
+                <h2>ما التصرف الأدق؟</h2>
+            </div>
+
+            <article class="quiz-card">
+                <p>وصل بريد فيه مرفق غير متوقع بينما جدار الحماية متوقف. ما القرار الأفضل؟</p>
+                <div class="answer-grid">
+                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: يجب تجنب الفتح وتفعيل الحماية ثم فحص الجهاز.">تجنب الفتح وتفعيل الحماية ثم الفحص</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: فتح المرفق أولاً يمنح التهديد فرصة مباشرة.">فتح المرفق لمعرفة المحتوى</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: تغيير كلمة المرور وحده لا يعالج هذا الموقف بالكامل.">تغيير كلمة المرور فقط</button>
+                </div>
+                <p class="answer-feedback" hidden></p>
+            </article>
+        </section>
+
+        <section class="cta-strip" data-reveal>
+            <div>
+                <span class="eyebrow">الختام</span>
+                <h2>عد إلى الرئيسية أو راجع أي صفحة من المسار من جديد.</h2>
+            </div>
+            <a class="button" href="index.html">العودة إلى الرئيسية</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-layout">
+            <div>
+                <strong>الدرس 04: حماية البيانات</strong>
+                <p>أضيف مقياس بصري لكلمة المرور، وتم تقليل النصوص لصالح المشاهد والاختبارات السريعة.</p>
+            </div>
+            <div class="footer-links">
+                <a href="software.html">السابق</a>
+                <a href="index.html">الرئيسية</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>

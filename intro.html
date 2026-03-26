@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقدمة في صيانة الحاسوب</title>
+    <meta name="description" content="صفحة بصرية لشرح مقدمة صيانة الحاسوب بصورة أخف وأكثر وضوحاً.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="intro">
+    <div class="page-aura"></div>
+
+    <header class="site-header">
+        <div class="container topbar">
+            <a class="brand" href="index.html">
+                <span class="brand-mark">PC</span>
+                <div>
+                    <strong>مختبر صيانة الحاسوب</strong>
+                    <span>صفحة الدرس الأول</span>
+                </div>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="site-nav" class="main-nav">
+                <a href="index.html">الرئيسية</a>
+                <a href="intro.html">المقدمة</a>
+                <a href="hardware.html">المكونات المادية</a>
+                <a href="software.html">البرمجيات</a>
+                <a href="data-protection.html">حماية البيانات</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero topic-hero" data-reveal>
+            <div class="hero-copy">
+                <span class="eyebrow">الدرس 01</span>
+                <h1>مقدمة في صيانة الحاسوب</h1>
+                <p>
+                    الهدف هنا ليس حفظ تعريفات فقط، بل رؤية الفرق بين العناية بالجهاز قبل العطل
+                    والتعامل معه بعد ظهوره، ثم فهم كيف يبدأ التشخيص بشكل منظم.
+                </p>
+            </div>
+
+            <aside class="hero-panel">
+                <h3>الفكرة المركزية</h3>
+                <ul class="feature-list">
+                    <li>الوقاية تمنع المشكلة قبل حدوثها</li>
+                    <li>العلاج يبدأ من العرض الظاهر</li>
+                    <li>التشخيص الجيد يسبق أي قرار إصلاح</li>
+                </ul>
+            </aside>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">الشرح البصري</span>
+                <h2>المفاهيم الأساسية في ثلاث لوحات</h2>
+            </div>
+
+            <div class="visual-shell" data-visual-group>
+                <div class="visual-nav">
+                    <button class="visual-tab is-active" type="button" data-visual-target="intro-visual-preventive">الوقاية</button>
+                    <button class="visual-tab" type="button" data-visual-target="intro-visual-corrective">العلاج</button>
+                    <button class="visual-tab" type="button" data-visual-target="intro-visual-diagnosis">التشخيص</button>
+                </div>
+
+                <div class="visual-panels">
+                    <article id="intro-visual-preventive" class="visual-panel is-active">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>الجهاز يعمل</strong>
+                                <p>لا يوجد عطل واضح، لكن توجد مؤشرات بسيطة مثل الغبار أو الحرارة.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>قرار</span>
+                                <strong>صيانة وقائية</strong>
+                                <p>تنظيف، تنظيم، تحديث، وفحص مبكر قبل أن تتفاقم المشكلة.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>نتيجة</span>
+                                <strong>استقرار أعلى</strong>
+                                <p>يقل احتمال التوقف ويبقى الجهاز جاهزاً للعمل لفترة أطول.</p>
+                            </article>
+                        </div>
+                    </article>
+
+                    <article id="intro-visual-corrective" class="visual-panel">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>قبل</span>
+                                <strong>عرض واضح</strong>
+                                <p>رسالة خطأ أو بطء شديد أو توقف مفاجئ.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>قرار</span>
+                                <strong>صيانة علاجية</strong>
+                                <p>وصف العرض ثم فحص السبب ثم تنفيذ معالجة مناسبة.</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>نتيجة</span>
+                                <strong>عودة الاستقرار</strong>
+                                <p>يعود الجهاز للعمل بعد علاج السبب الحقيقي لا العرض فقط.</p>
+                            </article>
+                        </div>
+                    </article>
+
+                    <article id="intro-visual-diagnosis" class="visual-panel">
+                        <div class="concept-board">
+                            <article class="concept-node">
+                                <span>خطوة 1</span>
+                                <strong>لاحظ</strong>
+                                <p>ما الذي يراه المستخدم فعلاً؟ بطء، خطأ، أو صوت غير طبيعي.</p>
+                            </article>
+                            <article class="concept-node concept-node-hot">
+                                <span>خطوة 2</span>
+                                <strong>صنف</strong>
+                                <p>هل السبب على الأرجح مادي أم برمجي؟</p>
+                            </article>
+                            <article class="concept-node concept-node-good">
+                                <span>خطوة 3</span>
+                                <strong>اختبر</strong>
+                                <p>نفذ الإجراء الأول المناسب ثم راقب هل تغيرت الحالة بالفعل.</p>
+                            </article>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">محاكاة بصرية</span>
+                <h2>اختر الإجراء وشاهد أثره على حالة الجهاز مباشرة</h2>
+            </div>
+
+            <div class="simulation-lab" data-intro-simulation>
+                <div class="simulation-scene">
+                    <div class="sim-device">
+                        <div class="sim-screen">
+                            <span id="intro-sim-mode-label" class="eyebrow">الوضع</span>
+                            <strong id="intro-sim-title">الجهاز تحت المراقبة</strong>
+                            <p id="intro-sim-text">اختر وضع المحاكاة لتبدأ التجربة.</p>
+                            <div id="intro-sim-alerts" class="sim-alerts"></div>
+                        </div>
+                        <div class="sim-tower">
+                            <span class="sim-led"></span>
+                            <span class="sim-slot"></span>
+                            <span class="sim-slot"></span>
+                            <span class="sim-slot"></span>
+                        </div>
+                    </div>
+                    <div id="intro-sim-metrics" class="sim-metric-grid"></div>
+                </div>
+
+                <aside class="sim-console">
+                    <div id="intro-sim-modes" class="sim-mode-switch"></div>
+                    <div id="intro-sim-actions" class="sim-action-grid"></div>
+                    <div id="intro-sim-feedback" class="sim-feedback"></div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">سؤال تثبيت</span>
+                <h2>اختر القرار الصحيح</h2>
+            </div>
+
+            <article class="quiz-card">
+                <p>الجهاز يعمل لكن الغبار متراكم والحرارة أعلى قليلاً من المعتاد. ما الإجراء الأنسب؟</p>
+                <div class="answer-grid">
+                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: هذا موقف صيانة وقائية لأن المشكلة لم تتحول إلى عطل ظاهر بعد.">تنفيذ صيانة وقائية وتنظيف منظم</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: لا يوجد ما يبرر استبدال القطع مباشرة في هذه المرحلة.">استبدال اللوحة الأم فوراً</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: الانتظار هنا يلغي فكرة الوقاية ويزيد احتمال التعطل لاحقاً.">ترك الجهاز حتى يتوقف تماماً</button>
+                </div>
+                <p class="answer-feedback" hidden></p>
+            </article>
+        </section>
+
+        <section class="cta-strip" data-reveal>
+            <div>
+                <span class="eyebrow">التالي</span>
+                <h2>بعد فهم معنى الصيانة، ادخل إلى الجهاز نفسه.</h2>
+            </div>
+            <a class="button" href="hardware.html">افتح صفحة المكونات المادية</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-layout">
+            <div>
+                <strong>الدرس 01: مقدمة في صيانة الحاسوب</strong>
+                <p>تم تقليل الكثافة وتحويل المفاهيم الأساسية إلى لوحات بصرية أقصر.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="hardware.html">التالي</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>
