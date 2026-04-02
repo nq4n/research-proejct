@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صيانة المكونات المادية</title>
-    <meta name="description" content="صفحة بصرية لشرح صيانة المكونات المادية مع استخدام نموذج PC.fbx ومشاهد قرار واضحة.">
+    <meta name="description" content="الدرس الثاني في صيانة الحاسوب: العوامل الطبيعية، الحرارة، الطاقة، الترقية، وصيانة الأقراص عبر نموذج ثلاثي الأبعاد ورسوم SVG تعليمية.">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="hardware">
+    <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
     <div class="page-aura"></div>
 
     <header class="site-header">
@@ -16,215 +17,405 @@
                 <span class="brand-mark">PC</span>
                 <div>
                     <strong>مختبر صيانة الحاسوب</strong>
-                    <span>صفحة الدرس الثاني</span>
+                    <span>الدرس 02: المكونات المادية</span>
                 </div>
             </a>
 
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="فتح قائمة التنقل">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
 
-            <nav id="site-nav" class="main-nav">
-                <a href="index.html">الرئيسية</a>
-                <a href="intro.html">المقدمة</a>
-                <a href="hardware.html">المكونات المادية</a>
-                <a href="software.html">البرمجيات</a>
-                <a href="data-protection.html">حماية البيانات</a>
+            <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html">اللوحة</a>
+                <a href="intro.html">الدرس 01</a>
+                <a href="hardware.html">الدرس 02</a>
+                <a href="software.html">الدرس 03</a>
+                <a href="data-protection.html">الدرس 04</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero topic-hero" data-reveal>
+    <main id="main-content" class="container">
+        <section class="hero topic-hero hardware-hero" data-reveal>
             <div class="hero-copy">
                 <span class="eyebrow">الدرس 02</span>
-                <h1>صيانة المكونات المادية</h1>
-                <p>
-                    هنا يجب أن يرى الطالب الجهاز لا أن يقرأ عنه فقط. لذلك هذه الصفحة تركز على
-                    النموذج ثلاثي الأبعاد، ومسارات الحرارة والطاقة، وفكرة الترقية الآمنة.
+                <h1 id="hardware-hero-title">صيانة العتاد تعني فهم البيئة التي يعمل فيها الجهاز قبل لمس أي قطعة أو التفكير في استبدالها.</h1>
+                <p id="hardware-hero-description">
+                    يركز هذا الدرس على أربعة محاور من المصدر الدراسي: العوامل الطبيعية المؤثرة، الحرارة والطاقة، الترقية
+                    الآمنة، ثم صيانة الأقراص للحفاظ على الأداء.
                 </p>
-                <div class="panel-chip-row">
-                    <span class="panel-chip">نموذج حقيقي</span>
-                    <span class="panel-chip">مفاهيم أقل ازدحاماً</span>
-                    <span class="panel-chip">مشاهد قرار أوضح</span>
+                <div class="hero-actions">
+                    <a id="hardware-hero-primary" class="button" href="#hardware-factors">ابدأ بالعوامل</a>
+                    <a id="hardware-hero-secondary" class="button button-secondary" href="#hardware-model-lab">افتح النموذج ثلاثي الأبعاد</a>
                 </div>
             </div>
 
             <aside class="hero-panel">
-                <h3>المخرجات الرئيسية</h3>
-                <ul class="feature-list">
-                    <li>رؤية عامة لشكل الجهاز ومناطقه المهمة</li>
-                    <li>فهم علاقة الحرارة والطاقة والتوافق بالأعطال</li>
-                    <li>اتخاذ قرار صحيح قبل لمس أي قطعة أو استبدالها</li>
-                </ul>
+                <h2>خريطة الدرس</h2>
+                <div class="signal-board compact-board">
+                    <article>
+                        <span>المحور 1</span>
+                        <strong>العوامل الطبيعية</strong>
+                        <p>حرارة ورطوبة وغبار وقوى مغناطيسية تؤثر في سلامة العتاد.</p>
+                    </article>
+                    <article>
+                        <span>المحور 2</span>
+                        <strong>الطاقة والوقاية</strong>
+                        <p>مزود الطاقة، البطارية، ومنع مخاطر الانقطاع والتذبذب.</p>
+                    </article>
+                    <article>
+                        <span>المحور 3</span>
+                        <strong>الترقية والأقراص</strong>
+                        <p>اختيار القطعة المناسبة وصيانة القرص بالتنظيم والتنظيف.</p>
+                    </article>
+                </div>
             </aside>
         </section>
 
-        <section class="section-block" data-reveal>
+        <section id="hardware-factors" class="section-block" data-reveal>
             <div class="section-heading">
-                <span class="eyebrow">مختبر النموذج</span>
-                <h2>استخدم نموذج الجهاز الحقيقي لفهم مناطق الصيانة</h2>
+                <span class="eyebrow">العوامل الطبيعية</span>
+                <h2>هذه المؤثرات تضعف العتاد حتى قبل ظهور العطل</h2>
+                <p>افهمها أولًا لتعرف لماذا تبدأ بعض الصيانات من البيئة المحيطة لا من استبدال القطع.</p>
+            </div>
+
+            <div class="risk-grid">
+                <article class="risk-card">
+                    <span class="eyebrow">عامل 1</span>
+                    <h3>الحرارة</h3>
+                    <p>ترتفع بسبب الغبار أو سد فتحات التهوية، وقد تؤدي إلى بطء الجهاز أو توقفه المفاجئ أو ارتفاع صوت المراوح.</p>
+                </article>
+                <article class="risk-card">
+                    <span class="eyebrow">عامل 2</span>
+                    <h3>الرطوبة</h3>
+                    <p>البيئة غير المعتدلة قد تؤثر في سلامة الدوائر والأجزاء الحساسة، لذلك يفضّل وضع الجهاز في مكان مناسب وجاف.</p>
+                </article>
+                <article class="risk-card">
+                    <span class="eyebrow">عامل 3</span>
+                    <h3>الغبار</h3>
+                    <p>يتراكم داخل الهيكل وحول الفتحات، فيعيق الهواء ويرفع الحرارة ويجعل التهوية أقل كفاءة مع الزمن.</p>
+                </article>
+                <article class="risk-card">
+                    <span class="eyebrow">عامل 4</span>
+                    <h3>القوى المغناطيسية</h3>
+                    <p>وجود مصادر مغناطيسية قوية قرب الجهاز أو وسائط التخزين ليس تصرفًا آمنًا، خصوصًا عند التعامل مع بيانات مهمة.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="hardware-model-lab" class="section-block" data-reveal>
+            <div class="section-heading">
+                <span id="hardware-model-eyebrow" class="eyebrow">المختبر ثلاثي الأبعاد</span>
+                <h2 id="hardware-model-title">حرّك نموذج الجهاز الحقيقي قبل الانتقال إلى قرار الصيانة</h2>
+                <p id="hardware-model-description">استخدم نموذج <strong>PC.fbx</strong> لتثبيت صورة الهيكل، ثم بدّل التركيز بين الهواء والطاقة والترقية حتى ترتبط مفاهيم الدرس بالشكل الحقيقي للجهاز لا بالنص وحده.</p>
             </div>
 
             <div class="model-lab">
                 <div class="model-stage">
-                    <div id="pc-model-viewer" class="model-viewer" data-model-viewer></div>
+                    <div id="pc-model-viewer" class="model-viewer" data-model-viewer aria-label="عارض ثلاثي الأبعاد لجهاز الحاسوب"></div>
                     <div class="model-overlay">
-                        <strong>النموذج: `PC.fbx`</strong>
-                        <span>اسحب للدوران واستخدم أزرار التركيز لتبديل زاوية العرض.</span>
+                        <strong id="hardware-model-overlay-title">النموذج: PC.fbx</strong>
+                        <span id="hardware-model-overlay-hint">اسحب للدوران، ثم استخدم أزرار التركيز لربط كل منطقة بفكرة الصيانة المرتبطة بها.</span>
                     </div>
                 </div>
 
                 <aside class="viewer-aside">
-                    <div class="focus-pills">
+                    <div class="focus-pills" aria-label="نقاط التركيز في النموذج">
                         <button class="focus-pill is-active" type="button" data-model-focus="overview">نظرة عامة</button>
                         <button class="focus-pill" type="button" data-model-focus="airflow">مسار الهواء</button>
-                        <button class="focus-pill" type="button" data-model-focus="core">القلب الداخلي</button>
-                        <button class="focus-pill" type="button" data-model-focus="power">منطقة الطاقة</button>
+                        <button class="focus-pill" type="button" data-model-focus="power">الطاقة</button>
+                        <button class="focus-pill" type="button" data-model-focus="upgrade">الترقية</button>
                     </div>
 
                     <article class="viewer-info">
                         <span class="eyebrow">منطقة التركيز</span>
                         <h3 id="viewer-focus-title">نظرة عامة</h3>
-                        <p id="viewer-focus-text">هذه الزاوية تعطي تصوراً عاماً للجهاز قبل الدخول في المخاطر أو خطوات الصيانة.</p>
+                        <p id="viewer-focus-text">ابدأ بهذه الزاوية لتكوين صورة ذهنية صحيحة عن شكل الجهاز ومواقع مناطقه قبل الحديث عن الحرارة أو الترقية أو الأعطال.</p>
                         <div id="viewer-focus-points" class="mini-points"></div>
                     </article>
                 </aside>
             </div>
         </section>
 
-        <section class="section-block" data-reveal>
+        <section id="hardware-visuals" class="section-block" data-reveal>
             <div class="section-heading">
                 <span class="eyebrow">الشرح البصري</span>
-                <h2>كل مفهوم هنا يظهر كمشهد من ثلاث خطوات</h2>
+                <h2>أربع لوحات تلخص قرارات صيانة العتاد</h2>
+                <p>انتقل بين اللوحات. كل لوحة تعرض مفهومًا واحدًا مع شرح مباشر ونقاط تطبيقية من الدرس.</p>
             </div>
 
             <div class="visual-shell" data-visual-group>
                 <div class="visual-nav">
-                    <button class="visual-tab is-active" type="button" data-visual-target="hardware-visual-heat">الحرارة</button>
-                    <button class="visual-tab" type="button" data-visual-target="hardware-visual-power">الطاقة</button>
-                    <button class="visual-tab" type="button" data-visual-target="hardware-visual-upgrade">الترقية</button>
+                    <button id="hardware-tab-heat" class="visual-tab is-active" type="button" data-visual-target="hardware-visual-heat">الحرارة</button>
+                    <button id="hardware-tab-power" class="visual-tab" type="button" data-visual-target="hardware-visual-power">الطاقة</button>
+                    <button id="hardware-tab-upgrade" class="visual-tab" type="button" data-visual-target="hardware-visual-upgrade">الترقية</button>
+                    <button id="hardware-tab-disk" class="visual-tab" type="button" data-visual-target="hardware-visual-disk">الأقراص</button>
                 </div>
 
                 <div class="visual-panels">
                     <article id="hardware-visual-heat" class="visual-panel is-active">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>هواء محجوب</strong>
-                                <p>الغبار والكابلات يضيقان المسار حول المراوح والمبرّد.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>أثناء</span>
-                                <strong>ارتفاع الحرارة</strong>
-                                <p>الضوضاء تزيد، الأداء يهبط، واحتمال الإيقاف المفاجئ يرتفع.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>تنظيف وتنظيم</strong>
-                                <p>التبريد يعود مستقراً ويصبح الجهاز جاهزاً للعمل الطبيعي.</p>
-                            </article>
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="hardware-heat-title hardware-heat-desc">
+                                    <title id="hardware-heat-title">مخطط يوضح أثر الغبار على التهوية والحرارة</title>
+                                    <desc id="hardware-heat-desc">يبين الرسم هيكل الجهاز مع مروحتين ومسار هواء، ثم منطقة غبار تعيق الحركة وتزيد الحرارة وتظهر معها أعراض البطء والتوقف المفاجئ.</desc>
+
+                                    <rect class="svg-card" x="64" y="72" width="612" height="216" rx="34"></rect>
+                                    <rect x="96" y="104" width="548" height="152" rx="26" fill="#fbf8f2" stroke="rgba(28,36,39,0.1)" stroke-width="3"></rect>
+
+                                    <circle cx="150" cy="180" r="42" fill="#eef4f7" stroke="#255c75" stroke-width="4"></circle>
+                                    <g class="svg-spin-slow">
+                                        <path d="M150 142 C164 150 172 162 168 180 C156 178 144 170 138 156 Z" fill="#255c75"></path>
+                                        <path d="M112 182 C120 168 132 160 150 162 C148 174 138 184 126 192 Z" fill="#255c75" opacity="0.85"></path>
+                                        <path d="M150 218 C136 210 128 198 132 180 C144 182 154 190 160 204 Z" fill="#255c75"></path>
+                                        <path d="M188 178 C180 192 168 200 150 198 C152 186 162 176 174 168 Z" fill="#255c75" opacity="0.85"></path>
+                                    </g>
+                                    <circle cx="150" cy="180" r="9" fill="#163c4f"></circle>
+
+                                    <circle cx="588" cy="180" r="42" fill="#eef4f7" stroke="#255c75" stroke-width="4"></circle>
+                                    <g class="svg-spin-fast">
+                                        <path d="M588 142 C602 150 610 162 606 180 C594 178 582 170 576 156 Z" fill="#255c75"></path>
+                                        <path d="M550 182 C558 168 570 160 588 162 C586 174 576 184 564 192 Z" fill="#255c75" opacity="0.85"></path>
+                                        <path d="M588 218 C574 210 566 198 570 180 C582 182 592 190 598 204 Z" fill="#255c75"></path>
+                                        <path d="M626 178 C618 192 606 200 588 198 C590 186 600 176 612 168 Z" fill="#255c75" opacity="0.85"></path>
+                                    </g>
+                                    <circle cx="588" cy="180" r="9" fill="#163c4f"></circle>
+
+                                    <rect x="316" y="126" width="108" height="92" rx="18" fill="#ffffff" stroke="rgba(28,36,39,0.12)" stroke-width="3"></rect>
+                                    <text class="svg-label" x="370" y="174" text-anchor="middle">CPU</text>
+                                    <text class="svg-small" x="370" y="198" text-anchor="middle">منطقة حساسة للحرارة</text>
+
+                                    <path class="svg-flow" d="M194 154 C246 154 272 154 316 154"></path>
+                                    <path class="svg-flow" d="M194 206 C246 206 272 206 316 206"></path>
+                                    <path class="svg-flow" d="M424 154 C468 154 506 154 548 154"></path>
+                                    <path class="svg-flow" d="M424 206 C468 206 506 206 548 206"></path>
+
+                                    <g class="svg-float-fast">
+                                        <circle cx="278" cy="156" r="10" fill="#c8863b" opacity="0.72"></circle>
+                                        <circle cx="294" cy="178" r="12" fill="#cf694c" opacity="0.72"></circle>
+                                        <circle cx="270" cy="200" r="8" fill="#c8863b" opacity="0.66"></circle>
+                                        <circle cx="300" cy="216" r="10" fill="#cf694c" opacity="0.62"></circle>
+                                    </g>
+
+                                    <rect class="svg-card svg-danger-surface" x="454" y="92" width="176" height="64" rx="20"></rect>
+                                    <text class="svg-small" x="542" y="130" text-anchor="middle">بطء + توقف مفاجئ + صوت مروحة عالٍ</text>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم حراري</span>
+                                <h3>الحرارة مشكلة مسار هواء قبل أن تكون مشكلة مراوح</h3>
+                                <p>عندما يتراكم الغبار أو تنسد فتحات التهوية، ترتفع الحرارة ويظهر البطء والتوقف المفاجئ وصوت المروحة العالي. لذلك يبدأ الحل من إزالة السبب لا من تجاهل العرض.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">ضع الجهاز في مكان معتدل ولا تسد فتحات التهوية.</div>
+                                    <div class="mini-point">استخدم بخاخ الهواء المضغوط أو قاعدة تبريد عند الحاجة.</div>
+                                    <div class="mini-point">يفضل الاستعانة بمختص عند تنظيف الأجزاء الحساسة.</div>
+                                </div>
+                            </div>
                         </div>
                     </article>
 
                     <article id="hardware-visual-power" class="visual-panel">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>مصدر غير مستقر</strong>
-                                <p>تذبذب كهربائي أو مزود طاقة ضعيف يهددان استقرار الجهاز.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>أثناء</span>
-                                <strong>انطفاء متكرر</strong>
-                                <p>الجهاز يفصل فجأة ويصبح من الخطر مواصلة الضغط على زر التشغيل.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>عزل واستبدال صحيح</strong>
-                                <p>يتم علاج المصدر الفعلي مع إضافة حماية مناسبة من الاندفاعات.</p>
-                            </article>
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="hardware-power-title hardware-power-desc">
+                                    <title id="hardware-power-title">مخطط يوضح الطاقة الآمنة للجهاز</title>
+                                    <desc id="hardware-power-desc">يوضح الرسم انتقال الطاقة من المقبس إلى منظم أو وحدة حماية ثم إلى مزود الطاقة، مع بطارية تحتفظ بالطاقة عند الانقطاع المفاجئ.</desc>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card" x="56" y="118" width="140" height="112" rx="28"></rect>
+                                        <rect x="102" y="148" width="48" height="48" rx="12" fill="#fff4e6" stroke="#bf7f2f" stroke-width="4"></rect>
+                                        <rect x="116" y="160" width="8" height="24" rx="4" fill="#bf7f2f"></rect>
+                                        <rect x="128" y="160" width="8" height="24" rx="4" fill="#bf7f2f"></rect>
+                                        <text class="svg-label" x="126" y="258" text-anchor="middle">المقبس</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-card-accent" x="254" y="96" width="194" height="140" rx="28"></rect>
+                                        <rect x="294" y="144" width="116" height="24" rx="10" fill="#1f6f7d"></rect>
+                                        <circle class="svg-pulse-dot" cx="324" cy="204" r="10"></circle>
+                                        <text class="svg-label" x="351" y="266" text-anchor="middle">منظم أو UPS</text>
+                                        <text class="svg-small" x="351" y="292" text-anchor="middle">حماية من التذبذب والانقطاع</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card" x="520" y="90" width="164" height="150" rx="28"></rect>
+                                        <rect x="560" y="126" width="84" height="88" rx="18" fill="#ecf3ec" stroke="#235f3f" stroke-width="4"></rect>
+                                        <text x="602" y="176" text-anchor="middle" fill="#235f3f" font-size="22" font-weight="700">PSU</text>
+                                        <text class="svg-label" x="602" y="268" text-anchor="middle">مزود الطاقة</text>
+                                    </g>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card svg-good-surface" x="518" y="260" width="170" height="60" rx="20"></rect>
+                                        <text class="svg-small" x="603" y="298" text-anchor="middle">بطارية الشحن تحفظ الطاقة عند الفصل</text>
+                                    </g>
+
+                                    <path class="svg-flow" d="M196 174 C220 174 232 174 254 174"></path>
+                                    <path class="svg-flow" d="M448 174 C472 174 492 174 520 174"></path>
+                                    <path class="svg-flow svg-flow-danger" d="M148 266 C258 320 430 320 546 256"></path>
+                                    <path class="svg-block-line" d="M336 314 402 248"></path>
+                                    <path class="svg-block-line" d="M336 248 402 314"></path>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم كهربائي</span>
+                                <h3>الانطفاء المتكرر قد يبدأ من الطاقة لا من النظام</h3>
+                                <p>مزود الطاقة يغذي المكونات، وتعطلُه قد يسبب اهتزاز الشاشة أو انطفاء الجهاز. كما أن بطارية الشحن تحفظ الطاقة عند انقطاع الكهرباء المفاجئ، لذلك تصبح الوقاية الكهربائية جزءًا من الصيانة نفسها.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">أغلق المقبس بعد الاستخدام عند الحاجة واتبع أسلوبًا آمنًا في التوصيل.</div>
+                                    <div class="mini-point">استخدم منظم الفولتية أو وحدة UPS عند البيئات كثيرة الانقطاع.</div>
+                                    <div class="mini-point">لا تتجاهل مشكلة البطارية الضعيفة إذا كان الجهاز يعتمد عليها عند الفصل.</div>
+                                </div>
+                            </div>
                         </div>
                     </article>
 
                     <article id="hardware-visual-upgrade" class="visual-panel">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>حاجة غير محسومة</strong>
-                                <p>الجهاز بطيء، لكن المطلوب أولاً معرفة هل المشكلة ذاكرة أم تخزين أم شيء آخر.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>أثناء</span>
-                                <strong>اختيار خاطئ</strong>
-                                <p>شراء أقوى قطعة لا يضمن التحسن إذا غاب التوافق والتحليل.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>ترقية متوافقة</strong>
-                                <p>تُثبت القطعة الصحيحة بأمان فتتحسن الاستجابة من دون خلق خطر جديد.</p>
-                            </article>
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="hardware-upgrade-title hardware-upgrade-desc">
+                                    <title id="hardware-upgrade-title">مخطط يوضح قرار الترقية المناسبة</title>
+                                    <desc id="hardware-upgrade-desc">يوضح الرسم انتقال القرار من تحديد الحاجة إلى اختيار القطعة المناسبة ثم فحص التوافق مع اللوحة والمنافذ والطاقة.</desc>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card" x="56" y="98" width="168" height="120" rx="28"></rect>
+                                        <text class="svg-label" x="140" y="142" text-anchor="middle">حدد الحاجة</text>
+                                        <text class="svg-small" x="140" y="172" text-anchor="middle">سرعة؟ ذاكرة؟ مساحة؟</text>
+                                        <text class="svg-small" x="140" y="198" text-anchor="middle">ابدأ بالمشكلة الفعلية</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-card-accent" x="272" y="82" width="196" height="156" rx="28"></rect>
+                                        <rect x="314" y="118" width="64" height="18" rx="8" fill="#7d4d2d"></rect>
+                                        <text class="svg-small" x="390" y="132">CPU</text>
+                                        <rect x="314" y="148" width="88" height="18" rx="8" fill="#1f6f7d"></rect>
+                                        <text class="svg-small" x="418" y="162">RAM</text>
+                                        <rect x="314" y="178" width="108" height="18" rx="8" fill="#b7742b"></rect>
+                                        <text class="svg-small" x="438" y="192">Graphic Card</text>
+                                        <rect x="314" y="208" width="74" height="18" rx="8" fill="#2e6b55"></rect>
+                                        <text class="svg-small" x="404" y="222">Hard Disk</text>
+                                        <text class="svg-label" x="370" y="270" text-anchor="middle">اختر القطعة</text>
+                                        <text class="svg-small" x="370" y="296" text-anchor="middle">بحسب نوع الحاجة</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-good-surface" x="510" y="98" width="176" height="120" rx="28"></rect>
+                                        <text class="svg-label" x="598" y="142" text-anchor="middle">فحص التوافق</text>
+                                        <text class="svg-small" x="598" y="172" text-anchor="middle">لوحة أم + منافذ + طاقة</text>
+                                        <text class="svg-small" x="598" y="198" text-anchor="middle">ثم تركيب ناجح</text>
+                                    </g>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card svg-danger-surface" x="244" y="266" width="252" height="56" rx="20"></rect>
+                                        <text class="svg-small" x="370" y="300" text-anchor="middle">شراء عشوائي بلا توافق أو تفريغ شحنات</text>
+                                    </g>
+
+                                    <path class="svg-flow" d="M224 158 C242 158 252 158 272 158"></path>
+                                    <path class="svg-flow" d="M468 158 C482 158 492 158 510 158"></path>
+                                    <path class="svg-flow svg-flow-danger" d="M320 266 C336 238 354 226 370 214"></path>
+                                    <path class="svg-block-line" d="M338 286 404 238"></path>
+                                    <path class="svg-block-line" d="M338 238 404 286"></path>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم ترقية</span>
+                                <h3>أفضل ترقية هي التي تعالج الحاجة وتناسب الجهاز</h3>
+                                <p>قد تكون الترقية في المعالج أو الذاكرة أو بطاقة الشاشة أو القرص الصلب، لكن القرار الصحيح يبدأ من تحديد الحاجة ثم التأكد من التوافق مع اللوحة الأم وتوفر الشقوق الفارغة والقدرة الكهربائية المناسبة.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">ارتدِ سوار المعصم المضاد للكهرباء الساكنة قبل التعامل مع القطع.</div>
+                                    <div class="mini-point">لا تشترِ القطعة قبل فحص توافقها مع اللوحة والمنافذ.</div>
+                                    <div class="mini-point">زيادة القوة النظرية لا تكفي إذا لم تكن هي الحل للمشكلة الأصلية.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article id="hardware-visual-disk" class="visual-panel">
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="hardware-disk-title hardware-disk-desc">
+                                    <title id="hardware-disk-title">مخطط يوضح صيانة الأقراص</title>
+                                    <desc id="hardware-disk-desc">يبين الرسم قرصًا مزدحمًا بملفات متفرقة ثم عملية تنظيم الملفات والتنظيف وإزالة غير المهم لتحسين المساحة والأداء.</desc>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card" x="52" y="86" width="194" height="188" rx="28"></rect>
+                                        <text class="svg-label" x="149" y="124" text-anchor="middle">قبل الصيانة</text>
+                                        <rect class="svg-bar svg-bar-busy" x="96" y="154" width="34" height="22" rx="8"></rect>
+                                        <rect class="svg-bar svg-bar-busy" x="144" y="154" width="62" height="22" rx="8"></rect>
+                                        <rect class="svg-bar svg-bar-warn" x="96" y="190" width="88" height="22" rx="8"></rect>
+                                        <rect class="svg-bar svg-bar-busy" x="196" y="190" width="24" height="22" rx="8"></rect>
+                                        <rect class="svg-bar svg-bar-warn" x="118" y="226" width="44" height="22" rx="8"></rect>
+                                        <rect class="svg-bar svg-bar-busy" x="176" y="226" width="56" height="22" rx="8"></rect>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-card-accent" x="276" y="74" width="188" height="212" rx="28"></rect>
+                                        <text class="svg-label" x="370" y="116" text-anchor="middle">خطوات الصيانة</text>
+                                        <path class="svg-flow" d="M330 150 C346 164 356 176 370 190"></path>
+                                        <path class="svg-flow" d="M410 150 C394 164 384 176 370 190"></path>
+                                        <circle class="svg-pulse-dot" cx="370" cy="202" r="12"></circle>
+                                        <text class="svg-small" x="370" y="236" text-anchor="middle">Defragmentation</text>
+                                        <text class="svg-small" x="370" y="260" text-anchor="middle">Disk Cleanup</text>
+                                        <text class="svg-small" x="370" y="284" text-anchor="middle">CCleaner كأداة إضافية</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-good-surface" x="496" y="86" width="194" height="188" rx="28"></rect>
+                                        <text class="svg-label" x="593" y="124" text-anchor="middle">بعد الصيانة</text>
+                                        <rect class="svg-bar svg-bar-good" x="536" y="154" width="122" height="22" rx="8"></rect>
+                                        <rect class="svg-bar svg-bar-good" x="536" y="190" width="96" height="22" rx="8"></rect>
+                                        <rect class="svg-bar svg-bar-good" x="536" y="226" width="74" height="22" rx="8"></rect>
+                                        <text class="svg-small" x="593" y="258" text-anchor="middle">تنظيم أفضل ومساحة أوضح</text>
+                                    </g>
+
+                                    <path class="svg-flow" d="M246 184 C256 184 266 184 276 184"></path>
+                                    <path class="svg-flow" d="M464 184 C474 184 484 184 496 184"></path>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم قرص</span>
+                                <h3>صيانة القرص تعني تنظيم الملفات وإزالة غير المهم</h3>
+                                <p>تشمل صيانة الأقراص إعادة تنظيم الملفات عبر <strong>Defragmentation</strong>، حذف الملفات غير المهمة عبر <strong>Disk Cleanup</strong>، ويمكن استخدام أداة إضافية مثل <strong>CCleaner</strong> عند الحاجة وبحذر.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">التجزئة المبعثرة تعني ملفات أقل تنظيمًا ومسار وصول أبطأ.</div>
+                                    <div class="mini-point">التنظيف يحذف الملفات غير المهمة ويعيد مساحة مفيدة.</div>
+                                    <div class="mini-point">الأداة الخارجية ليست بديلًا عن الفهم، بل إضافة عند الاستخدام الواعي.</div>
+                                </div>
+                            </div>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section class="section-block" data-reveal>
-            <div class="section-heading">
-                <span class="eyebrow">مشاهد القرار</span>
-                <h2>ماذا تفعل عندما ترى العرض أمامك؟</h2>
-            </div>
-
-            <div class="scenario-shell" data-scenario-group>
-                <div class="scenario-tabs">
-                    <button class="scenario-tab is-active" type="button" data-scenario-target="hardware-heat">ارتفاع الحرارة</button>
-                    <button class="scenario-tab" type="button" data-scenario-target="hardware-power">خلل الطاقة</button>
-                    <button class="scenario-tab" type="button" data-scenario-target="hardware-upgrade">الترقية</button>
-                </div>
-
-                <div class="scenario-panels">
-                    <article id="hardware-heat" class="scenario-panel is-active">
-                        <h3>المشهد: الهيكل ساخن وصوت المراوح مرتفع</h3>
-                        <p>الإجراء الأول الصحيح هو إيقاف الجهاز وفصل الطاقة ثم فحص التهوية، لا تركه يعمل تحت الحرارة.</p>
-                    </article>
-                    <article id="hardware-power" class="scenario-panel">
-                        <h3>المشهد: انطفاء متكرر بعد تذبذب كهربائي</h3>
-                        <p>التحقيق يجب أن يبدأ من مزود الطاقة ووسائل الحماية، لا من البرامج أو إعادة التشغيل المستمرة.</p>
-                    </article>
-                    <article id="hardware-upgrade" class="scenario-panel">
-                        <h3>المشهد: الرغبة في أداء أفضل</h3>
-                        <p>حدد الحاجة أولاً ثم افحص التوافق قبل الشراء، وبعدها نفذ التركيب بأسلوب خال من الشحنة الساكنة.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-block" data-reveal>
+        <section id="hardware-check" class="section-block" data-reveal>
             <div class="section-heading">
                 <span class="eyebrow">سؤال تثبيت</span>
-                <h2>ما القرار الأكثر أماناً؟</h2>
+                <h2>ما القرار الأدق في هذا الموقف المادي؟</h2>
             </div>
 
             <article class="quiz-card">
-                <p>ظهرت رائحة خفيفة قرب مزود الطاقة مع انطفاء متكرر. ما الخطوة الأدق؟</p>
+                <p>تتعرض الكهرباء في المكان لانقطاعات متكررة، والجهاز ينطفئ فجأة أحيانًا. ما الإجراء الأكثر اتساقًا مع الدرس؟</p>
                 <div class="answer-grid">
-                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: يجب فصل الكهرباء والتحقق من مزود الطاقة والحماية قبل أي تشغيل جديد.">فصل الكهرباء وفحص مزود الطاقة والحماية</button>
-                    <button type="button" data-answer data-feedback="غير مناسب: إعادة التشغيل تحت خلل كهربائي قد تزيد التلف.">إعادة تشغيل الجهاز مرات متتالية</button>
-                    <button type="button" data-answer data-feedback="غير مناسب: المشكلة هنا ليست في التخزين أو تنظيف الملفات.">فتح النظام وتنظيف الملفات المؤقتة</button>
+                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: القرار الأدق هو تحسين مسار الحماية الكهربائية باستخدام منظم مناسب أو UPS مع الانتباه إلى البطارية ومزود الطاقة، لأن المشكلة مرتبطة بمصدر الكهرباء نفسه.">فحص مسار الطاقة واستخدام منظم أو UPS مع متابعة البطارية ومزود الطاقة</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: تنظيف الملفات قد يفيد الأداء لكنه لا يعالج انقطاع الكهرباء المفاجئ ولا يحمي المكونات.">تنظيف القرص والملفات المؤقتة أولًا لأن البطء أهم من الكهرباء</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: شراء قطعة عشوائية قبل تحديد السبب والتوافق لا يعالج مصدر الخطر وقد يزيد التكلفة دون فائدة.">شراء قطعة ترقية جديدة مباشرة لأن الانطفاء يعني أن الجهاز قديم</button>
                 </div>
-                <p class="answer-feedback" hidden></p>
+                <p class="answer-feedback" hidden aria-live="polite"></p>
             </article>
         </section>
 
-        <section class="cta-strip" data-reveal>
+        <section id="hardware-next-step" class="cta-strip" data-reveal>
             <div>
                 <span class="eyebrow">التالي</span>
-                <h2>بعد رؤية العتاد، انتقل إلى صيانة البرمجيات.</h2>
+                <h2>بعد العتاد، انتقل إلى صيانة البرمجيات لفهم الرخص والاستعادة وتحسين الكفاءة داخل النظام نفسه.</h2>
             </div>
-            <a class="button" href="software.html">افتح صفحة البرمجيات</a>
+            <a class="button" href="software.html">افتح الدرس التالي</a>
         </section>
     </main>
 
@@ -232,15 +423,16 @@
         <div class="container footer-layout">
             <div>
                 <strong>الدرس 02: صيانة المكونات المادية</strong>
-                <p>الآن الصفحة تستخدم النموذج المحلي `PC.fbx` وتعرض المفاهيم كمشاهد بصرية أخف.</p>
+                <p>تمت إعادة تنظيمه حول العوامل الطبيعية، الطاقة، الترقية، وصيانة الأقراص كما وردت في الملف الدراسي.</p>
             </div>
             <div class="footer-links">
-                <a href="intro.html">السابق</a>
-                <a href="software.html">التالي</a>
+                <a href="intro.html">الدرس السابق</a>
+                <a href="software.html">الدرس التالي</a>
             </div>
         </div>
     </footer>
 
+    <script src="js/lesson-config.js" defer></script>
     <script src="js/script.js" defer></script>
 </body>
 </html>

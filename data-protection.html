@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حماية البيانات</title>
-    <meta name="description" content="صفحة بصرية لشرح حماية البيانات مع مقياس كلمة مرور ومشاهد أمنية واضحة.">
+    <meta name="description" content="الدرس الرابع في صيانة الحاسوب: أمن أنظمة التشغيل، كلمة المرور والبصمة، إعدادات Sign-in Options، والنسخ الاحتياطي المحلي والسحابي.">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="security">
+    <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
     <div class="page-aura"></div>
 
     <header class="site-header">
@@ -16,118 +17,244 @@
                 <span class="brand-mark">PC</span>
                 <div>
                     <strong>مختبر صيانة الحاسوب</strong>
-                    <span>صفحة الدرس الرابع</span>
+                    <span>الدرس 04: حماية البيانات</span>
                 </div>
             </a>
 
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="فتح قائمة التنقل">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
 
-            <nav id="site-nav" class="main-nav">
-                <a href="index.html">الرئيسية</a>
-                <a href="intro.html">المقدمة</a>
-                <a href="hardware.html">المكونات المادية</a>
-                <a href="software.html">البرمجيات</a>
-                <a href="data-protection.html">حماية البيانات</a>
+            <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html">اللوحة</a>
+                <a href="intro.html">الدرس 01</a>
+                <a href="hardware.html">الدرس 02</a>
+                <a href="software.html">الدرس 03</a>
+                <a href="data-protection.html">الدرس 04</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero topic-hero" data-reveal>
+    <main id="main-content" class="container">
+        <section class="hero topic-hero security-hero" data-reveal>
             <div class="hero-copy">
                 <span class="eyebrow">الدرس 04</span>
-                <h1>حماية البيانات</h1>
+                <h1>حماية البيانات تبدأ من تقييد الدخول إلى النظام ثم ضمان وجود نسخة يمكن العودة إليها عند الفقد.</h1>
                 <p>
-                    هذه الصفحة تركز على السلوك الآمن: كيف نتصرف أمام البريد المشبوه، وكيف نبني
-                    كلمة مرور قوية، وكيف نحمي الملفات بخطة نسخ احتياطي قابلة للاسترجاع.
+                    يعتمد هذا الدرس على أمن أنظمة التشغيل، أنماط الدخول مثل كلمة المرور أو البصمة،
+                    طريقة إعدادها، ثم النسخ الاحتياطي المحلي والسحابي لحماية الملفات المهمة.
                 </p>
+                <div class="hero-actions">
+                    <a class="button" href="#security-basics">ابدأ بالمفاهيم</a>
+                    <a class="button button-secondary" href="#security-check">اذهب إلى سؤال التثبيت</a>
+                </div>
             </div>
 
             <aside class="hero-panel">
-                <h3>المفاهيم الثلاثة</h3>
-                <ul class="feature-list">
-                    <li>رد فعل صحيح أمام التهديد</li>
-                    <li>قوة كلمة المرور وسريتها</li>
-                    <li>نسخ احتياطي محلي وسحابي</li>
-                </ul>
+                <h2>خريطة الدرس</h2>
+                <div class="signal-board compact-board">
+                    <article>
+                        <span>المحور 1</span>
+                        <strong>أمن النظام</strong>
+                        <p>القدرة على حماية الخصوصية وتقييد الدخول إلى الحساب.</p>
+                    </article>
+                    <article>
+                        <span>المحور 2</span>
+                        <strong>أنماط الدخول</strong>
+                        <p>كلمة مرور أو بصمة بالإصبع أو العين أو الوجه أو الصوت.</p>
+                    </article>
+                    <article>
+                        <span>المحور 3</span>
+                        <strong>النسخ الاحتياطي</strong>
+                        <p>نسخة محلية وأخرى سحابية تجعل الاسترجاع ممكنًا.</p>
+                    </article>
+                </div>
             </aside>
+        </section>
+
+        <section id="security-basics" class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">أساس الدرس</span>
+                <h2>ابدأ من المفاهيم التي تحمي الوصول والملفات</h2>
+                <p>هذه البطاقات تبني قاعدة الدرس قبل الدخول إلى الرسوم والتجربة.</p>
+            </div>
+
+            <div class="map-strip">
+                <article class="map-card">
+                    <span>1</span>
+                    <h3>أمن أنظمة التشغيل</h3>
+                    <p>يعني القدرة على حماية الخصوصية وتقييد الدخول إلى الجهاز أو الحساب وفق أسلوب دخول واضح وآمن.</p>
+                </article>
+                <article class="map-card">
+                    <span>2</span>
+                    <h3>إعدادات كلمة المرور</h3>
+                    <p>يتم إعدادها عبر <strong>Settings</strong> ثم <strong>Accounts</strong> ثم <strong>Sign-in Options</strong> مع إضافة تلميح عند الحاجة.</p>
+                </article>
+                <article class="map-card">
+                    <span>3</span>
+                    <h3>النسخ الاحتياطي</h3>
+                    <p>هو أخذ نسخة من البيانات حتى يمكن استرجاعها عند الفقد أو تلف الجهاز أو سرقته.</p>
+                </article>
+            </div>
         </section>
 
         <section class="section-block" data-reveal>
             <div class="section-heading">
                 <span class="eyebrow">الشرح البصري</span>
-                <h2>الحماية كمشهد دفاعي متكامل</h2>
+                <h2>ثلاث لوحات تشرح الوصول الآمن ثم الاسترجاع</h2>
+                <p>كل لوحة تعرض مفهومًا دراسيًا واحدًا وتربطه بقرار عملي يمكن تذكره بسهولة.</p>
             </div>
 
             <div class="visual-shell" data-visual-group>
                 <div class="visual-nav">
-                    <button class="visual-tab is-active" type="button" data-visual-target="security-visual-mail">التهديدات</button>
-                    <button class="visual-tab" type="button" data-visual-target="security-visual-password">كلمة المرور</button>
+                    <button class="visual-tab is-active" type="button" data-visual-target="security-visual-access">أنماط الأمان</button>
+                    <button class="visual-tab" type="button" data-visual-target="security-visual-setup">إعدادات الدخول</button>
                     <button class="visual-tab" type="button" data-visual-target="security-visual-backup">النسخ الاحتياطي</button>
                 </div>
 
                 <div class="visual-panels">
-                    <article id="security-visual-mail" class="visual-panel is-active">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>رسالة مشبوهة</strong>
-                                <p>مرسل غير معروف أو مرفق غير متوقع أو لغة مستعجلة.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>قرار</span>
-                                <strong>عدم الفتح</strong>
-                                <p>يتم الإبلاغ عن الرسالة وتحديث أدوات الحماية بدلاً من المجازفة.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>احتواء الخطر</strong>
-                                <p>يتم منع التهديد من الوصول إلى الملفات أو النظام.</p>
-                            </article>
+                    <article id="security-visual-access" class="visual-panel is-active">
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="security-access-title security-access-desc">
+                                    <title id="security-access-title">مخطط يوضح أنماط الأمان في النظام</title>
+                                    <desc id="security-access-desc">يبين الرسم حسابًا رئيسيًا تحميه بوابتان: كلمة مرور أو وسيلة حيوية مثل البصمة والوجه والعين والصوت.</desc>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card" x="280" y="46" width="180" height="90" rx="28"></rect>
+                                        <text class="svg-label" x="370" y="90" text-anchor="middle">الحساب</text>
+                                        <text class="svg-small" x="370" y="116" text-anchor="middle">الوصول المقيد إلى النظام</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-card-accent" x="84" y="184" width="230" height="124" rx="28"></rect>
+                                        <rect x="142" y="218" width="114" height="34" rx="12" fill="#ffffff" stroke="#255c75" stroke-width="4"></rect>
+                                        <text x="199" y="240" text-anchor="middle" fill="#255c75" font-size="18" font-weight="700">Password</text>
+                                        <text class="svg-label" x="199" y="286" text-anchor="middle">كلمة المرور</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-good-surface" x="426" y="184" width="230" height="124" rx="28"></rect>
+                                        <circle cx="482" cy="236" r="22" fill="#1e6543" opacity="0.12"></circle>
+                                        <circle cx="536" cy="236" r="22" fill="#1e6543" opacity="0.18"></circle>
+                                        <circle cx="590" cy="236" r="22" fill="#1e6543" opacity="0.24"></circle>
+                                        <text class="svg-small" x="482" y="242" text-anchor="middle">بصمة</text>
+                                        <text class="svg-small" x="536" y="242" text-anchor="middle">وجه</text>
+                                        <text class="svg-small" x="590" y="242" text-anchor="middle">عين</text>
+                                        <text class="svg-label" x="541" y="286" text-anchor="middle">وسيلة حيوية</text>
+                                    </g>
+
+                                    <path class="svg-flow" d="M332 136 C290 162 250 176 214 184"></path>
+                                    <path class="svg-flow" d="M408 136 C450 162 490 176 526 184"></path>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم وصول</span>
+                                <h3>الأمان يبدأ بتقييد الدخول إلى النظام</h3>
+                                <p>يمكن حماية الحساب بكلمة مرور، أو بوسائل حيوية مثل بصمة الإصبع أو العين أو الوجه أو الصوت. الفكرة الرئيسة هنا هي منع الوصول غير المصرح به إلى الجهاز أو الحساب.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">اختر أسلوب دخول يناسب بيئتك ويمنع الوصول غير المصرح به.</div>
+                                    <div class="mini-point">لا تخلط بين سهولة الدخول وضعف الحماية.</div>
+                                    <div class="mini-point">يمكن الجمع بين أكثر من خيار إذا كانت المنصة تدعم ذلك.</div>
+                                </div>
+                            </div>
                         </div>
                     </article>
 
-                    <article id="security-visual-password" class="visual-panel">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>حساب جديد</strong>
-                                <p>المستخدم يحتاج كلمة مرور سهلة التذكر لكن قوية في الوقت نفسه.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>قرار</span>
-                                <strong>عبارة مرور</strong>
-                                <p>طويلة، متنوعة، وغير مرتبطة بمعلومة شخصية واضحة.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>حساب أقوى</strong>
-                                <p>يرتفع مستوى الأمان إذا بقيت الكلمة سرية ولم تُشارك مع الآخرين.</p>
-                            </article>
+                    <article id="security-visual-setup" class="visual-panel">
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="security-setup-title security-setup-desc">
+                                    <title id="security-setup-title">مخطط يوضح إعدادات الدخول في النظام</title>
+                                    <desc id="security-setup-desc">يبين الرسم مسار إعداد كلمة المرور عبر Settings ثم Accounts ثم Sign-in Options مع إضافة تلميح يساعد على التذكر.</desc>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card" x="48" y="130" width="150" height="92" rx="26"></rect>
+                                        <text class="svg-label" x="123" y="176" text-anchor="middle">Settings</text>
+                                    </g>
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-card-accent" x="246" y="112" width="150" height="110" rx="26"></rect>
+                                        <text class="svg-label" x="321" y="164" text-anchor="middle">Accounts</text>
+                                    </g>
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-good-surface" x="446" y="94" width="176" height="128" rx="26"></rect>
+                                        <text class="svg-label" x="534" y="144" text-anchor="middle">Sign-in Options</text>
+                                        <text class="svg-small" x="534" y="174" text-anchor="middle">Password or Biometric</text>
+                                    </g>
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card svg-warn-surface" x="560" y="248" width="132" height="54" rx="18"></rect>
+                                        <text class="svg-small" x="626" y="280" text-anchor="middle">أضف تلميحًا مناسبًا</text>
+                                    </g>
+
+                                    <path class="svg-flow" d="M198 176 C214 176 226 176 246 176"></path>
+                                    <path class="svg-flow" d="M396 166 C412 166 426 158 446 158"></path>
+                                    <path class="svg-flow" d="M594 222 C606 234 614 240 626 248"></path>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم إعداد</span>
+                                <h3>إعداد الأمان خطوة واجهة واضحة لا إجراء غامض</h3>
+                                <p>يوضح الدرس أن إعداد كلمة المرور أو وسيلة الدخول يبدأ من <strong>Settings</strong> ثم <strong>Accounts</strong> ثم <strong>Sign-in Options</strong>. ويمكن إضافة تلميح يساعد على التذكر من غير كشف كلمة المرور نفسها.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">اجعل التلميح مساعدًا على التذكر لا كاشفًا للإجابة.</div>
+                                    <div class="mini-point">اختر وسيلة دخول يمكنك إدارتها والمحافظة عليها باستمرار.</div>
+                                    <div class="mini-point">تغيير الإعداد يجب أن يكون قرارًا واعيًا لا خيارًا مهملًا.</div>
+                                </div>
+                            </div>
                         </div>
                     </article>
 
                     <article id="security-visual-backup" class="visual-panel">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>ملفات مهمة</strong>
-                                <p>مشاريع وملفات دراسة لا يجب أن تبقى في مكان واحد فقط.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>قرار</span>
-                                <strong>خطة نسخ مزدوجة</strong>
-                                <p>نسخة محلية سريعة ونسخة سحابية إضافية للاسترجاع عند الكوارث.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>تعافٍ أسرع</strong>
-                                <p>إذا وقع عطل أو تشفير، يصبح الرجوع للملفات أكثر أماناً.</p>
-                            </article>
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="security-backup-title security-backup-desc">
+                                    <title id="security-backup-title">مخطط يوضح النسخ الاحتياطي المحلي والسحابي</title>
+                                    <desc id="security-backup-desc">يبين الرسم ملفات مهمة تتفرع إلى نسخة محلية عبر وسائط أو File History وإلى نسخة سحابية عبر خدمات مثل Google Drive وOneDrive وDropbox.</desc>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card" x="274" y="56" width="192" height="110" rx="28"></rect>
+                                        <text class="svg-label" x="370" y="106" text-anchor="middle">ملفات مهمة</text>
+                                        <text class="svg-small" x="370" y="134" text-anchor="middle">دراسة أو عمل أو صور</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-card-accent" x="74" y="220" width="220" height="104" rx="28"></rect>
+                                        <text class="svg-label" x="184" y="206" text-anchor="middle">نسخة محلية</text>
+                                        <text class="svg-small" x="184" y="256" text-anchor="middle">قرص خارجي أو USB أو DVD</text>
+                                        <text class="svg-small" x="184" y="282" text-anchor="middle">أداة File History</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-good-surface" x="446" y="220" width="220" height="104" rx="28"></rect>
+                                        <text class="svg-label" x="556" y="206" text-anchor="middle">نسخة سحابية</text>
+                                        <text class="svg-small" x="556" y="256" text-anchor="middle">Google Drive - OneDrive</text>
+                                        <text class="svg-small" x="556" y="282" text-anchor="middle">Dropbox</text>
+                                    </g>
+
+                                    <g class="svg-caption-chip svg-float-fast">
+                                        <rect class="svg-card svg-good-surface" x="254" y="252" width="232" height="58" rx="20"></rect>
+                                        <text class="svg-small" x="370" y="286" text-anchor="middle">نسختان أفضل من مكان واحد</text>
+                                    </g>
+
+                                    <path class="svg-flow" d="M332 166 C292 192 246 206 206 220"></path>
+                                    <path class="svg-flow" d="M408 166 C448 192 494 206 534 220"></path>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم استرجاع</span>
+                                <h3>النسخ الاحتياطي الجيد يجمع بين القرب والانفصال</h3>
+                                <p>يمكن حفظ نسخة محلية على وسيط مادي مع حماية هذا الوسيط من التلف والخدش، كما يمكن حفظ نسخة سحابية عبر الإنترنت لتبقى متاحة من مكان آخر. يجمع هذا بين سرعة الوصول والأمان من الفقد.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">File History مثال على النسخ المحلي داخل Windows.</div>
+                                    <div class="mini-point">الخدمات السحابية الشائعة تشمل Google Drive وMicrosoft OneDrive وDropbox.</div>
+                                    <div class="mini-point">حافظ على الوسائط المحلية من التلف مثلما تحافظ على البيانات نفسها.</div>
+                                </div>
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -136,78 +263,49 @@
 
         <section class="section-block" data-reveal>
             <div class="section-heading">
-                <span class="eyebrow">مقياس بصري</span>
-                <h2>اختبر قوة كلمة المرور مباشرة</h2>
+                <span class="eyebrow">تجربة قصيرة</span>
+                <h2>جرّب صياغة عبارة مرور ثم راقب التقييم</h2>
+                <p>هذه الأداة للتعلم فقط، لتوضيح أثر الطول والتنوع على قوة العبارة.</p>
             </div>
 
             <div class="password-lab">
                 <label class="password-field">
-                    <span>اكتب كلمة مرور تجريبية</span>
-                    <input id="password-input" type="text" placeholder="مثال: Pass2026!">
+                    <span>اكتب عبارة مرور تجريبية</span>
+                    <input id="password-input" type="text" inputmode="text" autocomplete="off" placeholder="مثال: MyClassRoom2026!">
                 </label>
                 <div class="password-meter">
                     <div class="strength-bar">
                         <span id="password-strength-fill" class="strength-fill"></span>
                     </div>
                     <strong id="password-strength-label">لم يبدأ التقييم بعد</strong>
-                    <p id="password-strength-text">جرّب كلمة أطول وأكثر تنوعاً لترى كيف يتغير المقياس.</p>
+                    <p id="password-strength-text">جرّب عبارة أطول وأكثر تنوعًا لترى كيف يتغير التقييم.</p>
                 </div>
             </div>
         </section>
 
-        <section class="section-block" data-reveal>
-            <div class="section-heading">
-                <span class="eyebrow">مشاهد القرار</span>
-                <h2>كيف تتصرف في المواقف الأمنية الأساسية؟</h2>
-            </div>
-
-            <div class="scenario-shell" data-scenario-group>
-                <div class="scenario-tabs">
-                    <button class="scenario-tab is-active" type="button" data-scenario-target="security-mail">بريد مشبوه</button>
-                    <button class="scenario-tab" type="button" data-scenario-target="security-password">سرية الحساب</button>
-                    <button class="scenario-tab" type="button" data-scenario-target="security-backup">استرجاع الملفات</button>
-                </div>
-
-                <div class="scenario-panels">
-                    <article id="security-mail" class="scenario-panel is-active">
-                        <h3>المشهد: رسالة غير متوقعة فيها مرفق</h3>
-                        <p>الإجراء الآمن هو عدم الفتح والإبلاغ عنها ثم التأكد من أن أدوات الحماية تعمل وتُحدّث.</p>
-                    </article>
-                    <article id="security-password" class="scenario-panel">
-                        <h3>المشهد: زميل يطلب كلمة المرور</h3>
-                        <p>البديل الصحيح هو حساب منفصل أو وصول بإشراف، لا مشاركة السر نفسه.</p>
-                    </article>
-                    <article id="security-backup" class="scenario-panel">
-                        <h3>المشهد: تعطل أو هجوم تشفير</h3>
-                        <p>تعتمد سرعة النجاة هنا على وجود نسخة سليمة منفصلة عن الجهاز المصاب.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-block" data-reveal>
+        <section id="security-check" class="section-block" data-reveal>
             <div class="section-heading">
                 <span class="eyebrow">سؤال تثبيت</span>
-                <h2>ما التصرف الأدق؟</h2>
+                <h2>ما القرار الأدق لحماية ملفاتك المهمة؟</h2>
             </div>
 
             <article class="quiz-card">
-                <p>وصل بريد فيه مرفق غير متوقع بينما جدار الحماية متوقف. ما القرار الأفضل؟</p>
+                <p>لديك ملفات دراسية مهمة وتخاف من فقدها إذا تعطل الجهاز. ما التصرف الأكثر اتساقًا مع الدرس؟</p>
                 <div class="answer-grid">
-                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: يجب تجنب الفتح وتفعيل الحماية ثم فحص الجهاز.">تجنب الفتح وتفعيل الحماية ثم الفحص</button>
-                    <button type="button" data-answer data-feedback="غير مناسب: فتح المرفق أولاً يمنح التهديد فرصة مباشرة.">فتح المرفق لمعرفة المحتوى</button>
-                    <button type="button" data-answer data-feedback="غير مناسب: تغيير كلمة المرور وحده لا يعالج هذا الموقف بالكامل.">تغيير كلمة المرور فقط</button>
+                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: الجمع بين نسخة محلية ونسخة سحابية يوفّر استرجاعًا أسرع وأكثر أمانًا من الاعتماد على مكان واحد فقط.">إنشاء نسخة محلية مع نسخة سحابية ومراجعة النسخ دوريًا</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: الاعتماد على الجهاز نفسه فقط يتركك من دون استرجاع إذا حدث تلف أو سرقة أو فقد.">الاكتفاء بحفظ الملفات داخل الجهاز لأن الوصول إليها سيكون أسرع</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: النسخة السحابية وحدها مفيدة، لكنها لا تحقق فكرة النسختين في مكانين مختلفين كما يشرح الدرس.">استخدام خدمة سحابية واحدة فقط من غير نسخة محلية أو مراجعة</button>
                 </div>
-                <p class="answer-feedback" hidden></p>
+                <p class="answer-feedback" hidden aria-live="polite"></p>
             </article>
         </section>
 
         <section class="cta-strip" data-reveal>
             <div>
-                <span class="eyebrow">الختام</span>
-                <h2>عد إلى الرئيسية أو راجع أي صفحة من المسار من جديد.</h2>
+                <span class="eyebrow">الخاتمة</span>
+                <h2>اكتمل المسار الأساسي. يمكنك الآن العودة إلى اللوحة أو مراجعة أي درس بحسب الموضوع الذي تريد تثبيته.</h2>
             </div>
-            <a class="button" href="index.html">العودة إلى الرئيسية</a>
+            <a class="button" href="index.html#start">العودة إلى اللوحة</a>
         </section>
     </main>
 
@@ -215,15 +313,16 @@
         <div class="container footer-layout">
             <div>
                 <strong>الدرس 04: حماية البيانات</strong>
-                <p>أضيف مقياس بصري لكلمة المرور، وتم تقليل النصوص لصالح المشاهد والاختبارات السريعة.</p>
+                <p>تمت إعادة بنائه حول أمن النظام، إعدادات الدخول، والنسخ الاحتياطي المحلي والسحابي وفق الملف الدراسي.</p>
             </div>
             <div class="footer-links">
-                <a href="software.html">السابق</a>
-                <a href="index.html">الرئيسية</a>
+                <a href="software.html">الدرس السابق</a>
+                <a href="index.html">العودة إلى اللوحة</a>
             </div>
         </div>
     </footer>
 
+    <script src="js/lesson-config.js" defer></script>
     <script src="js/script.js" defer></script>
 </body>
 </html>

@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مختبر صيانة الحاسوب التفاعلي</title>
-    <meta name="description" content="منصة بصرية منظمة لشرح مفاهيم صيانة الحاسوب عبر صفحات مستقلة ومشاهد واضحة.">
+    <title>مختبر صيانة الحاسوب التعليمي</title>
+    <meta name="description" content="لوحة تعلم مبسطة تقود إلى أربعة دروس في صيانة الحاسوب: المقدمة، العتاد، البرمجيات، وحماية البيانات.">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="home">
+    <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
     <div class="page-aura"></div>
 
     <header class="site-header">
@@ -16,134 +17,125 @@
                 <span class="brand-mark">PC</span>
                 <div>
                     <strong>مختبر صيانة الحاسوب</strong>
-                    <span>واجهة بصرية خفيفة ومنظمة</span>
+                    <span>لوحة الدروس</span>
                 </div>
             </a>
 
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="فتح قائمة التنقل">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
 
-            <nav id="site-nav" class="main-nav">
-                <a href="index.html">الرئيسية</a>
-                <a href="intro.html">المقدمة</a>
-                <a href="hardware.html">المكونات المادية</a>
-                <a href="software.html">البرمجيات</a>
-                <a href="data-protection.html">حماية البيانات</a>
+            <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html">اللوحة</a>
+                <a href="intro.html">الدرس 01</a>
+                <a href="hardware.html">الدرس 02</a>
+                <a href="software.html">الدرس 03</a>
+                <a href="data-protection.html">الدرس 04</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero hero-home" data-reveal>
+    <main id="main-content" class="container">
+        <section class="hero hero-home dashboard-hero" data-reveal>
             <div class="hero-copy">
-                <span class="eyebrow">الوحدة الثانية</span>
-                <h1>تعلم صيانة الحاسوب من خلال مفاهيم مرئية ومشاهد قصيرة، لا من خلال صفحة مزدحمة.</h1>
+                <span class="eyebrow">لوحة الوحدة</span>
+                <h1>اختر الدرس الذي تحتاجه ثم ابدأ من صفحة واضحة لا تعرض كل شيء دفعة واحدة.</h1>
                 <p>
-                    كل موضوع أصبح في صفحة مستقلة. لكل صفحة فكرة مركزية واحدة، شرح بصري، ومشهد قرار
-                    يوضح ما يجب فعله ولماذا.
+                    هذه الصفحة ليست درسًا. هي لوحة دخول تعرض هدف الوحدة، ترتيب الدروس، والغرض من كل موضوع ثم تنقلك
+                    مباشرة إلى صفحة التعلم المناسبة.
                 </p>
                 <div class="hero-actions">
-                    <a class="button" href="intro.html">ابدأ من المقدمة</a>
-                    <a class="button button-secondary" href="#map">شاهد الخريطة</a>
+                    <a class="button" href="#start">اعرض الدروس</a>
+                    <a class="button button-secondary" href="intro.html">ابدأ بالمقدمة</a>
                 </div>
             </div>
 
             <aside class="hero-panel">
-                <div class="signal-board">
-                    <article>
-                        <span>المسار</span>
-                        <strong>مقدمة ثم عتاد ثم برمجيات ثم حماية</strong>
+                <span class="eyebrow">الغرض من الأداة</span>
+                <h2>تعلم صيانة الحاسوب كمجموعة قرارات منظمة</h2>
+                <p>كل درس يبني فكرة واحدة أو مجموعة أفكار مترابطة من المصدر الدراسي نفسه ثم يربطها برسم أو تفاعل قصير.</p>
+
+                <div class="route-list">
+                    <article class="route-item">
+                        <span class="route-badge">01</span>
+                        <div>
+                            <strong>مقدمة في الصيانة</strong>
+                            <p>التعريف، الأهمية، الأنواع، وخطوات حل المشكلات.</p>
+                        </div>
                     </article>
-                    <article>
-                        <span>الطريقة</span>
-                        <strong>فكرة بصرية ثم قرار ثم تثبيت</strong>
+                    <article class="route-item">
+                        <span class="route-badge">02</span>
+                        <div>
+                            <strong>المكونات المادية</strong>
+                            <p>العوامل الطبيعية، الطاقة، الترقية، وصيانة الأقراص.</p>
+                        </div>
                     </article>
-                    <article>
-                        <span>الأداة</span>
-                        <strong>صفحات أخف ومحتوى أوضح</strong>
+                    <article class="route-item">
+                        <span class="route-badge">03</span>
+                        <div>
+                            <strong>البرمجيات</strong>
+                            <p>الرخص، حقوق الاستخدام، الاستعادة، وتحسين الكفاءة.</p>
+                        </div>
+                    </article>
+                    <article class="route-item">
+                        <span class="route-badge">04</span>
+                        <div>
+                            <strong>حماية البيانات</strong>
+                            <p>الأمان، طرق الدخول، إعدادات كلمة المرور، والنسخ الاحتياطي.</p>
+                        </div>
                     </article>
                 </div>
             </aside>
         </section>
 
-        <section id="map" class="section-block" data-reveal>
+        <section id="start" class="section-block" data-reveal>
             <div class="section-heading">
-                <span class="eyebrow">خريطة المفاهيم</span>
-                <h2>أربع أفكار تشكل الوحدة كاملة</h2>
-            </div>
-
-            <div class="map-strip">
-                <article class="map-card">
-                    <span>01</span>
-                    <h3>معنى الصيانة</h3>
-                    <p>متى نحمي الجهاز قبل العطل، ومتى نعالجه بعد ظهوره.</p>
-                </article>
-                <article class="map-card">
-                    <span>02</span>
-                    <h3>داخل الجهاز</h3>
-                    <p>الحرارة، الغبار، الطاقة، والتعامل الآمن مع القطع.</p>
-                </article>
-                <article class="map-card">
-                    <span>03</span>
-                    <h3>البيئة البرمجية</h3>
-                    <p>ترخيص، استعادة، وأداء منظم بلا حلول وهمية.</p>
-                </article>
-                <article class="map-card">
-                    <span>04</span>
-                    <h3>حماية البيانات</h3>
-                    <p>كلمات مرور قوية، نسخ احتياطي، وسلوك آمن أمام التهديدات.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="section-block" data-reveal>
-            <div class="section-heading">
-                <span class="eyebrow">الصفحات</span>
-                <h2>ادخل إلى الموضوع الذي تريد شرحه</h2>
+                <span class="eyebrow">الدروس</span>
+                <h2>افتح الدرس المناسب لهدفك الحالي</h2>
+                <p>كل بطاقة تنقلك إلى صفحة قصيرة ومنظمة بدل تكديس الشرح في الواجهة الأولى.</p>
             </div>
 
             <div class="topic-grid">
                 <article class="topic-card topic-intro" data-topic-link="intro">
                     <div class="topic-card-top">
                         <span class="topic-index">01</span>
-                        <span class="topic-state">المفهوم الأساسي</span>
+                        <span class="topic-state">الدرس 01</span>
                     </div>
                     <h3>مقدمة في صيانة الحاسوب</h3>
-                    <p>صفحة تبين الفرق بين الوقاية والعلاج وتشرح كيف يبدأ التشخيص من العرض.</p>
-                    <a class="button button-secondary" href="intro.html">فتح الصفحة</a>
+                    <p>لفهم معنى الصيانة، أهميتها، الفرق بين الوقائية والعلاجية، وخطوات التشخيص والحل.</p>
+                    <a class="button button-secondary" href="intro.html">افتح الدرس</a>
                 </article>
 
                 <article class="topic-card topic-hardware" data-topic-link="hardware">
                     <div class="topic-card-top">
                         <span class="topic-index">02</span>
-                        <span class="topic-state">مشهد مادي</span>
+                        <span class="topic-state">الدرس 02</span>
                     </div>
-                    <h3>المكونات المادية</h3>
-                    <p>صفحة تستخدم نموذج الجهاز الحقيقي وتشرح الحرارة والطاقة والترقية بصورة بصرية.</p>
-                    <a class="button button-secondary" href="hardware.html">فتح الصفحة</a>
+                    <h3>صيانة المكونات المادية</h3>
+                    <p>لفهم الحرارة والرطوبة والغبار والطاقة الآمنة ثم اتخاذ قرار الترقية أو صيانة القرص.</p>
+                    <a class="button button-secondary" href="hardware.html">افتح الدرس</a>
                 </article>
 
                 <article class="topic-card topic-software" data-topic-link="software">
                     <div class="topic-card-top">
                         <span class="topic-index">03</span>
-                        <span class="topic-state">نظام وتشغيل</span>
+                        <span class="topic-state">الدرس 03</span>
                     </div>
-                    <h3>البرمجيات</h3>
-                    <p>صفحة تعرض مفاهيم الترخيص والاستعادة وتحسين الأداء كمشاهد مترابطة.</p>
-                    <a class="button button-secondary" href="software.html">فتح الصفحة</a>
+                    <h3>صيانة البرمجيات</h3>
+                    <p>لفهم الرخص، الملكية الفكرية، نقطة الاستعادة، وكيفية تحسين الأداء دون حلول عشوائية.</p>
+                    <a class="button button-secondary" href="software.html">افتح الدرس</a>
                 </article>
 
                 <article class="topic-card topic-security" data-topic-link="security">
                     <div class="topic-card-top">
                         <span class="topic-index">04</span>
-                        <span class="topic-state">دفاع رقمي</span>
+                        <span class="topic-state">الدرس 04</span>
                     </div>
                     <h3>حماية البيانات</h3>
-                    <p>صفحة أكثر وضوحاً للأمن الرقمي مع مقياس كلمة مرور ومشاهد استجابة للتهديد.</p>
-                    <a class="button button-secondary" href="data-protection.html">فتح الصفحة</a>
+                    <p>لفهم أمن النظام، كلمة المرور أو البصمة، وإعداد النسخ الاحتياطي المحلي والسحابي.</p>
+                    <a class="button button-secondary" href="data-protection.html">افتح الدرس</a>
                 </article>
             </div>
         </section>
@@ -152,17 +144,19 @@
     <footer class="site-footer">
         <div class="container footer-layout">
             <div>
-                <strong>مختبر صيانة الحاسوب التفاعلي</strong>
-                <p>تقسيم أبسط، كثافة أقل، وشرح بصري أقرب لهدف الدرس.</p>
+                <strong>لوحة الوحدة التعليمية</strong>
+                <p>تبدأ من هنا ثم تنتقل إلى درس واحد في كل مرة حسب الحاجة الفعلية للتعلم.</p>
             </div>
             <div class="footer-links">
-                <a href="intro.html">ابدأ الآن</a>
-                <a href="hardware.html">النموذج ثلاثي الأبعاد</a>
-                <a href="data-protection.html">الحماية</a>
+                <a href="intro.html">المقدمة</a>
+                <a href="hardware.html">العتاد</a>
+                <a href="software.html">البرمجيات</a>
+                <a href="data-protection.html">حماية البيانات</a>
             </div>
         </div>
     </footer>
 
+    <script src="js/lesson-config.js" defer></script>
     <script src="js/script.js" defer></script>
 </body>
 </html>

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صيانة البرمجيات</title>
-    <meta name="description" content="صفحة بصرية لتوضيح مفاهيم صيانة البرمجيات بصورة أخف وأوضح.">
+    <meta name="description" content="الدرس الثالث في صيانة الحاسوب: معنى صيانة البرمجيات، الرخص والملكية الفكرية، نقطة الاستعادة، وتحسين الكفاءة.">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="software">
+    <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
     <div class="page-aura"></div>
 
     <header class="site-header">
@@ -16,177 +17,298 @@
                 <span class="brand-mark">PC</span>
                 <div>
                     <strong>مختبر صيانة الحاسوب</strong>
-                    <span>صفحة الدرس الثالث</span>
+                    <span>الدرس 03: البرمجيات</span>
                 </div>
             </a>
 
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="فتح قائمة التنقل">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
 
-            <nav id="site-nav" class="main-nav">
-                <a href="index.html">الرئيسية</a>
-                <a href="intro.html">المقدمة</a>
-                <a href="hardware.html">المكونات المادية</a>
-                <a href="software.html">البرمجيات</a>
-                <a href="data-protection.html">حماية البيانات</a>
+            <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html">اللوحة</a>
+                <a href="intro.html">الدرس 01</a>
+                <a href="hardware.html">الدرس 02</a>
+                <a href="software.html">الدرس 03</a>
+                <a href="data-protection.html">الدرس 04</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero topic-hero" data-reveal>
+    <main id="main-content" class="container">
+        <section class="hero topic-hero software-hero" data-reveal>
             <div class="hero-copy">
                 <span class="eyebrow">الدرس 03</span>
-                <h1>صيانة البرمجيات</h1>
+                <h1>صيانة البرمجيات تعني حماية الاستخدام القانوني والآمن للنظام ثم إبقاءه قابلًا للاستعادة والتحسين.</h1>
                 <p>
-                    في هذا الدرس تصبح الصيانة أقل ارتباطاً بالمفك وأكثر ارتباطاً بالقرار: أي برنامج
-                    نثبت، متى ننشئ نقطة استعادة، وكيف نرفع الأداء من دون كسر استقرار النظام.
+                    يعتمد هذا الدرس على ثلاثة محاور من الملف الدراسي: معنى الصيانة البرمجية وحقوق الاستخدام،
+                    نقطة استعادة النظام، ثم تحسين الكفاءة بالتحديث وتنظيم الإقلاع وإزالة غير الضروري.
                 </p>
+                <div class="hero-actions">
+                    <a class="button" href="#software-basics">ابدأ بالمفاهيم</a>
+                    <a class="button button-secondary" href="#software-check">اذهب إلى سؤال التثبيت</a>
+                </div>
             </div>
 
             <aside class="hero-panel">
-                <h3>المفاهيم الثلاثة</h3>
-                <ul class="feature-list">
-                    <li>ترخيص موثوق</li>
-                    <li>استعادة قبل وبعد التغيير</li>
-                    <li>تحسين أداء منظم</li>
-                </ul>
+                <h2>خريطة الدرس</h2>
+                <div class="signal-board compact-board">
+                    <article>
+                        <span>المحور 1</span>
+                        <strong>الرخص والملكية</strong>
+                        <p>فهم معنى الترخيص وحق الملكية الفكرية قبل استخدام أي برنامج.</p>
+                    </article>
+                    <article>
+                        <span>المحور 2</span>
+                        <strong>نقطة الاستعادة</strong>
+                        <p>شبكة أمان تسبق التحديث أو التعريفات الكبيرة.</p>
+                    </article>
+                    <article>
+                        <span>المحور 3</span>
+                        <strong>تحسين الكفاءة</strong>
+                        <p>تحديثات، عناصر بدء التشغيل، وإزالة التطبيقات غير المستخدمة.</p>
+                    </article>
+                </div>
             </aside>
+        </section>
+
+        <section id="software-basics" class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">أساس الدرس</span>
+                <h2>ابدأ من معنى الصيانة البرمجية</h2>
+                <p>هذه البطاقات تلخص ما يجب فهمه قبل الدخول إلى الرسوم التوضيحية.</p>
+            </div>
+
+            <div class="map-strip">
+                <article class="map-card">
+                    <span>1</span>
+                    <h3>تعريف الصيانة البرمجية</h3>
+                    <p>هي إجراءات للحفاظ على أمان البرمجيات واستعمالها من غير تأثير سلبي على النظام أو على حقوق الاستخدام.</p>
+                </article>
+                <article class="map-card">
+                    <span>2</span>
+                    <h3>رخصة البرمجيات</h3>
+                    <p>وثيقة قانونية تمنح حق الاستخدام وتحدد الشروط، لذلك لا تعد خطوة شكلية منفصلة عن الصيانة.</p>
+                </article>
+                <article class="map-card">
+                    <span>3</span>
+                    <h3>حق الملكية الفكرية</h3>
+                    <p>يحمي العمل الإبداعي ويمنع نسخه أو تعديله أو توزيعه دون إذن، وهو ما يفسر أهمية الترخيص الصحيح.</p>
+                </article>
+            </div>
         </section>
 
         <section class="section-block" data-reveal>
             <div class="section-heading">
                 <span class="eyebrow">الشرح البصري</span>
-                <h2>مفاهيم البرمجيات كمشاهد متتابعة</h2>
+                <h2>ثلاث لوحات تقودك من الاستخدام القانوني إلى الاستقرار ثم الكفاءة</h2>
+                <p>كل لوحة تختصر مفهومًا واحدًا ثم تربطه بقرارات عملية واضحة.</p>
             </div>
 
             <div class="visual-shell" data-visual-group>
                 <div class="visual-nav">
-                    <button class="visual-tab is-active" type="button" data-visual-target="software-visual-license">الترخيص</button>
+                    <button class="visual-tab is-active" type="button" data-visual-target="software-visual-license">الرخص</button>
                     <button class="visual-tab" type="button" data-visual-target="software-visual-restore">الاستعادة</button>
-                    <button class="visual-tab" type="button" data-visual-target="software-visual-speed">الأداء</button>
+                    <button class="visual-tab" type="button" data-visual-target="software-visual-performance">الكفاءة</button>
                 </div>
 
                 <div class="visual-panels">
                     <article id="software-visual-license" class="visual-panel is-active">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>برنامج مطلوب</strong>
-                                <p>توجد عدة نسخ، لكن ليست كلها آمنة أو قانونية أو مستقرة.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>قرار</span>
-                                <strong>اختيار المصدر</strong>
-                                <p>النسخة المقرصنة قد تبدو سهلة لكنها تفتح باباً للخلل والمخاطر.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>ترخيص موثوق</strong>
-                                <p>تصبح التحديثات والدعم والاستقرار جزءاً من بيئة النظام.</p>
-                            </article>
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="software-license-title software-license-desc">
+                                    <title id="software-license-title">مخطط يوضح أنواع رخص البرمجيات</title>
+                                    <desc id="software-license-desc">يبين الرسم برنامجًا ينتقل إلى ثلاثة مسارات للرخص: الملكية العامة، الحرة ومفتوحة المصدر، والتجارية، مع درع يوضح حق الاستخدام القانوني.</desc>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card" x="280" y="46" width="180" height="94" rx="28"></rect>
+                                        <text class="svg-label" x="370" y="92" text-anchor="middle">برنامج</text>
+                                        <text class="svg-small" x="370" y="118" text-anchor="middle">يحتاج إلى رخصة واضحة</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-good-surface" x="56" y="188" width="180" height="112" rx="28"></rect>
+                                        <text class="svg-label" x="146" y="234" text-anchor="middle">الملكية العامة</text>
+                                        <text class="svg-small" x="146" y="262" text-anchor="middle">حرية كاملة بلا قيود</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-card-accent" x="280" y="188" width="180" height="112" rx="28"></rect>
+                                        <text class="svg-label" x="370" y="226" text-anchor="middle">حرة ومفتوحة المصدر</text>
+                                        <text class="svg-small" x="370" y="254" text-anchor="middle">استخدام وتعديل في الشفرة</text>
+                                        <path class="svg-shield" d="M370 264 l18 8 0 22 c0 16-10 28-18 33 -8-5-18-17-18-33l0-22 18-8z"></path>
+                                        <path class="svg-shield-check" d="M360 296 368 304 382 288"></path>
+                                    </g>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card svg-warn-surface" x="504" y="188" width="180" height="112" rx="28"></rect>
+                                        <text class="svg-label" x="594" y="234" text-anchor="middle">تجارية</text>
+                                        <text class="svg-small" x="594" y="262" text-anchor="middle">استخدام مقابل رسوم شراء</text>
+                                    </g>
+
+                                    <path class="svg-flow" d="M330 140 C296 166 246 182 192 188"></path>
+                                    <path class="svg-flow" d="M370 140 C370 156 370 170 370 188"></path>
+                                    <path class="svg-flow" d="M410 140 C444 166 494 182 548 188"></path>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم قانوني</span>
+                                <h3>الرخصة تحدد كيف تستخدم البرنامج، والملكية الفكرية تفسر لماذا</h3>
+                                <p>لا يكفي أن يعمل البرنامج؛ يجب أن يكون استعماله موافقًا لنوع الرخصة وشروطها. هذا هو الجانب القانوني من صيانة البرمجيات، وهو مرتبط مباشرة بالأمان والتحديث والدعم.</p>
+
+                                <div class="caption-grid">
+                                    <article class="mini-point">
+                                        <strong>الملكية العامة</strong>
+                                        <span>حرية كاملة بلا قيود استخدام معروفة.</span>
+                                    </article>
+                                    <article class="mini-point">
+                                        <strong>الحرة ومفتوحة المصدر</strong>
+                                        <span>تتيح استخدام الشفرة وتعديلها وفق الشروط.</span>
+                                    </article>
+                                    <article class="mini-point">
+                                        <strong>التجارية</strong>
+                                        <span>مرتبطة بالشراء أو الحساب أو مفتاح الاستخدام.</span>
+                                    </article>
+                                </div>
+                            </div>
                         </div>
                     </article>
 
                     <article id="software-visual-restore" class="visual-panel">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>تغيير مهم</strong>
-                                <p>تعريف جديد أو تحديث كبير قد يؤثر في عمل الجهاز.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>قرار</span>
-                                <strong>نقطة استعادة</strong>
-                                <p>تُنشأ قبل التغيير لتبقى لديك نقطة رجوع إذا ظهر خلل.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>رجوع منظم</strong>
-                                <p>يمكن إعادة النظام إلى حالة مستقرة من دون قفز إلى حلول كبيرة.</p>
-                            </article>
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="software-restore-title software-restore-desc">
+                                    <title id="software-restore-title">مخطط يوضح نقطة استعادة النظام</title>
+                                    <desc id="software-restore-desc">يبين الرسم حالة مستقرة ثم نقطة استعادة ثم تحديثًا أو تعريفًا يسبب خللًا ثم مسار رجوع آمن إلى الحالة السابقة.</desc>
+
+                                    <line class="svg-timeline" x1="84" y1="184" x2="654" y2="184"></line>
+                                    <path class="svg-rollback" d="M558 250 C500 302 360 302 302 248"></path>
+
+                                    <g class="svg-timeline-node">
+                                        <circle class="svg-node svg-node-stable" cx="126" cy="184" r="28"></circle>
+                                        <text class="svg-label" x="126" y="190" text-anchor="middle">1</text>
+                                        <text class="svg-small" x="126" y="238" text-anchor="middle">نظام مستقر</text>
+                                    </g>
+                                    <g class="svg-timeline-node">
+                                        <circle class="svg-node svg-node-accent" cx="286" cy="184" r="34"></circle>
+                                        <circle class="svg-node-ring" cx="286" cy="184" r="46"></circle>
+                                        <text class="svg-label" x="286" y="190" text-anchor="middle">2</text>
+                                        <text class="svg-small" x="286" y="238" text-anchor="middle">نقطة استعادة</text>
+                                    </g>
+                                    <g class="svg-timeline-node">
+                                        <circle class="svg-node" cx="448" cy="184" r="28"></circle>
+                                        <text class="svg-label" x="448" y="190" text-anchor="middle">3</text>
+                                        <text class="svg-small" x="448" y="238" text-anchor="middle">تحديث أو تعريف</text>
+                                    </g>
+                                    <g class="svg-timeline-node">
+                                        <circle class="svg-node svg-node-danger" cx="612" cy="184" r="28"></circle>
+                                        <text class="svg-label" x="612" y="190" text-anchor="middle">4</text>
+                                        <text class="svg-small" x="612" y="238" text-anchor="middle">خلل ظاهر</text>
+                                    </g>
+
+                                    <rect class="svg-card" x="196" y="62" width="180" height="58" rx="20"></rect>
+                                    <text class="svg-small" x="286" y="96" text-anchor="middle">System Protection قبل التغيير</text>
+
+                                    <rect class="svg-card svg-good-surface" x="220" y="274" width="170" height="58" rx="20"></rect>
+                                    <text class="svg-small" x="305" y="308" text-anchor="middle">عودة آمنة للحالة السابقة</text>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم استعادة</span>
+                                <h3>نقطة الاستعادة تسجل حالة النظام قبل المخاطرة</h3>
+                                <p>يسمح لك النظام بإنشاء نقطة استعادة عبر <strong>System Protection</strong> في لوحة التحكم. هذه الخطوة تسجل حالة النظام لتستطيع العودة إليها إذا تسبب تحديث أو تعريف جديد في خلل كبير.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">أنشئ نقطة الاستعادة قبل التحديث أو التثبيت لا بعده.</div>
+                                    <div class="mini-point">سمِّ النقطة باسم يوضح التغيير المتوقع.</div>
+                                    <div class="mini-point">اعتبرها خطة رجوع منظمة لا مجرد حل أخير.</div>
+                                </div>
+                            </div>
                         </div>
                     </article>
 
-                    <article id="software-visual-speed" class="visual-panel">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>بطء وبرامج كثيرة</strong>
-                                <p>الإقلاع مزدحم والملفات المؤقتة كثيرة والتحديثات مؤجلة.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>قرار</span>
-                                <strong>تنظيف وتحديث</strong>
-                                <p>ابدأ بالأدوات الموثوقة والبرامج الضرورية فقط.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>بعد</span>
-                                <strong>أداء مستقر</strong>
-                                <p>ترتفع الاستجابة من دون التضحية بالأمان أو التوافق.</p>
-                            </article>
+                    <article id="software-visual-performance" class="visual-panel">
+                        <div class="visual-lesson">
+                            <div class="svg-stage">
+                                <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="software-performance-title software-performance-desc">
+                                    <title id="software-performance-title">مخطط يوضح تحسين كفاءة النظام</title>
+                                    <desc id="software-performance-desc">يبين الرسم انتقال النظام من ازدحام الإقلاع والملفات غير المهمة إلى تنظيم أفضل بعد التحديث وتنظيم بدء التشغيل وإزالة غير المستخدم.</desc>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card" x="44" y="84" width="190" height="204" rx="28"></rect>
+                                        <text class="svg-label" x="139" y="122" text-anchor="middle">قبل التنظيم</text>
+                                        <rect class="svg-bar svg-bar-busy" x="82" y="152" width="112" height="18" rx="9"></rect>
+                                        <rect class="svg-bar svg-bar-busy" x="72" y="182" width="132" height="18" rx="9"></rect>
+                                        <rect class="svg-bar svg-bar-warn" x="92" y="212" width="96" height="18" rx="9"></rect>
+                                        <rect class="svg-bar svg-bar-busy" x="84" y="242" width="122" height="18" rx="9"></rect>
+                                        <text class="svg-small" x="139" y="274" text-anchor="middle">إقلاع مزدحم وتطبيقات زائدة</text>
+                                    </g>
+
+                                    <g class="svg-float-slow">
+                                        <rect class="svg-card svg-card-accent" x="276" y="96" width="188" height="180" rx="28"></rect>
+                                        <text class="svg-label" x="370" y="132" text-anchor="middle">خطوات التحسين</text>
+                                        <text class="svg-small" x="370" y="172" text-anchor="middle">Windows Update</text>
+                                        <text class="svg-small" x="370" y="198" text-anchor="middle">Task Manager لعناصر الإقلاع</text>
+                                        <text class="svg-small" x="370" y="224" text-anchor="middle">Uninstall a program</text>
+                                        <circle class="svg-pulse-dot" cx="370" cy="248" r="12"></circle>
+                                    </g>
+
+                                    <g class="svg-float-fast">
+                                        <rect class="svg-card svg-good-surface" x="506" y="84" width="190" height="204" rx="28"></rect>
+                                        <text class="svg-label" x="601" y="122" text-anchor="middle">بعد التنظيم</text>
+                                        <rect class="svg-bar svg-bar-good" x="548" y="162" width="78" height="18" rx="9"></rect>
+                                        <rect class="svg-bar svg-bar-good" x="548" y="194" width="96" height="18" rx="9"></rect>
+                                        <rect class="svg-bar svg-bar-good" x="548" y="226" width="66" height="18" rx="9"></rect>
+                                        <text class="svg-small" x="601" y="268" text-anchor="middle">إقلاع أخف واستجابة أفضل</text>
+                                    </g>
+
+                                    <path class="svg-flow" d="M234 186 C248 186 260 186 276 186"></path>
+                                    <path class="svg-flow" d="M464 186 C478 186 490 186 506 186"></path>
+                                </svg>
+                            </div>
+
+                            <div class="svg-caption">
+                                <span class="eyebrow">مفهوم كفاءة</span>
+                                <h3>تحسين الأداء يبدأ من إجراءات النظام الأساسية</h3>
+                                <p>يعالج التحديث الثغرات ويضيف مزايا، بينما يقلل تنظيم عناصر بدء التشغيل من الحمل عند الإقلاع، وتوفر إزالة التطبيقات غير المستخدمة مساحة أكبر ونظامًا أقل ازدحامًا.</p>
+                                <div class="mini-points svg-points">
+                                    <div class="mini-point">حدّث البرمجيات عبر Windows Update متى كان ذلك مناسبًا.</div>
+                                    <div class="mini-point">راجع عناصر الإقلاع في Task Manager مع الإبقاء على برامج الحماية الضرورية.</div>
+                                    <div class="mini-point">احذف التطبيقات غير المستخدمة عبر Uninstall a program لتوفير المساحة.</div>
+                                </div>
+                            </div>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section class="section-block" data-reveal>
-            <div class="section-heading">
-                <span class="eyebrow">مشاهد القرار</span>
-                <h2>ثلاث مواقف تمثل صيانة البرمجيات في الواقع</h2>
-            </div>
-
-            <div class="scenario-shell" data-scenario-group>
-                <div class="scenario-tabs">
-                    <button class="scenario-tab is-active" type="button" data-scenario-target="software-license">اختيار البرنامج</button>
-                    <button class="scenario-tab" type="button" data-scenario-target="software-restore">التحديث والرجوع</button>
-                    <button class="scenario-tab" type="button" data-scenario-target="software-speed">رفع الأداء</button>
-                </div>
-
-                <div class="scenario-panels">
-                    <article id="software-license" class="scenario-panel is-active">
-                        <h3>المشهد: برنامج جديد للحصة</h3>
-                        <p>اختيار النسخة القانونية أو البديل المجاني الموثوق أفضل من حل سريع مجهول المصدر.</p>
-                    </article>
-                    <article id="software-restore" class="scenario-panel">
-                        <h3>المشهد: تحديث سبب مشكلة</h3>
-                        <p>إذا كانت نقطة الاستعادة موجودة، يصبح الرجوع أقل كلفة وأكثر دقة.</p>
-                    </article>
-                    <article id="software-speed" class="scenario-panel">
-                        <h3>المشهد: النظام بطيء</h3>
-                        <p>ابدأ بمراجعة الإقلاع والتنظيف والتحديثات، لا ببرامج سحرية غير موثوقة.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-block" data-reveal>
+        <section id="software-check" class="section-block" data-reveal>
             <div class="section-heading">
                 <span class="eyebrow">سؤال تثبيت</span>
-                <h2>ما القرار الأدق؟</h2>
+                <h2>ما القرار الأدق قبل تغيير برمجي كبير؟</h2>
             </div>
 
             <article class="quiz-card">
-                <p>قبل تثبيت تعريف جديد مهم، ما الخطوة التي تمنحك طريق رجوع آمناً؟</p>
+                <p>أنت على وشك تثبيت تعريف جديد للجهاز، والبرنامج متوفر من المصدر الرسمي. ما الخطوة الأنسب أولًا؟</p>
                 <div class="answer-grid">
-                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: نقطة الاستعادة تُنشأ قبل التغيير حتى تملك حالة مستقرة ترجع إليها.">إنشاء نقطة استعادة قبل التحديث</button>
-                    <button type="button" data-answer data-feedback="غير مناسب: حذف نقاط الاستعادة يزيل شبكة الأمان.">حذف نقاط الاستعادة لتوفير المساحة</button>
-                    <button type="button" data-answer data-feedback="غير مناسب: تعطيل التحديثات نهائياً لا يعالج الموقف بل يؤجله.">إيقاف التحديثات نهائياً</button>
+                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: الحصول على البرنامج من مصدره الرسمي لا يلغي الحاجة إلى نقطة الاستعادة؛ بل يجمع القرار الصحيح بين الترخيص الواضح ومسار الرجوع الآمن.">التأكد من الترخيص أو المصدر الرسمي ثم إنشاء نقطة استعادة قبل التثبيت</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: حذف البرامج عشوائيًا لا يرتبط مباشرة بالموقف، ولا يوفّر طريق رجوع إذا نتج خلل من التعريف الجديد.">حذف عدة تطبيقات غير مستخدمة أولًا ثم تثبيت التعريف مباشرة</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: تعطيل التحديثات نهائيًا لا يعالج المشكلة الحالية، بل يؤجل إدارة التغيير ويضعف الأمان لاحقًا.">إيقاف التحديثات نهائيًا حتى لا يتغير شيء في النظام</button>
                 </div>
-                <p class="answer-feedback" hidden></p>
+                <p class="answer-feedback" hidden aria-live="polite"></p>
             </article>
         </section>
 
         <section class="cta-strip" data-reveal>
             <div>
                 <span class="eyebrow">التالي</span>
-                <h2>آخر صفحة في المسار هي حماية البيانات.</h2>
+                <h2>بعد صيانة البرمجيات، انتقل إلى حماية البيانات لتربط استقرار النظام بطرق الدخول والنسخ الاحتياطي.</h2>
             </div>
-            <a class="button" href="data-protection.html">افتح صفحة حماية البيانات</a>
+            <a class="button" href="data-protection.html">افتح الدرس التالي</a>
         </section>
     </main>
 
@@ -194,15 +316,16 @@
         <div class="container footer-layout">
             <div>
                 <strong>الدرس 03: صيانة البرمجيات</strong>
-                <p>تحولت الصفحة إلى مشاهد بصرية أقصر بدلاً من كتل نصية كثيرة.</p>
+                <p>تمت إعادة تنظيمه ليتبع المصدر الدراسي مباشرة: الرخص، الملكية الفكرية، الاستعادة، وتحسين الكفاءة.</p>
             </div>
             <div class="footer-links">
-                <a href="hardware.html">السابق</a>
-                <a href="data-protection.html">التالي</a>
+                <a href="hardware.html">الدرس السابق</a>
+                <a href="data-protection.html">الدرس التالي</a>
             </div>
         </div>
     </footer>
 
+    <script src="js/lesson-config.js" defer></script>
     <script src="js/script.js" defer></script>
 </body>
 </html>

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مقدمة في صيانة الحاسوب</title>
-    <meta name="description" content="صفحة بصرية لشرح مقدمة صيانة الحاسوب بصورة أخف وأكثر وضوحاً.">
+    <meta name="description" content="الدرس الأول في صيانة الحاسوب: تعريف الصيانة، أهميتها، أنواعها، وخطوات حل المشكلات مع محاكاة تعليمية قصيرة.">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="intro">
+    <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
     <div class="page-aura"></div>
 
     <header class="site-header">
@@ -16,180 +17,200 @@
                 <span class="brand-mark">PC</span>
                 <div>
                     <strong>مختبر صيانة الحاسوب</strong>
-                    <span>صفحة الدرس الأول</span>
+                    <span>الدرس 01: المقدمة</span>
                 </div>
             </a>
 
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="فتح قائمة التنقل">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
 
-            <nav id="site-nav" class="main-nav">
-                <a href="index.html">الرئيسية</a>
-                <a href="intro.html">المقدمة</a>
-                <a href="hardware.html">المكونات المادية</a>
-                <a href="software.html">البرمجيات</a>
-                <a href="data-protection.html">حماية البيانات</a>
+            <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html">اللوحة</a>
+                <a href="intro.html">الدرس 01</a>
+                <a href="hardware.html">الدرس 02</a>
+                <a href="software.html">الدرس 03</a>
+                <a href="data-protection.html">الدرس 04</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero topic-hero" data-reveal>
+    <main id="main-content" class="container">
+        <section class="hero topic-hero intro-hero" data-reveal>
             <div class="hero-copy">
                 <span class="eyebrow">الدرس 01</span>
-                <h1>مقدمة في صيانة الحاسوب</h1>
+                <h1>صيانة الحاسوب ليست إصلاحًا متأخرًا فقط، بل طريقة منظمة للحفاظ على الجهاز وتحسين أدائه ومعالجة مشكلاته.</h1>
                 <p>
-                    الهدف هنا ليس حفظ تعريفات فقط، بل رؤية الفرق بين العناية بالجهاز قبل العطل
-                    والتعامل معه بعد ظهوره، ثم فهم كيف يبدأ التشخيص بشكل منظم.
+                    يبدأ هذا الدرس من الأساس: ما معنى الصيانة، لماذا نحتاجها، ما الفرق بين الوقائية والعلاجية،
+                    وكيف نتحرك عند ظهور مشكلة بدل القفز إلى إصلاح عشوائي.
                 </p>
+                <div class="hero-actions">
+                    <a class="button" href="#intro-basics">ابدأ بالمفاهيم</a>
+                    <a class="button button-secondary" href="#intro-check">اذهب إلى سؤال التثبيت</a>
+                </div>
             </div>
 
             <aside class="hero-panel">
-                <h3>الفكرة المركزية</h3>
-                <ul class="feature-list">
-                    <li>الوقاية تمنع المشكلة قبل حدوثها</li>
-                    <li>العلاج يبدأ من العرض الظاهر</li>
-                    <li>التشخيص الجيد يسبق أي قرار إصلاح</li>
-                </ul>
+                <h2>ما الذي ستتعلمه هنا؟</h2>
+                <div class="signal-board compact-board">
+                    <article>
+                        <span>المحور 1</span>
+                        <strong>معنى الصيانة</strong>
+                        <p>تعريف الصيانة ونطاقها بين العتاد والبرمجيات.</p>
+                    </article>
+                    <article>
+                        <span>المحور 2</span>
+                        <strong>أنواعها</strong>
+                        <p>وقائية تمنع الخطأ، وعلاجية تعالج الخلل بعد ظهوره.</p>
+                    </article>
+                    <article>
+                        <span>المحور 3</span>
+                        <strong>منهج الحل</strong>
+                        <p>خطوات تشخيص متسلسلة بدل التسرع في القرار.</p>
+                    </article>
+                </div>
             </aside>
         </section>
 
-        <section class="section-block" data-reveal>
+        <section id="intro-basics" class="section-block" data-reveal>
             <div class="section-heading">
-                <span class="eyebrow">الشرح البصري</span>
-                <h2>المفاهيم الأساسية في ثلاث لوحات</h2>
+                <span class="eyebrow">أساس الدرس</span>
+                <h2>ابدأ بالصورة العامة قبل التفاصيل</h2>
+                <p>هذه البطاقات تختصر الفكرة التي يبني عليها بقية المسار.</p>
             </div>
 
-            <div class="visual-shell" data-visual-group>
-                <div class="visual-nav">
-                    <button class="visual-tab is-active" type="button" data-visual-target="intro-visual-preventive">الوقاية</button>
-                    <button class="visual-tab" type="button" data-visual-target="intro-visual-corrective">العلاج</button>
-                    <button class="visual-tab" type="button" data-visual-target="intro-visual-diagnosis">التشخيص</button>
-                </div>
+            <div class="map-strip">
+                <article class="map-card">
+                    <span>1</span>
+                    <h3>تعريف الصيانة</h3>
+                    <p>هي مجموعة من الإجراءات التي تحافظ على الحاسوب في حالة جيدة، تحسن أداءه، وتساعد على علاج مشكلاته عند الحاجة.</p>
+                </article>
+                <article class="map-card">
+                    <span>2</span>
+                    <h3>نطاق الصيانة</h3>
+                    <p>تشمل المكونات المادية مثل القطع الداخلية والملحقات، وتشمل البرمجيات مثل نظام التشغيل والتطبيقات.</p>
+                </article>
+                <article class="map-card">
+                    <span>3</span>
+                    <h3>أهمية الصيانة</h3>
+                    <p>تساعد على الكشف المبكر عن المشكلات، رفع الأداء والسرعة، حماية الجهاز من مخاطر الإنترنت، والمحافظة على البيانات من الفقدان.</p>
+                </article>
+            </div>
 
-                <div class="visual-panels">
-                    <article id="intro-visual-preventive" class="visual-panel is-active">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>الجهاز يعمل</strong>
-                                <p>لا يوجد عطل واضح، لكن توجد مؤشرات بسيطة مثل الغبار أو الحرارة.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>قرار</span>
-                                <strong>صيانة وقائية</strong>
-                                <p>تنظيف، تنظيم، تحديث، وفحص مبكر قبل أن تتفاقم المشكلة.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>نتيجة</span>
-                                <strong>استقرار أعلى</strong>
-                                <p>يقل احتمال التوقف ويبقى الجهاز جاهزاً للعمل لفترة أطول.</p>
-                            </article>
-                        </div>
-                    </article>
-
-                    <article id="intro-visual-corrective" class="visual-panel">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>قبل</span>
-                                <strong>عرض واضح</strong>
-                                <p>رسالة خطأ أو بطء شديد أو توقف مفاجئ.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>قرار</span>
-                                <strong>صيانة علاجية</strong>
-                                <p>وصف العرض ثم فحص السبب ثم تنفيذ معالجة مناسبة.</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>نتيجة</span>
-                                <strong>عودة الاستقرار</strong>
-                                <p>يعود الجهاز للعمل بعد علاج السبب الحقيقي لا العرض فقط.</p>
-                            </article>
-                        </div>
-                    </article>
-
-                    <article id="intro-visual-diagnosis" class="visual-panel">
-                        <div class="concept-board">
-                            <article class="concept-node">
-                                <span>خطوة 1</span>
-                                <strong>لاحظ</strong>
-                                <p>ما الذي يراه المستخدم فعلاً؟ بطء، خطأ، أو صوت غير طبيعي.</p>
-                            </article>
-                            <article class="concept-node concept-node-hot">
-                                <span>خطوة 2</span>
-                                <strong>صنف</strong>
-                                <p>هل السبب على الأرجح مادي أم برمجي؟</p>
-                            </article>
-                            <article class="concept-node concept-node-good">
-                                <span>خطوة 3</span>
-                                <strong>اختبر</strong>
-                                <p>نفذ الإجراء الأول المناسب ثم راقب هل تغيرت الحالة بالفعل.</p>
-                            </article>
-                        </div>
-                    </article>
-                </div>
+            <div class="comparison-grid intro-compare">
+                <article class="panel-card accent-card">
+                    <h3>الصيانة الوقائية</h3>
+                    <p>إجراءات دورية تمنع الخطأ قبل ظهوره، مثل تنظيف الجهاز، فحص الفيروسات، تحديث النظام، وتنفيذ النسخ الاحتياطي المنتظم.</p>
+                </article>
+                <article class="panel-card">
+                    <h3>الصيانة العلاجية</h3>
+                    <p>تبدأ بعد ظهور الخلل وتهدف إلى تشخيص السبب ثم اختيار الحل المناسب بدل معالجة الأعراض فقط.</p>
+                </article>
             </div>
         </section>
 
-        <section class="section-block" data-reveal>
+        <section class="section-block simulation-lab" data-reveal data-intro-simulation>
             <div class="section-heading">
-                <span class="eyebrow">محاكاة بصرية</span>
-                <h2>اختر الإجراء وشاهد أثره على حالة الجهاز مباشرة</h2>
+                <span class="eyebrow">محاكاة الدرس</span>
+                <h2>اختر نوع الصيانة ثم راقب كيف يتغير القرار</h2>
+                <p>المحاكاة تلخص الفرق بين الوقاية والعلاج والتشخيص من خلال مؤشرات بسيطة بدل شرح متراكم.</p>
             </div>
 
-            <div class="simulation-lab" data-intro-simulation>
-                <div class="simulation-scene">
-                    <div class="sim-device">
-                        <div class="sim-screen">
-                            <span id="intro-sim-mode-label" class="eyebrow">الوضع</span>
-                            <strong id="intro-sim-title">الجهاز تحت المراقبة</strong>
-                            <p id="intro-sim-text">اختر وضع المحاكاة لتبدأ التجربة.</p>
-                            <div id="intro-sim-alerts" class="sim-alerts"></div>
-                        </div>
-                        <div class="sim-tower">
-                            <span class="sim-led"></span>
-                            <span class="sim-slot"></span>
-                            <span class="sim-slot"></span>
-                            <span class="sim-slot"></span>
-                        </div>
-                    </div>
+            <div class="simulation-body">
+                <div class="simulation-stage">
+                    <span id="intro-sim-mode-label" class="eyebrow">وضع التعلم</span>
+                    <h3 id="intro-sim-title">...</h3>
+                    <p id="intro-sim-text">...</p>
+                    <div id="intro-sim-alerts" class="sim-alert-row"></div>
                     <div id="intro-sim-metrics" class="sim-metric-grid"></div>
                 </div>
 
-                <aside class="sim-console">
-                    <div id="intro-sim-modes" class="sim-mode-switch"></div>
-                    <div id="intro-sim-actions" class="sim-action-grid"></div>
-                    <div id="intro-sim-feedback" class="sim-feedback"></div>
+                <aside class="simulation-console">
+                    <div class="console-block">
+                        <h3>نوع الصيانة</h3>
+                        <div id="intro-sim-modes" class="sim-mode-switch"></div>
+                    </div>
+                    <div class="console-block">
+                        <h3>الإجراء التالي</h3>
+                        <div id="intro-sim-actions" class="sim-action-grid"></div>
+                    </div>
+                    <div id="intro-sim-feedback" class="sim-feedback" aria-live="polite"></div>
                 </aside>
             </div>
         </section>
 
         <section class="section-block" data-reveal>
             <div class="section-heading">
+                <span class="eyebrow">منهج الحل</span>
+                <h2>عند ظهور مشكلة، سر بهذا الترتيب</h2>
+                <p>الهدف هنا هو تقليل التخمين ورفع جودة القرار قبل تنفيذ أي إصلاح.</p>
+            </div>
+
+            <div class="timeline">
+                <article class="timeline-item">
+                    <span>الخطوة 1</span>
+                    <h3>حدد المشكلة</h3>
+                    <p>صف العرض بدقة: متى يحدث، ما الذي يتوقف، وما المؤشرات التي تراها أو تسمعها.</p>
+                </article>
+                <article class="timeline-item">
+                    <span>الخطوة 2</span>
+                    <h3>ابحث عن حلول</h3>
+                    <p>اجمع الاحتمالات والأدوات الممكنة بدل تنفيذ أول فكرة تخطر في الذهن.</p>
+                </article>
+                <article class="timeline-item">
+                    <span>الخطوة 3</span>
+                    <h3>اختر الحل الأنسب</h3>
+                    <p>وازن بين السبب المحتمل، سلامة الإجراء، وأثره على الجهاز أو البيانات.</p>
+                </article>
+                <article class="timeline-item">
+                    <span>الخطوة 4</span>
+                    <h3>جرّب الحل</h3>
+                    <p>اختبر الإجراء بطريقة منظمة حتى تعرف هل عالج السبب فعلًا أم لا.</p>
+                </article>
+                <article class="timeline-item">
+                    <span>الخطوة 5</span>
+                    <h3>سجل الإجراءات</h3>
+                    <p>دوّن ما تم عمله والنتيجة حتى يصبح الرجوع إلى التجربة السابقة أسهل وأدق.</p>
+                </article>
+            </div>
+
+            <div class="tool-route">
+                <article class="panel-card">
+                    <h3>أدوات التشخيص في Windows</h3>
+                    <p>يتيح النظام مسارًا مباشرًا لفحص المشكلات: <strong>Control Panel</strong> ثم <strong>System and Security</strong> ثم <strong>Find and fix problems</strong>.</p>
+                </article>
+                <article class="panel-card">
+                    <h3>الفكرة نفسها في أنظمة أخرى</h3>
+                    <p>توجد أدوات مشابهة للتشخيص في Android وUbuntu وiOS، لذلك يبقى المبدأ واحدًا حتى لو اختلفت الواجهة.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="intro-check" class="section-block" data-reveal>
+            <div class="section-heading">
                 <span class="eyebrow">سؤال تثبيت</span>
-                <h2>اختر القرار الصحيح</h2>
+                <h2>ما التسلسل الأدق عند مواجهة مشكلة غير واضحة؟</h2>
             </div>
 
             <article class="quiz-card">
-                <p>الجهاز يعمل لكن الغبار متراكم والحرارة أعلى قليلاً من المعتاد. ما الإجراء الأنسب؟</p>
+                <p>بدأ الجهاز يتصرف ببطء مفاجئ، ولا تعرف بعد إن كان السبب من البرامج أو من الحرارة. ما الخطوة الأكثر منهجية؟</p>
                 <div class="answer-grid">
-                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: هذا موقف صيانة وقائية لأن المشكلة لم تتحول إلى عطل ظاهر بعد.">تنفيذ صيانة وقائية وتنظيف منظم</button>
-                    <button type="button" data-answer data-feedback="غير مناسب: لا يوجد ما يبرر استبدال القطع مباشرة في هذه المرحلة.">استبدال اللوحة الأم فوراً</button>
-                    <button type="button" data-answer data-feedback="غير مناسب: الانتظار هنا يلغي فكرة الوقاية ويزيد احتمال التعطل لاحقاً.">ترك الجهاز حتى يتوقف تماماً</button>
+                    <button type="button" data-answer data-correct="true" data-feedback="صحيح: المنهج الأدق هو تحديد المشكلة أولًا، ثم البحث عن حلول، واختيار الأنسب، وتجربته، ثم تسجيل ما تم. هذا يحول الصيانة إلى قرار منظم لا إلى تخمين.">تحديد المشكلة ثم البحث عن حلول واختيار الأنسب وتجربته وتسجيل الإجراء</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: شراء قطعة أو أداة قبل التشخيص قد يستهلك الوقت والمال من غير أن يعالج السبب الحقيقي.">شراء مروحة أو برنامج تنظيف مباشرة لأن البطء غالبًا سببه معروف</button>
+                    <button type="button" data-answer data-feedback="غير مناسب: إعادة التشغيل قد تؤجل العرض أو تخفيه مؤقتًا لكنها لا تبني تشخيصًا واضحًا ولا توثق ما حدث.">إعادة تشغيل الجهاز مرات متعددة إلى أن يختفي البطء ثم تجاهل المشكلة</button>
                 </div>
-                <p class="answer-feedback" hidden></p>
+                <p class="answer-feedback" hidden aria-live="polite"></p>
             </article>
         </section>
 
         <section class="cta-strip" data-reveal>
             <div>
                 <span class="eyebrow">التالي</span>
-                <h2>بعد فهم معنى الصيانة، ادخل إلى الجهاز نفسه.</h2>
+                <h2>بعد فهم معنى الصيانة، انتقل إلى العتاد لترى كيف تؤثر الحرارة والطاقة والترقية على الجهاز فعليًا.</h2>
             </div>
-            <a class="button" href="hardware.html">افتح صفحة المكونات المادية</a>
+            <a class="button" href="hardware.html">افتح الدرس التالي</a>
         </section>
     </main>
 
@@ -197,15 +218,16 @@
         <div class="container footer-layout">
             <div>
                 <strong>الدرس 01: مقدمة في صيانة الحاسوب</strong>
-                <p>تم تقليل الكثافة وتحويل المفاهيم الأساسية إلى لوحات بصرية أقصر.</p>
+                <p>يعيد هذا الدرس بناء الأساس النظري للوحدة قبل الانتقال إلى العتاد والبرمجيات وحماية البيانات.</p>
             </div>
             <div class="footer-links">
-                <a href="index.html">الرئيسية</a>
-                <a href="hardware.html">التالي</a>
+                <a href="index.html">اللوحة</a>
+                <a href="hardware.html">الدرس التالي</a>
             </div>
         </div>
     </footer>
 
+    <script src="js/lesson-config.js" defer></script>
     <script src="js/script.js" defer></script>
 </body>
 </html>

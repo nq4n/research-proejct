@@ -10,49 +10,121 @@ const PAGE_ROUTE_MAP = {
 const MODEL_FOCUS_PRESETS = {
     overview: {
         title: "نظرة عامة",
-        text: "هذه الزاوية تعطي تصوراً عاماً للجهاز قبل الدخول في مواضع العطل أو الصيانة.",
+        text: "ابدأ هنا لتثبيت شكل الهيكل ومواقع التهوية واللوحة الأم ومزود الطاقة قبل الانتقال إلى أي قرار صيانة.",
         points: [
-            "انظر إلى الجهاز كوحدة واحدة قبل تحليل القطع الداخلية.",
-            "ابدأ بالفهم العام ثم انتقل إلى موضع الخطر أو العرض.",
-            "استخدم هذه الزاوية لشرح ترتيب الجهاز للطلاب أولاً."
+            "الفهم العام يسبق لمس القطع أو اقتراح الاستبدال.",
+            "هذه الزاوية تربط أسماء الدرس بشكل حقيقي داخل هيكل واحد.",
+            "استخدمها أولاً ثم انتقل إلى المنطقة التي يظهر فيها الخطر."
         ],
         position: [180, 120, 180],
         target: [0, 45, 0]
     },
     airflow: {
         title: "مسار الهواء",
-        text: "التركيز هنا على التهوية: أين يدخل الهواء وكيف يمكن أن يختنق بسبب الغبار أو الفوضى.",
+        text: "ركز هنا على الفتحات والمراوح والطريق الذي يسلكه الهواء داخل الجهاز، لأن الغبار يسبب مشكلة حرارية قبل أن يبدو العطل واضحاً.",
         points: [
-            "الغبار يسد المسار حتى لو كانت القطعة نفسها سليمة.",
-            "الكابلات غير المنظمة تضعف حركة الهواء داخل الهيكل.",
-            "ترتفع الحرارة قبل أن يرى المستخدم عطلاً واضحاً."
+            "سد الفتحات أو تراكم الغبار يرفع الحرارة بسرعة.",
+            "تنظيم الداخل يحسن التهوية ولا يجعل المراوح تعمل تحت ضغط دائم.",
+            "هذه الزاوية تدعم فكرة الحرارة والغبار من المحور الأول."
         ],
         position: [235, 85, 70],
         target: [0, 38, 0]
     },
-    core: {
-        title: "القلب الداخلي",
-        text: "هذه الزاوية تشرح المنطقة التي تتركز فيها اللوحة الأم والمعالج والذاكرة.",
-        points: [
-            "هنا تُربط أغلب الأعطال الحرجة بالمكونات الرئيسية.",
-            "أي صيانة أو ترقية يجب أن تراعي التوافق في هذه المنطقة.",
-            "اللمس أو الفك العشوائي هنا أخطر من بقية الأجزاء."
-        ],
-        position: [85, 150, 130],
-        target: [0, 68, 0]
-    },
     power: {
         title: "منطقة الطاقة",
-        text: "هذه الزاوية مرتبطة بفكرة الانقطاع المفاجئ ومخاطر مزود الطاقة والحماية الكهربائية.",
+        text: "هذه الزاوية تربط مزود الطاقة بفكرة الانطفاء المفاجئ والتذبذب الكهربائي والحاجة إلى الوقاية عبر منظم أو UPS.",
         points: [
-            "الانطفاء المفاجئ يقود أولاً إلى فحص مسار الطاقة.",
-            "إعادة التشغيل المتكرر لا تعالج خلل الطاقة.",
-            "الاستبدال الصحيح يبدأ بالمواصفات والحماية لا بالسعر فقط."
+            "الانقطاع المفاجئ يقود أولاً إلى فحص مسار الطاقة لا إلى تنظيف الملفات.",
+            "مزود الطاقة جزء حاسم في استقرار التشغيل وسلامة المكونات.",
+            "الوقاية الكهربائية تقلل الخطر قبل أن يتحول إلى عطل مادي."
         ],
         position: [-190, 100, 155],
         target: [0, 42, 0]
+    },
+    upgrade: {
+        title: "منطقة الترقية",
+        text: "هنا تظهر المنطقة التي ترتبط باللوحة الأم والذاكرة والمنافذ، لذلك تبدأ الترقية الصحيحة من التوافق لا من شراء قطعة أقوى فقط.",
+        points: [
+            "افحص توافق القطعة مع اللوحة والمنافذ والطاقة قبل التركيب.",
+            "ارتدِ سواراً مضاداً للكهرباء الساكنة قبل التعامل مع القطع.",
+            "الترقية الجيدة تعالج الحاجة الفعلية ولا تكون قراراً عشوائياً."
+        ],
+        position: [85, 150, 130],
+        target: [0, 68, 0]
     }
 };
+
+const DEFAULT_SITE_CONFIG = {
+    global: {
+        motion: {
+            revealDistancePx: 18,
+            revealDurationMs: 450,
+            staggerStepMs: 70,
+            svgSpeedMultiplier: 1,
+            viewerPulseMs: 480,
+            modelSweepMs: 720
+        }
+    },
+    pages: {
+        hardware: {
+            visibleSections: {
+                "hardware-factors": true,
+                "hardware-model-lab": true,
+                "hardware-visuals": true,
+                "hardware-check": true,
+                "hardware-next-step": true
+            },
+            modelLab: {
+                autoRotateSpeed: 0.0022,
+                bobAmount: 2.2,
+                bobSpeed: 0.0015,
+                focusTransitionMs: 760,
+                focusPulseMs: 480
+            },
+            focusPresets: MODEL_FOCUS_PRESETS
+        }
+    }
+};
+
+function isPlainObject(value) {
+    return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function mergeDeep(baseValue, overrideValue) {
+    if (Array.isArray(baseValue) || Array.isArray(overrideValue)) {
+        return Array.isArray(overrideValue) ? [...overrideValue] : Array.isArray(baseValue) ? [...baseValue] : overrideValue;
+    }
+
+    if (isPlainObject(baseValue) && isPlainObject(overrideValue)) {
+        const merged = { ...baseValue };
+
+        Object.keys(overrideValue).forEach((key) => {
+            merged[key] = mergeDeep(baseValue[key], overrideValue[key]);
+        });
+
+        return merged;
+    }
+
+    return overrideValue ?? baseValue;
+}
+
+const SITE_CONFIG = mergeDeep(DEFAULT_SITE_CONFIG, window.LESSON_CONFIG || {});
+
+function getPageConfig(pageId = document.body?.dataset.page) {
+    if (!pageId) {
+        return {};
+    }
+
+    return SITE_CONFIG.pages?.[pageId] || {};
+}
+
+function getMotionConfig() {
+    return SITE_CONFIG.global?.motion || {};
+}
+
+function getHardwareFocusPresets() {
+    return getPageConfig("hardware").focusPresets || MODEL_FOCUS_PRESETS;
+}
 
 const INTRO_SIMULATION_MODES = {
     preventive: {
@@ -589,12 +661,131 @@ function setupPasswordMeter() {
     render();
 }
 
+function setElementContent(id, value, useMarkup = false) {
+    if (typeof value !== "string") {
+        return;
+    }
+
+    const element = document.getElementById(id);
+
+    if (!element) {
+        return;
+    }
+
+    if (useMarkup) {
+        element.innerHTML = value;
+        return;
+    }
+
+    element.textContent = value;
+}
+
+function setLinkContent(id, label, href) {
+    const element = document.getElementById(id);
+
+    if (!element) {
+        return;
+    }
+
+    if (typeof label === "string") {
+        element.textContent = label;
+    }
+
+    if (typeof href === "string" && href) {
+        element.setAttribute("href", href);
+    }
+}
+
+function setSectionVisibility(sectionId, isVisible) {
+    const section = document.getElementById(sectionId);
+
+    if (!section || typeof isVisible !== "boolean") {
+        return;
+    }
+
+    section.hidden = !isVisible;
+}
+
+function applyMotionConfig() {
+    const motion = getMotionConfig();
+    const root = document.documentElement;
+    const speedMultiplier = Math.max(0.4, Number(motion.svgSpeedMultiplier) || 1);
+    const viewerPulseMs = Math.max(240, Number(motion.viewerPulseMs) || 480);
+    const modelSweepMs = Math.max(320, Number(motion.modelSweepMs) || 720);
+
+    root.style.setProperty("--reveal-distance", `${Math.max(0, Number(motion.revealDistancePx) || 18)}px`);
+    root.style.setProperty("--reveal-duration", `${Math.max(180, Number(motion.revealDurationMs) || 450)}ms`);
+    root.style.setProperty("--viewer-pulse-duration", `${viewerPulseMs}ms`);
+    root.style.setProperty("--model-sweep-duration", `${modelSweepMs}ms`);
+    root.style.setProperty("--svg-dash-duration", `${(7 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-danger-dash-duration", `${(4.6 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-pulse-duration", `${(2.4 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-ring-duration", `${(3 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-float-duration", `${(3.4 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-float-slow-duration", `${(4.8 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-float-fast-duration", `${(3.8 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-blink-duration", `${(1.8 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-bar-duration", `${(3.8 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-spin-slow-duration", `${(6 / speedMultiplier).toFixed(2)}s`);
+    root.style.setProperty("--svg-spin-fast-duration", `${(3.8 / speedMultiplier).toFixed(2)}s`);
+}
+
+function setupHardwarePageConfig() {
+    const config = getPageConfig("hardware");
+    const hero = config.hero || {};
+    const modelLab = config.modelLab || {};
+    const tabs = config.visualTabs || {};
+    const focusPresets = getHardwareFocusPresets();
+
+    Object.entries(config.visibleSections || {}).forEach(([sectionId, isVisible]) => {
+        setSectionVisibility(sectionId, isVisible);
+    });
+
+    setElementContent("hardware-hero-title", hero.title);
+    setElementContent("hardware-hero-description", hero.description);
+    setLinkContent("hardware-hero-primary", hero.primaryActionLabel, hero.primaryActionTarget);
+    setLinkContent("hardware-hero-secondary", hero.secondaryActionLabel, hero.secondaryActionTarget);
+
+    setElementContent("hardware-model-eyebrow", modelLab.eyebrow);
+    setElementContent("hardware-model-title", modelLab.title);
+    setElementContent("hardware-model-description", modelLab.description, true);
+    setElementContent("hardware-model-overlay-title", modelLab.overlayTitle);
+    setElementContent("hardware-model-overlay-hint", modelLab.overlayHint);
+
+    setElementContent("hardware-tab-heat", tabs.heat);
+    setElementContent("hardware-tab-power", tabs.power);
+    setElementContent("hardware-tab-upgrade", tabs.upgrade);
+    setElementContent("hardware-tab-disk", tabs.disk);
+
+    Object.entries(focusPresets).forEach(([focusId, preset]) => {
+        const button = document.querySelector(`[data-model-focus="${focusId}"]`);
+
+        if (button && typeof preset.buttonLabel === "string") {
+            button.textContent = preset.buttonLabel;
+        }
+    });
+}
+
+function setupPageConfig() {
+    applyMotionConfig();
+
+    if (document.body?.dataset.page === "hardware") {
+        setupHardwarePageConfig();
+    }
+}
+
 function setupRevealAnimation() {
     const items = document.querySelectorAll("[data-reveal]");
+    const motion = getMotionConfig();
+    const staggerStep = Math.max(0, Number(motion.staggerStepMs) || 70);
 
     if (!items.length) {
         return;
     }
+
+    items.forEach((item, index) => {
+        item.style.setProperty("--reveal-delay", `${index * staggerStep}ms`);
+    });
 
     if (typeof IntersectionObserver === "undefined") {
         items.forEach((item) => item.classList.add("is-visible"));
@@ -608,6 +799,7 @@ function setupRevealAnimation() {
             }
 
             entry.target.classList.add("is-visible");
+            entry.target.style.removeProperty("--reveal-delay");
             observer.unobserve(entry.target);
         });
     }, { threshold: 0.12 });
@@ -737,7 +929,8 @@ function setupIntroSimulation() {
 }
 
 function setViewerFocusContent(focusId) {
-    const preset = MODEL_FOCUS_PRESETS[focusId] ?? MODEL_FOCUS_PRESETS.overview;
+    const presets = getHardwareFocusPresets();
+    const preset = presets[focusId] ?? presets.overview ?? MODEL_FOCUS_PRESETS.overview;
     const title = document.getElementById("viewer-focus-title");
     const text = document.getElementById("viewer-focus-text");
     const points = document.getElementById("viewer-focus-points");
@@ -751,7 +944,9 @@ function setViewerFocusContent(focusId) {
     }
 
     if (points) {
-        points.innerHTML = preset.points
+        const pointList = Array.isArray(preset.points) ? preset.points : [];
+
+        points.innerHTML = pointList
             .map((point) => `<div class="mini-point">${point}</div>`)
             .join("");
     }
@@ -759,13 +954,38 @@ function setViewerFocusContent(focusId) {
 
 async function setupModelViewer() {
     const mount = document.querySelector("[data-model-viewer]");
+    const stage = mount?.closest(".model-stage");
+    const infoCard = document.querySelector(".viewer-info");
+    const modelConfig = getPageConfig("hardware").modelLab || {};
+    const focusPresets = getHardwareFocusPresets();
+    const motionConfig = getMotionConfig();
+    const focusPulseMs = Math.max(240, Number(modelConfig.focusPulseMs) || Number(motionConfig.viewerPulseMs) || 480);
+    let focusPulseTimeout = 0;
 
     if (!mount) {
         return;
     }
 
-    mount.innerHTML = `<div class="viewer-loading">جارٍ تحميل النموذج...</div>`;
+    mount.innerHTML = `<div class="viewer-loading">جارٍ تحميل النموذج ثلاثي الأبعاد...</div>`;
     setViewerFocusContent("overview");
+
+    const triggerFocusFeedback = () => {
+        if (!stage || !infoCard) {
+            return;
+        }
+
+        window.clearTimeout(focusPulseTimeout);
+        stage.classList.remove("is-focus-shifting");
+        infoCard.classList.remove("is-refreshing");
+        void stage.offsetWidth;
+        stage.classList.add("is-focus-shifting");
+        infoCard.classList.add("is-refreshing");
+
+        focusPulseTimeout = window.setTimeout(() => {
+            stage.classList.remove("is-focus-shifting");
+            infoCard.classList.remove("is-refreshing");
+        }, focusPulseMs);
+    };
 
     try {
         const THREE = await import("https://esm.sh/three@0.164.1");
@@ -779,6 +999,15 @@ async function setupModelViewer() {
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 3000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const autoRotateSpeed = Math.max(0, Number(modelConfig.autoRotateSpeed) || 0.0022);
+        const bobAmount = Math.max(0, Number(modelConfig.bobAmount) || 2.2);
+        const bobSpeed = Math.max(0.0004, Number(modelConfig.bobSpeed) || 0.0015);
+        const focusTransitionMs = Math.max(240, Number(modelConfig.focusTransitionMs) || 760);
+        const prefersReducedMotion = window.matchMedia
+            ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            : false;
+        let focusTransition = null;
+
         renderer.setPixelRatio(window.devicePixelRatio || 1);
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         mount.appendChild(renderer.domElement);
@@ -809,6 +1038,7 @@ async function setupModelViewer() {
         const size = initialBox.getSize(new THREE.Vector3());
         const maxSize = Math.max(size.x, size.y, size.z) || 1;
         const scale = 160 / maxSize;
+
         model.scale.setScalar(scale);
 
         const scaledBox = new THREE.Box3().setFromObject(model);
@@ -817,31 +1047,68 @@ async function setupModelViewer() {
         model.position.y -= scaledBox.min.y - 2;
 
         scene.add(model);
+        const baseModelY = model.position.y;
 
-        const applyFocus = (focusId) => {
-            const preset = MODEL_FOCUS_PRESETS[focusId] ?? MODEL_FOCUS_PRESETS.overview;
-            const [px, py, pz] = preset.position;
-            const [tx, ty, tz] = preset.target;
-            camera.position.set(px, py, pz);
-            controls.target.set(tx, ty, tz);
-            controls.update();
+        const applyFocus = (focusId, immediate = false) => {
+            const preset = focusPresets[focusId] ?? focusPresets.overview ?? MODEL_FOCUS_PRESETS.overview;
+            const position = Array.isArray(preset.position) ? preset.position : [180, 120, 180];
+            const target = Array.isArray(preset.target) ? preset.target : [0, 45, 0];
+            const nextPosition = new THREE.Vector3(position[0], position[1], position[2]);
+            const nextTarget = new THREE.Vector3(target[0], target[1], target[2]);
+
             setViewerFocusContent(focusId);
+            triggerFocusFeedback();
+
+            if (immediate || prefersReducedMotion) {
+                camera.position.copy(nextPosition);
+                controls.target.copy(nextTarget);
+                controls.update();
+                focusTransition = null;
+                return;
+            }
+
+            focusTransition = {
+                startTime: performance.now(),
+                duration: focusTransitionMs,
+                fromPosition: camera.position.clone(),
+                fromTarget: controls.target.clone(),
+                toPosition: nextPosition,
+                toTarget: nextTarget
+            };
         };
 
         const resize = () => {
             const width = mount.clientWidth;
             const height = Math.max(mount.clientHeight, 540);
+
             renderer.setSize(width, height, false);
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
         };
 
         resize();
-        applyFocus("overview");
+        applyFocus("overview", true);
 
-        const animate = () => {
+        const animate = (now = performance.now()) => {
             requestAnimationFrame(animate);
-            model.rotation.y += 0.0022;
+
+            if (focusTransition) {
+                const progress = Math.min(1, (now - focusTransition.startTime) / focusTransition.duration);
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+                camera.position.lerpVectors(focusTransition.fromPosition, focusTransition.toPosition, easedProgress);
+                controls.target.lerpVectors(focusTransition.fromTarget, focusTransition.toTarget, easedProgress);
+
+                if (progress >= 1) {
+                    focusTransition = null;
+                }
+            }
+
+            if (!prefersReducedMotion) {
+                model.rotation.y += autoRotateSpeed;
+                model.position.y = baseModelY + Math.sin(now * bobSpeed) * bobAmount;
+            }
+
             controls.update();
             renderer.render(scene, camera);
         };
@@ -876,6 +1143,7 @@ async function setupModelViewer() {
 }
 
 function startApp() {
+    setupPageConfig();
     setupNavigation();
     markVisitedPage();
     setupSwitchGroup("[data-scenario-group]", "[data-scenario-target]", ".scenario-panel", "scenarioTarget");
