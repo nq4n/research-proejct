@@ -10,6 +10,7 @@
 <body data-page="intro">
     <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
     <div class="page-aura"></div>
+    <div id="particles-container"></div>
 
     <header class="site-header">
         <div class="container topbar">
@@ -28,11 +29,12 @@
             </button>
 
             <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
-                <a href="index.html">اللوحة</a>
-                <a href="intro.html">الدرس 01</a>
-                <a href="hardware.html">الدرس 02</a>
-                <a href="software.html">الدرس 03</a>
-                <a href="data-protection.html">الدرس 04</a>
+                <a href="index.html"><span>اللوحة</span></a>
+                <a href="intro.html"><span>الدرس 01</span></a>
+                <a href="hardware.html"><span>الدرس 02</span></a>
+                <a href="software.html"><span>الدرس 03</span></a>
+                <a href="data-protection.html"><span>الدرس 04</span></a>
+                <a href="practice-lab.html"><span>التدريب</span></a>
             </nav>
         </div>
     </header>
@@ -47,8 +49,8 @@
                     وكيف نتحرك عند ظهور مشكلة بدل القفز إلى إصلاح عشوائي.
                 </p>
                 <div class="hero-actions">
-                    <a class="button" href="#intro-basics">ابدأ بالمفاهيم</a>
-                    <a class="button button-secondary" href="#intro-check">اذهب إلى سؤال التثبيت</a>
+                    <a class="button" href="#intro-basics"><span>ابدأ بالمفاهيم</span></a>
+                    <a class="button button-secondary" href="#intro-check"><span>اذهب إلى سؤال التثبيت</span></a>
                 </div>
             </div>
 
@@ -86,6 +88,10 @@
                     <span>1</span>
                     <h3>تعريف الصيانة</h3>
                     <p>هي مجموعة من الإجراءات التي تحافظ على الحاسوب في حالة جيدة، تحسن أداءه، وتساعد على علاج مشكلاته عند الحاجة.</p>
+                    <button class="concept-trigger" data-concept="maintenance-def" type="button">
+                        <span class="trigger-icon">💡</span>
+                        <span>شرح المفهوم</span>
+                    </button>
                 </article>
                 <article class="map-card">
                     <span>2</span>
@@ -103,11 +109,57 @@
                 <article class="panel-card accent-card">
                     <h3>الصيانة الوقائية</h3>
                     <p>إجراءات دورية تمنع الخطأ قبل ظهوره، مثل تنظيف الجهاز، فحص الفيروسات، تحديث النظام، وتنفيذ النسخ الاحتياطي المنتظم.</p>
+                    <button class="concept-trigger" data-concept="preventive-maintenance" type="button">
+                        <span class="trigger-icon">💡</span>
+                        <span>شرح المفهوم</span>
+                    </button>
                 </article>
                 <article class="panel-card">
                     <h3>الصيانة العلاجية</h3>
                     <p>تبدأ بعد ظهور الخلل وتهدف إلى تشخيص السبب ثم اختيار الحل المناسب بدل معالجة الأعراض فقط.</p>
+                    <button class="concept-trigger" data-concept="corrective-maintenance" type="button">
+                        <span class="trigger-icon">💡</span>
+                        <span>شرح المفهوم</span>
+                    </button>
                 </article>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">تفاصيل إضافية</span>
+                <h2>أسئلة شائعة حول الصيانة</h2>
+                <p>اضغط على أي سؤال لعرض الإجابة المفصلة.</p>
+            </div>
+
+            <div class="accordion" data-accordion>
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        <span>لماذا الصيانة الوقائية أفضل من العلاجية؟</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>الصيانة الوقائية تمنع المشكلة قبل حدوثها مما يوفر الوقت والمال. مثلاً: تنظيف الجهاز دوريًا يمنع تراكم الغبار الذي يسبب ارتفاع الحرارة، بينما الانتظار حتى يحدث العطل قد يتطلب استبدال قطع كاملة.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        <span>كم مرة يجب إجراء الصيانة الوقائية؟</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>يُنصح بإجراء فحص شامل كل 3-6 أشهر حسب بيئة الاستخدام. إذا كان الجهاز في بيئة مغبرة أو يُستخدم بكثرة، فقد يحتاج إلى صيانة أكثر تكرارًا.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        <span>هل يمكنني القيام بالصيانة بنفسي؟</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>نعم، العديد من إجراءات الصيانة البسيطة يمكن القيام بها ذاتيًا مثل تنظيف الملفات المؤقتة وفحص الفيروسات. لكن الإجراءات المعقدة مثل تنظيف المكونات الداخلية أو استبدال القطع قد تحتاج إلى مختص.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -210,7 +262,7 @@
                 <span class="eyebrow">التالي</span>
                 <h2>بعد فهم معنى الصيانة، انتقل إلى العتاد لترى كيف تؤثر الحرارة والطاقة والترقية على الجهاز فعليًا.</h2>
             </div>
-            <a class="button" href="hardware.html">افتح الدرس التالي</a>
+            <a class="button" href="hardware.html"><span>افتح الدرس التالي</span></a>
         </section>
     </main>
 

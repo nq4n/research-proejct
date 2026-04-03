@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مختبر التدريب - صيانة الحاسوب</title>
+    <meta name="description" content="تدرّب على صيانة الحاسوب من خلال مختبر تفاعلي ثلاثي الأبعاد.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="practice">
+    <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
+    <div class="page-aura"></div>
+    <div id="particles-container"></div>
+
+    <header class="site-header">
+        <div class="container topbar">
+            <a class="brand" href="index.html">
+                <span class="brand-mark">PC</span>
+                <div>
+                    <strong>مختبر صيانة الحاسوب</strong>
+                    <span>المختبر التفاعلي</span>
+                </div>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="فتح قائمة التنقل">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
+                <a href="index.html"><span>اللوحة</span></a>
+                <a href="intro.html"><span>الدرس 01</span></a>
+                <a href="hardware.html"><span>الدرس 02</span></a>
+                <a href="software.html"><span>الدرس 03</span></a>
+                <a href="data-protection.html"><span>الدرس 04</span></a>
+                <a href="practice-lab.html"><span>المختبر</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="container">
+        <section class="hero topic-hero" data-reveal style="background: linear-gradient(135deg, rgba(37, 92, 117, 0.08), rgba(191, 127, 47, 0.08)), var(--paper);">
+            <div class="hero-copy">
+                <span class="eyebrow">المختبر التفاعلي</span>
+                <h1>جرّب بنفسك. لا أسئلة — فقط تجربة واكتشاف.</h1>
+                <p>
+                    هنا تتعلم بالممارسة. غيّر الظروف، أضف مشاكل، جرّب حلولاً، وشاهد النتائج مباشرة.
+                    كل تجربة تعلّمك شيئاً مختلفاً عن الدرس.
+                </p>
+                <div class="hero-actions">
+                    <a class="button" href="#playground-start"><span>ابدأ التجربة</span></a>
+                    <a class="button button-secondary" href="index.html"><span>العودة للدروس</span></a>
+                </div>
+            </div>
+
+            <aside class="hero-panel">
+                <h2>كيف يعمل المختبر؟</h2>
+                <div class="signal-board compact-board">
+                    <article>
+                        <span>التجربة 1</span>
+                        <strong>مختبر الحرارة</strong>
+                        <p>أضف غبارًا، أغلق فتحات، وشاهد كيف ترتفع الحرارة.</p>
+                    </article>
+                    <article>
+                        <span>التجربة 2</span>
+                        <strong>مختبر الطاقة</strong>
+                        <p>افصل الكهرباء، أضف UPS، وراقب حماية الجهاز.</p>
+                    </article>
+                    <article>
+                        <span>التجربة 3</span>
+                        <strong>مختبر الترقية</strong>
+                        <p>جرّب تركيب قطع مختلفة وشاهد تأثيرها على الأداء.</p>
+                    </article>
+                </div>
+            </aside>
+        </section>
+
+        <section id="playground-start" class="section-block" data-reveal>
+            <div class="practice-category-tabs" id="playground-tabs">
+                <button class="practice-cat-tab is-active" type="button" data-playground="heat"><span>🌡️ مختبر الحرارة</span></button>
+                <button class="practice-cat-tab" type="button" data-playground="power"><span>⚡ مختبر الطاقة</span></button>
+                <button class="practice-cat-tab" type="button" data-playground="upgrade"><span>⬆️ مختبر الترقية</span></button>
+                <button class="practice-cat-tab" type="button" data-playground="disk"><span>💾 مختبر الأقراص</span></button>
+                <button class="practice-cat-tab" type="button" data-playground="security"><span>🔒 مختبر الأمان</span></button>
+            </div>
+
+            <div id="playground-container"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-layout">
+            <div>
+                <strong>المختبر التفاعلي</strong>
+                <p>تعلّم بالممارسة والتجربة — لا أسئلة ولا إجابات صحيحة أو خاطئة.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">اللوحة</a>
+                <a href="intro.html">الدرس 01</a>
+                <a href="hardware.html">الدرس 02</a>
+                <a href="software.html">الدرس 03</a>
+                <a href="data-protection.html">الدرس 04</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lesson-config.js" defer></script>
+    <script src="js/script.js" defer></script>
+</body>
+</html>

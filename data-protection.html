@@ -10,6 +10,7 @@
 <body data-page="security">
     <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
     <div class="page-aura"></div>
+    <div id="particles-container"></div>
 
     <header class="site-header">
         <div class="container topbar">
@@ -28,11 +29,12 @@
             </button>
 
             <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
-                <a href="index.html">اللوحة</a>
-                <a href="intro.html">الدرس 01</a>
-                <a href="hardware.html">الدرس 02</a>
-                <a href="software.html">الدرس 03</a>
-                <a href="data-protection.html">الدرس 04</a>
+                <a href="index.html"><span>اللوحة</span></a>
+                <a href="intro.html"><span>الدرس 01</span></a>
+                <a href="hardware.html"><span>الدرس 02</span></a>
+                <a href="software.html"><span>الدرس 03</span></a>
+                <a href="data-protection.html"><span>الدرس 04</span></a>
+                <a href="practice-lab.html"><span>التدريب</span></a>
             </nav>
         </div>
     </header>
@@ -47,8 +49,8 @@
                     طريقة إعدادها، ثم النسخ الاحتياطي المحلي والسحابي لحماية الملفات المهمة.
                 </p>
                 <div class="hero-actions">
-                    <a class="button" href="#security-basics">ابدأ بالمفاهيم</a>
-                    <a class="button button-secondary" href="#security-check">اذهب إلى سؤال التثبيت</a>
+                    <a class="button" href="#security-basics"><span>ابدأ بالمفاهيم</span></a>
+                    <a class="button button-secondary" href="#security-check"><span>اذهب إلى سؤال التثبيت</span></a>
                 </div>
             </div>
 
@@ -86,17 +88,67 @@
                     <span>1</span>
                     <h3>أمن أنظمة التشغيل</h3>
                     <p>يعني القدرة على حماية الخصوصية وتقييد الدخول إلى الجهاز أو الحساب وفق أسلوب دخول واضح وآمن.</p>
+                    <button class="concept-trigger" data-concept="system-security" type="button">
+                        <span class="trigger-icon">💡</span>
+                        <span>شرح المفهوم</span>
+                    </button>
                 </article>
                 <article class="map-card">
                     <span>2</span>
                     <h3>إعدادات كلمة المرور</h3>
                     <p>يتم إعدادها عبر <strong>Settings</strong> ثم <strong>Accounts</strong> ثم <strong>Sign-in Options</strong> مع إضافة تلميح عند الحاجة.</p>
+                    <button class="concept-trigger" data-concept="password-setup" type="button">
+                        <span class="trigger-icon">💡</span>
+                        <span>شرح المفهوم</span>
+                    </button>
                 </article>
                 <article class="map-card">
                     <span>3</span>
                     <h3>النسخ الاحتياطي</h3>
                     <p>هو أخذ نسخة من البيانات حتى يمكن استرجاعها عند الفقد أو تلف الجهاز أو سرقته.</p>
+                    <button class="concept-trigger" data-concept="backup-strategy" type="button">
+                        <span class="trigger-icon">💡</span>
+                        <span>شرح المفهوم</span>
+                    </button>
                 </article>
+            </div>
+        </section>
+
+        <section class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">معلومات إضافية</span>
+                <h2>أسئلة شائعة حول حماية البيانات</h2>
+                <p>اضغط على أي سؤال لعرض الإجابة.</p>
+            </div>
+
+            <div class="accordion" data-accordion>
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        <span>ما أفضل طريقة لحماية حسابي؟</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>استخدم كلمة مرور قوية (طويلة ومتنوعة)، فعّل المصادقة الثنائية إذا كانت متاحة، ولا تشارك كلمة مرورك مع أحد. يمكنك أيضًا استخدام وسائل حيوية مثل البصمة أو التعرف على الوجه إذا كان جهازك يدعمها.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        <span>هل النسخ السحابي آمن؟</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>نعم، الخدمات السحابية الكبرى مثل Google Drive وOneDrive وDropbox تستخدم تشفيرًا قويًا. لكن تأكد من استخدام كلمة مرور قوية وتفعيل المصادقة الثنائية لحماية حسابك السحابي نفسه.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        <span>كم مرة يجب عمل نسخ احتياطي؟</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>يعتمد على أهمية البيانات وتكرار التغيير. للبيانات المهمة: أسبوعيًا أو حتى يوميًا. يمكنك استخدام File History في Windows للنسخ التلقائي. راجع النسخ دوريًا للتأكد من أنها تعمل بشكل صحيح.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -109,9 +161,9 @@
 
             <div class="visual-shell" data-visual-group>
                 <div class="visual-nav">
-                    <button class="visual-tab is-active" type="button" data-visual-target="security-visual-access">أنماط الأمان</button>
-                    <button class="visual-tab" type="button" data-visual-target="security-visual-setup">إعدادات الدخول</button>
-                    <button class="visual-tab" type="button" data-visual-target="security-visual-backup">النسخ الاحتياطي</button>
+                    <button class="visual-tab is-active" type="button" data-visual-target="security-visual-access"><span>أنماط الأمان</span></button>
+                    <button class="visual-tab" type="button" data-visual-target="security-visual-setup"><span>إعدادات الدخول</span></button>
+                    <button class="visual-tab" type="button" data-visual-target="security-visual-backup"><span>النسخ الاحتياطي</span></button>
                 </div>
 
                 <div class="visual-panels">
@@ -121,20 +173,17 @@
                                 <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="security-access-title security-access-desc">
                                     <title id="security-access-title">مخطط يوضح أنماط الأمان في النظام</title>
                                     <desc id="security-access-desc">يبين الرسم حسابًا رئيسيًا تحميه بوابتان: كلمة مرور أو وسيلة حيوية مثل البصمة والوجه والعين والصوت.</desc>
-
                                     <g class="svg-float-fast">
                                         <rect class="svg-card" x="280" y="46" width="180" height="90" rx="28"></rect>
                                         <text class="svg-label" x="370" y="90" text-anchor="middle">الحساب</text>
                                         <text class="svg-small" x="370" y="116" text-anchor="middle">الوصول المقيد إلى النظام</text>
                                     </g>
-
                                     <g class="svg-float-slow">
                                         <rect class="svg-card svg-card-accent" x="84" y="184" width="230" height="124" rx="28"></rect>
                                         <rect x="142" y="218" width="114" height="34" rx="12" fill="#ffffff" stroke="#255c75" stroke-width="4"></rect>
                                         <text x="199" y="240" text-anchor="middle" fill="#255c75" font-size="18" font-weight="700">Password</text>
                                         <text class="svg-label" x="199" y="286" text-anchor="middle">كلمة المرور</text>
                                     </g>
-
                                     <g class="svg-float-slow">
                                         <rect class="svg-card svg-good-surface" x="426" y="184" width="230" height="124" rx="28"></rect>
                                         <circle cx="482" cy="236" r="22" fill="#1e6543" opacity="0.12"></circle>
@@ -145,16 +194,18 @@
                                         <text class="svg-small" x="590" y="242" text-anchor="middle">عين</text>
                                         <text class="svg-label" x="541" y="286" text-anchor="middle">وسيلة حيوية</text>
                                     </g>
-
                                     <path class="svg-flow" d="M332 136 C290 162 250 176 214 184"></path>
                                     <path class="svg-flow" d="M408 136 C450 162 490 176 526 184"></path>
                                 </svg>
                             </div>
-
                             <div class="svg-caption">
                                 <span class="eyebrow">مفهوم وصول</span>
                                 <h3>الأمان يبدأ بتقييد الدخول إلى النظام</h3>
                                 <p>يمكن حماية الحساب بكلمة مرور، أو بوسائل حيوية مثل بصمة الإصبع أو العين أو الوجه أو الصوت. الفكرة الرئيسة هنا هي منع الوصول غير المصرح به إلى الجهاز أو الحساب.</p>
+                                <button class="concept-trigger" data-concept="system-security" type="button">
+                                    <span class="trigger-icon">💡</span>
+                                    <span>شرح المفهوم</span>
+                                </button>
                                 <div class="mini-points svg-points">
                                     <div class="mini-point">اختر أسلوب دخول يناسب بيئتك ويمنع الوصول غير المصرح به.</div>
                                     <div class="mini-point">لا تخلط بين سهولة الدخول وضعف الحماية.</div>
@@ -170,7 +221,6 @@
                                 <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="security-setup-title security-setup-desc">
                                     <title id="security-setup-title">مخطط يوضح إعدادات الدخول في النظام</title>
                                     <desc id="security-setup-desc">يبين الرسم مسار إعداد كلمة المرور عبر Settings ثم Accounts ثم Sign-in Options مع إضافة تلميح يساعد على التذكر.</desc>
-
                                     <g class="svg-float-fast">
                                         <rect class="svg-card" x="48" y="130" width="150" height="92" rx="26"></rect>
                                         <text class="svg-label" x="123" y="176" text-anchor="middle">Settings</text>
@@ -188,17 +238,19 @@
                                         <rect class="svg-card svg-warn-surface" x="560" y="248" width="132" height="54" rx="18"></rect>
                                         <text class="svg-small" x="626" y="280" text-anchor="middle">أضف تلميحًا مناسبًا</text>
                                     </g>
-
                                     <path class="svg-flow" d="M198 176 C214 176 226 176 246 176"></path>
                                     <path class="svg-flow" d="M396 166 C412 166 426 158 446 158"></path>
                                     <path class="svg-flow" d="M594 222 C606 234 614 240 626 248"></path>
                                 </svg>
                             </div>
-
                             <div class="svg-caption">
                                 <span class="eyebrow">مفهوم إعداد</span>
                                 <h3>إعداد الأمان خطوة واجهة واضحة لا إجراء غامض</h3>
                                 <p>يوضح الدرس أن إعداد كلمة المرور أو وسيلة الدخول يبدأ من <strong>Settings</strong> ثم <strong>Accounts</strong> ثم <strong>Sign-in Options</strong>. ويمكن إضافة تلميح يساعد على التذكر من غير كشف كلمة المرور نفسها.</p>
+                                <button class="concept-trigger" data-concept="password-setup" type="button">
+                                    <span class="trigger-icon">💡</span>
+                                    <span>شرح المفهوم</span>
+                                </button>
                                 <div class="mini-points svg-points">
                                     <div class="mini-point">اجعل التلميح مساعدًا على التذكر لا كاشفًا للإجابة.</div>
                                     <div class="mini-point">اختر وسيلة دخول يمكنك إدارتها والمحافظة عليها باستمرار.</div>
@@ -214,41 +266,39 @@
                                 <svg class="concept-svg" viewBox="0 0 740 360" role="img" aria-labelledby="security-backup-title security-backup-desc">
                                     <title id="security-backup-title">مخطط يوضح النسخ الاحتياطي المحلي والسحابي</title>
                                     <desc id="security-backup-desc">يبين الرسم ملفات مهمة تتفرع إلى نسخة محلية عبر وسائط أو File History وإلى نسخة سحابية عبر خدمات مثل Google Drive وOneDrive وDropbox.</desc>
-
                                     <g class="svg-float-fast">
                                         <rect class="svg-card" x="274" y="56" width="192" height="110" rx="28"></rect>
                                         <text class="svg-label" x="370" y="106" text-anchor="middle">ملفات مهمة</text>
                                         <text class="svg-small" x="370" y="134" text-anchor="middle">دراسة أو عمل أو صور</text>
                                     </g>
-
                                     <g class="svg-float-slow">
                                         <rect class="svg-card svg-card-accent" x="74" y="220" width="220" height="104" rx="28"></rect>
                                         <text class="svg-label" x="184" y="206" text-anchor="middle">نسخة محلية</text>
                                         <text class="svg-small" x="184" y="256" text-anchor="middle">قرص خارجي أو USB أو DVD</text>
                                         <text class="svg-small" x="184" y="282" text-anchor="middle">أداة File History</text>
                                     </g>
-
                                     <g class="svg-float-slow">
                                         <rect class="svg-card svg-good-surface" x="446" y="220" width="220" height="104" rx="28"></rect>
                                         <text class="svg-label" x="556" y="206" text-anchor="middle">نسخة سحابية</text>
                                         <text class="svg-small" x="556" y="256" text-anchor="middle">Google Drive - OneDrive</text>
                                         <text class="svg-small" x="556" y="282" text-anchor="middle">Dropbox</text>
                                     </g>
-
                                     <g class="svg-caption-chip svg-float-fast">
                                         <rect class="svg-card svg-good-surface" x="254" y="252" width="232" height="58" rx="20"></rect>
                                         <text class="svg-small" x="370" y="286" text-anchor="middle">نسختان أفضل من مكان واحد</text>
                                     </g>
-
                                     <path class="svg-flow" d="M332 166 C292 192 246 206 206 220"></path>
                                     <path class="svg-flow" d="M408 166 C448 192 494 206 534 220"></path>
                                 </svg>
                             </div>
-
                             <div class="svg-caption">
                                 <span class="eyebrow">مفهوم استرجاع</span>
                                 <h3>النسخ الاحتياطي الجيد يجمع بين القرب والانفصال</h3>
                                 <p>يمكن حفظ نسخة محلية على وسيط مادي مع حماية هذا الوسيط من التلف والخدش، كما يمكن حفظ نسخة سحابية عبر الإنترنت لتبقى متاحة من مكان آخر. يجمع هذا بين سرعة الوصول والأمان من الفقد.</p>
+                                <button class="concept-trigger" data-concept="backup-strategy" type="button">
+                                    <span class="trigger-icon">💡</span>
+                                    <span>شرح المفهوم</span>
+                                </button>
                                 <div class="mini-points svg-points">
                                     <div class="mini-point">File History مثال على النسخ المحلي داخل Windows.</div>
                                     <div class="mini-point">الخدمات السحابية الشائعة تشمل Google Drive وMicrosoft OneDrive وDropbox.</div>
@@ -305,7 +355,7 @@
                 <span class="eyebrow">الخاتمة</span>
                 <h2>اكتمل المسار الأساسي. يمكنك الآن العودة إلى اللوحة أو مراجعة أي درس بحسب الموضوع الذي تريد تثبيته.</h2>
             </div>
-            <a class="button" href="index.html#start">العودة إلى اللوحة</a>
+            <a class="button" href="index.html#start"><span>العودة إلى اللوحة</span></a>
         </section>
     </main>
 

@@ -10,6 +10,7 @@
 <body data-page="home">
     <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
     <div class="page-aura"></div>
+    <div id="particles-container"></div>
 
     <header class="site-header">
         <div class="container topbar">
@@ -28,11 +29,12 @@
             </button>
 
             <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
-                <a href="index.html">اللوحة</a>
-                <a href="intro.html">الدرس 01</a>
-                <a href="hardware.html">الدرس 02</a>
-                <a href="software.html">الدرس 03</a>
-                <a href="data-protection.html">الدرس 04</a>
+                <a href="index.html"><span>اللوحة</span></a>
+                <a href="intro.html"><span>الدرس 01</span></a>
+                <a href="hardware.html"><span>الدرس 02</span></a>
+                <a href="software.html"><span>الدرس 03</span></a>
+                <a href="data-protection.html"><span>الدرس 04</span></a>
+                <a href="practice-lab.html"><span>التدريب</span></a>
             </nav>
         </div>
     </header>
@@ -47,8 +49,8 @@
                     مباشرة إلى صفحة التعلم المناسبة.
                 </p>
                 <div class="hero-actions">
-                    <a class="button" href="#start">اعرض الدروس</a>
-                    <a class="button button-secondary" href="intro.html">ابدأ بالمقدمة</a>
+                    <a class="button" href="#start"><span>اعرض الدروس</span></a>
+                    <a class="button button-secondary" href="intro.html"><span>ابدأ بالمقدمة</span></a>
                 </div>
             </div>
 
@@ -58,28 +60,28 @@
                 <p>كل درس يبني فكرة واحدة أو مجموعة أفكار مترابطة من المصدر الدراسي نفسه ثم يربطها برسم أو تفاعل قصير.</p>
 
                 <div class="route-list">
-                    <article class="route-item">
+                    <article class="route-item" onclick="window.location.href='intro.html'">
                         <span class="route-badge">01</span>
                         <div>
                             <strong>مقدمة في الصيانة</strong>
                             <p>التعريف، الأهمية، الأنواع، وخطوات حل المشكلات.</p>
                         </div>
                     </article>
-                    <article class="route-item">
+                    <article class="route-item" onclick="window.location.href='hardware.html'">
                         <span class="route-badge">02</span>
                         <div>
                             <strong>المكونات المادية</strong>
                             <p>العوامل الطبيعية، الطاقة، الترقية، وصيانة الأقراص.</p>
                         </div>
                     </article>
-                    <article class="route-item">
+                    <article class="route-item" onclick="window.location.href='software.html'">
                         <span class="route-badge">03</span>
                         <div>
                             <strong>البرمجيات</strong>
                             <p>الرخص، حقوق الاستخدام، الاستعادة، وتحسين الكفاءة.</p>
                         </div>
                     </article>
-                    <article class="route-item">
+                    <article class="route-item" onclick="window.location.href='data-protection.html'">
                         <span class="route-badge">04</span>
                         <div>
                             <strong>حماية البيانات</strong>
@@ -105,7 +107,7 @@
                     </div>
                     <h3>مقدمة في صيانة الحاسوب</h3>
                     <p>لفهم معنى الصيانة، أهميتها، الفرق بين الوقائية والعلاجية، وخطوات التشخيص والحل.</p>
-                    <a class="button button-secondary" href="intro.html">افتح الدرس</a>
+                    <a class="button button-secondary" href="intro.html"><span>افتح الدرس</span></a>
                 </article>
 
                 <article class="topic-card topic-hardware" data-topic-link="hardware">
@@ -115,7 +117,7 @@
                     </div>
                     <h3>صيانة المكونات المادية</h3>
                     <p>لفهم الحرارة والرطوبة والغبار والطاقة الآمنة ثم اتخاذ قرار الترقية أو صيانة القرص.</p>
-                    <a class="button button-secondary" href="hardware.html">افتح الدرس</a>
+                    <a class="button button-secondary" href="hardware.html"><span>افتح الدرس</span></a>
                 </article>
 
                 <article class="topic-card topic-software" data-topic-link="software">
@@ -125,7 +127,7 @@
                     </div>
                     <h3>صيانة البرمجيات</h3>
                     <p>لفهم الرخص، الملكية الفكرية، نقطة الاستعادة، وكيفية تحسين الأداء دون حلول عشوائية.</p>
-                    <a class="button button-secondary" href="software.html">افتح الدرس</a>
+                    <a class="button button-secondary" href="software.html"><span>افتح الدرس</span></a>
                 </article>
 
                 <article class="topic-card topic-security" data-topic-link="security">
@@ -135,7 +137,7 @@
                     </div>
                     <h3>حماية البيانات</h3>
                     <p>لفهم أمن النظام، كلمة المرور أو البصمة، وإعداد النسخ الاحتياطي المحلي والسحابي.</p>
-                    <a class="button button-secondary" href="data-protection.html">افتح الدرس</a>
+                    <a class="button button-secondary" href="data-protection.html"><span>افتح الدرس</span></a>
                 </article>
             </div>
         </section>
