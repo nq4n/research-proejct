@@ -1593,54 +1593,298 @@ function setupPlaygroundLab() {
         return "var(--danger)";
     };
 
+    const METRIC_ICONS = {
+        temperature: "🌡️", airflow: "💨", performance: "⚡", dust: "🌫️",
+        power: "🔌", dataSafety: "🔒", hardwareRisk: "⚠️", uptime: "⏱️",
+        speed: "🚀", multitask: "📊", storage: "💿", compatibility: "🔧",
+        space: "📁", fragmentation: "🔀", health: "❤️",
+        passwordStrength: "🔑", protection: "🛡️", backup: "☁️", vulnerability: "🕳️"
+    };
+
+    const INVERTED = new Set(["fragmentation", "dust", "hardwareRisk", "vulnerability"]);
+
+    const ringProgress = (pct, color, icon, label, unit) => {
+        const r = 32, circ = +(2 * Math.PI * r).toFixed(2);
+        const offset = +(circ * (1 - Math.min(100, Math.max(0, pct)) / 100)).toFixed(2);
+        return `
+        <div class="pg-metric-card">
+            <svg viewBox="0 0 80 80" class="pg-ring-svg" aria-hidden="true">
+                <circle cx="40" cy="40" r="${r}" fill="none" stroke="rgba(0,0,0,0.07)" stroke-width="8"/>
+                <circle cx="40" cy="40" r="${r}" fill="none" stroke="${color}" stroke-width="8"
+                    stroke-dasharray="${circ}" stroke-dashoffset="${offset}"
+                    stroke-linecap="round" transform="rotate(-90 40 40)"
+                    style="transition:stroke-dashoffset .6s ease,stroke .4s ease"/>
+                <text x="40" y="36" text-anchor="middle" font-size="17" dominant-baseline="middle">${icon}</text>
+                <text x="40" y="54" text-anchor="middle" font-size="10" font-weight="bold" fill="${color}">${Math.round(pct)}${unit}</text>
+            </svg>
+            <div class="pg-metric-label">${label}</div>
+        </div>`;
+    };
+
+    const getLabSvg = (labId) => {
+        const s = state;
+        const lerp = (a, b, t) => a + (b - a) * Math.min(1, Math.max(0, t));
+
+        if (labId === "heat") {
+            const temp = s.temperature || 35;
+            const airflow = s.airflow || 90;
+            const dust = s.dust || 5;
+            const tempPct = (temp - 30) / 65;
+            const tempColor = tempPct > 0.7 ? "#ef4444" : tempPct > 0.4 ? "#f97316" : "#22c55e";
+            const fanSpeed = airflow > 60 ? "0.5s" : airflow > 30 ? "1.2s" : "2.5s";
+            const dustOpacity = (dust / 100) * 0.55;
+            const fanColor = airflow < 30 ? "#94a3b8" : "#60a5fa";
+            const thermH = Math.round(140 * tempPct);
+            const thermY = 160 - thermH;
+            return `<svg viewBox="0 0 260 220" class="pg-svg-illus" xmlns="http://www.w3.org/2000/svg">
+                <!-- Tower body -->
+                <rect x="40" y="20" width="140" height="185" rx="14" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                <rect x="52" y="32" width="116" height="161" rx="9" fill="#0f172a"/>
+                <!-- Power LED -->
+                <circle cx="68" cy="44" r="5" fill="${temp > 75 ? '#ef4444' : '#22c55e'}">
+                    <animate attributeName="opacity" values="1;0.4;1" dur="${temp > 75 ? '0.6s' : '2s'}" repeatCount="indefinite"/>
+                </circle>
+                <!-- Drive slots -->
+                <rect x="140" y="38" width="20" height="5" rx="2" fill="#334155"/>
+                <rect x="140" y="48" width="20" height="5" rx="2" fill="#334155"/>
+                <!-- Fan -->
+                <circle cx="110" cy="105" r="38" fill="#1e3a5f" stroke="#334155" stroke-width="2"/>
+                <circle cx="110" cy="105" r="6" fill="#60a5fa"/>
+                <g style="transform-origin:110px 105px;animation:spin ${fanSpeed} linear infinite">
+                    <path d="M110,105 L110,75 Q122,82 122,96 Z" fill="${fanColor}" opacity="0.9"/>
+                    <path d="M110,105 L137,120 Q130,132 118,128 Z" fill="${fanColor}" opacity="0.9"/>
+                    <path d="M110,105 L83,120 Q76,108 83,96 Z" fill="${fanColor}" opacity="0.9"/>
+                </g>
+                <!-- Thermometer -->
+                <rect x="200" y="20" width="18" height="160" rx="9" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+                <rect x="200" y="${thermY}" width="18" height="${thermH}" rx="9" fill="${tempColor}" style="transition:all .6s ease"/>
+                <circle cx="209" cy="185" r="10" fill="${tempColor}" style="transition:fill .4s ease"/>
+                <text x="209" y="210" text-anchor="middle" font-size="9" fill="#94a3b8">°C</text>
+                <!-- Dust overlay -->
+                <rect x="52" y="32" width="116" height="161" rx="9" fill="rgba(180,140,60,${dustOpacity})" style="transition:opacity .5s ease"/>
+                ${dust > 60 ? `<text x="110" y="175" text-anchor="middle" font-size="22">💨</text>` : ""}
+                ${temp > 78 ? `<text x="75" y="215" font-size="20">🔥</text><text x="105" y="220" font-size="24">🔥</text><text x="135" y="215" font-size="20">🔥</text>` : ""}
+                <!-- Vent lines -->
+                <line x1="155" y1="140" x2="172" y2="140" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+                <line x1="155" y1="148" x2="172" y2="148" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+                <line x1="155" y1="156" x2="172" y2="156" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+            </svg>`;
+        }
+
+        if (labId === "power") {
+            const power = s.power || 100;
+            const dataSafety = s.dataSafety || 100;
+            const risk = s.hardwareRisk || 0;
+            const batH = Math.round(90 * (power / 100));
+            const batColor = power > 60 ? "#22c55e" : power > 30 ? "#f97316" : "#ef4444";
+            const shieldFill = dataSafety > 60 ? "#3b82f6" : dataSafety > 30 ? "#f97316" : "#ef4444";
+            return `<svg viewBox="0 0 260 220" class="pg-svg-illus" xmlns="http://www.w3.org/2000/svg">
+                <!-- Wall socket -->
+                <rect x="20" y="60" width="70" height="100" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                <rect x="33" y="80" width="12" height="20" rx="4" fill="${power > 40 ? '#facc15' : '#334155'}"/>
+                <rect x="53" y="80" width="12" height="20" rx="4" fill="${power > 40 ? '#facc15' : '#334155'}"/>
+                <circle cx="55" cy="128" r="8" fill="${power > 40 ? '#22c55e' : '#ef4444'}">
+                    ${risk > 50 ? `<animate attributeName="opacity" values="1;0.2;1" dur="0.5s" repeatCount="indefinite"/>` : ""}
+                </circle>
+                <!-- Cable -->
+                <path d="M90,110 Q130,110 130,90" fill="none" stroke="${power > 40 ? '#facc15' : '#475569'}" stroke-width="4" stroke-linecap="round"/>
+                <!-- UPS / Battery -->
+                <rect x="105" y="50" width="50" height="110" rx="10" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                <rect x="122" y="44" width="16" height="10" rx="4" fill="#334155"/>
+                <rect x="112" y="${140 - batH}" width="36" height="${batH}" rx="6" fill="${batColor}" style="transition:all .6s ease"/>
+                <text x="130" y="172" text-anchor="middle" font-size="10" fill="#94a3b8">UPS</text>
+                <!-- Shield -->
+                <path d="M185,45 L220,55 L220,105 Q220,140 185,155 Q150,140 150,105 L150,55 Z" fill="${shieldFill}" opacity="0.15" stroke="${shieldFill}" stroke-width="2.5" style="transition:all .5s ease"/>
+                <path d="M185,62 L210,69 L210,105 Q210,130 185,142 Q160,130 160,105 L160,69 Z" fill="${shieldFill}" opacity="0.3"/>
+                <text x="185" y="112" text-anchor="middle" font-size="32">${dataSafety > 60 ? "🔒" : dataSafety > 30 ? "🔓" : "⚠️"}</text>
+                ${risk > 60 ? `<text x="40" y="200" font-size="18">⚡</text><text x="70" y="210" font-size="22">⚡</text>` : ""}
+                <!-- PC icon -->
+                <rect x="190" y="160" width="55" height="40" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+                <rect x="207" y="200" width="20" height="8" rx="2" fill="#334155"/>
+                <rect x="200" y="207" width="35" height="4" rx="2" fill="#334155"/>
+                <circle cx="200" cy="170" r="3" fill="${power > 40 ? '#22c55e' : '#ef4444'}"/>
+            </svg>`;
+        }
+
+        if (labId === "upgrade") {
+            const speed = s.speed || 40;
+            const multitask = s.multitask || 30;
+            const compat = s.compatibility || 100;
+            const compatColor = compat > 70 ? "#22c55e" : compat > 30 ? "#f97316" : "#ef4444";
+            return `<svg viewBox="0 0 260 220" class="pg-svg-illus" xmlns="http://www.w3.org/2000/svg">
+                <!-- Motherboard -->
+                <rect x="20" y="30" width="220" height="160" rx="10" fill="#0f2027" stroke="#1e3a2f" stroke-width="2"/>
+                <rect x="20" y="30" width="220" height="160" rx="10" fill="url(#pcb-grid)"/>
+                <defs>
+                    <pattern id="pcb-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1a3a2a" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <!-- CPU socket -->
+                <rect x="80" y="55" width="60" height="60" rx="4" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                <rect x="88" y="63" width="44" height="44" rx="3" fill="#0f172a"/>
+                <text x="110" y="90" text-anchor="middle" font-size="11" fill="#94a3b8">CPU</text>
+                <circle cx="110" cy="96" r="4" fill="${speed > 60 ? '#22c55e' : '#f97316'}">
+                    <animate attributeName="opacity" values="1;0.5;1" dur="${speed > 60 ? '0.8s' : '2s'}" repeatCount="indefinite"/>
+                </circle>
+                <!-- RAM slots -->
+                <rect x="155" y="45" width="14" height="70" rx="3" fill="${multitask > 50 ? '#3b82f6' : '#334155'}" stroke="${multitask > 50 ? '#60a5fa' : '#475569'}" stroke-width="1"/>
+                <rect x="175" y="45" width="14" height="70" rx="3" fill="${multitask > 70 ? '#3b82f6' : '#334155'}" stroke="${multitask > 70 ? '#60a5fa' : '#475569'}" stroke-width="1"/>
+                <text x="177" y="125" text-anchor="middle" font-size="9" fill="#64748b">RAM</text>
+                <!-- SSD slot -->
+                <rect x="30" y="135" width="80" height="22" rx="4" fill="${s.storage > 40 ? '#7c3aed' : '#334155'}" stroke="${s.storage > 40 ? '#a78bfa' : '#475569'}" stroke-width="1"/>
+                <text x="70" y="150" text-anchor="middle" font-size="9" fill="${s.storage > 40 ? '#e2d9ff' : '#64748b'}">SSD / HDD</text>
+                <!-- PCIe GPU slot -->
+                <rect x="30" y="85" width="40" height="12" rx="3" fill="${s.compatibility < 80 ? '#ef4444' : '#334155'}" stroke="#475569" stroke-width="1"/>
+                <text x="50" y="95" text-anchor="middle" font-size="8" fill="#64748b">PCIe</text>
+                <!-- Compatibility indicator -->
+                <circle cx="220" cy="185" r="16" fill="${compatColor}" opacity="0.2" stroke="${compatColor}" stroke-width="2"/>
+                <text x="220" y="190" text-anchor="middle" font-size="16">${compat > 70 ? "✅" : compat > 30 ? "⚠️" : "❌"}</text>
+                <!-- Traces / wiring -->
+                <path d="M140,85 L155,85" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <path d="M110,115 L110,135" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="3 2"/>
+            </svg>`;
+        }
+
+        if (labId === "disk") {
+            const space = s.space || 80;
+            const frag = s.fragmentation || 5;
+            const health = s.health || 95;
+            const usedPct = 100 - space;
+            const r = 55, circ = +(2 * Math.PI * r).toFixed(2);
+            const usedOffset = +(circ * (1 - usedPct / 100)).toFixed(2);
+            const diskColor = space < 15 ? "#ef4444" : space < 40 ? "#f97316" : "#3b82f6";
+            const healthColor = health > 70 ? "#22c55e" : health > 40 ? "#f97316" : "#ef4444";
+            return `<svg viewBox="0 0 260 220" class="pg-svg-illus" xmlns="http://www.w3.org/2000/svg">
+                <!-- Disk pie -->
+                <circle cx="100" cy="110" r="${r}" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                <circle cx="100" cy="110" r="${r}" fill="none" stroke="${diskColor}" stroke-width="22"
+                    stroke-dasharray="${circ}" stroke-dashoffset="${usedOffset}"
+                    stroke-linecap="butt" transform="rotate(-90 100 110)"
+                    style="transition:all .6s ease"/>
+                <circle cx="100" cy="110" r="${r}" fill="none" stroke="#334155" stroke-width="22"
+                    stroke-dasharray="${circ}" stroke-dashoffset="${+(circ * (usedPct / 100)).toFixed(2)}"
+                    stroke-linecap="butt" transform="rotate(${-90 + 360 * usedPct / 100} 100 110)"/>
+                <circle cx="100" cy="110" r="34" fill="#0f172a"/>
+                <text x="100" y="106" text-anchor="middle" font-size="11" fill="#94a3b8">مستخدم</text>
+                <text x="100" y="122" text-anchor="middle" font-size="16" font-weight="bold" fill="${diskColor}">${Math.round(usedPct)}%</text>
+                <!-- Legend -->
+                <circle cx="40" cy="185" r="7" fill="${diskColor}"/>
+                <text x="52" y="190" font-size="9" fill="#94a3b8">مستخدم</text>
+                <circle cx="100" cy="185" r="7" fill="#334155"/>
+                <text x="112" y="190" font-size="9" fill="#94a3b8">متاح</text>
+                <!-- Fragmentation bar -->
+                <rect x="165" y="30" width="60" height="10" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                <rect x="165" y="30" width="${Math.round(60 * frag / 100)}" height="10" rx="5" fill="${frag > 70 ? '#ef4444' : frag > 30 ? '#f97316' : '#22c55e'}" style="transition:width .6s ease"/>
+                <text x="165" y="22" font-size="9" fill="#94a3b8">التجزئة ${Math.round(frag)}%</text>
+                <!-- Health heart -->
+                <text x="185" y="110" text-anchor="middle" font-size="36">${health > 70 ? "❤️" : health > 40 ? "🧡" : "💔"}</text>
+                <text x="185" y="130" text-anchor="middle" font-size="10" fill="${healthColor}">صحة القرص</text>
+                <rect x="160" y="138" width="50" height="8" rx="4" fill="#1e293b"/>
+                <rect x="160" y="138" width="${Math.round(50 * health / 100)}" height="8" rx="4" fill="${healthColor}" style="transition:width .6s ease"/>
+                <!-- HDD icon -->
+                <rect x="162" y="160" width="55" height="40" rx="8" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                <circle cx="182" cy="180" r="10" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+                <circle cx="182" cy="180" r="4" fill="#334155"/>
+                <rect x="196" y="172" width="16" height="3" rx="1.5" fill="#334155"/>
+                <rect x="196" y="179" width="12" height="3" rx="1.5" fill="#334155"/>
+                <rect x="196" y="186" width="14" height="3" rx="1.5" fill="#334155"/>
+            </svg>`;
+        }
+
+        if (labId === "security") {
+            const pass = s.passwordStrength || 20;
+            const prot = s.protection || 30;
+            const backup = s.backup || 0;
+            const vuln = s.vulnerability || 60;
+            const shieldPct = Math.round((pass + prot) / 2);
+            const shieldColor = shieldPct > 60 ? "#22c55e" : shieldPct > 30 ? "#f97316" : "#ef4444";
+            const r = 48, circ = +(2 * Math.PI * r).toFixed(2);
+            const offset = +(circ * (1 - shieldPct / 100)).toFixed(2);
+            return `<svg viewBox="0 0 260 220" class="pg-svg-illus" xmlns="http://www.w3.org/2000/svg">
+                <!-- Shield ring -->
+                <circle cx="110" cy="105" r="${r}" fill="none" stroke="#1e293b" stroke-width="12"/>
+                <circle cx="110" cy="105" r="${r}" fill="none" stroke="${shieldColor}" stroke-width="12"
+                    stroke-dasharray="${circ}" stroke-dashoffset="${offset}"
+                    stroke-linecap="round" transform="rotate(-90 110 105)"
+                    style="transition:all .7s ease"/>
+                <!-- Shield shape -->
+                <path d="M110,55 L148,70 L148,110 Q148,145 110,162 Q72,145 72,110 L72,70 Z"
+                    fill="${shieldColor}" opacity="0.15" stroke="${shieldColor}" stroke-width="2.5" style="transition:all .5s ease"/>
+                <text x="110" y="115" text-anchor="middle" font-size="38">${shieldPct > 60 ? "🔒" : shieldPct > 30 ? "🔓" : "🔓"}</text>
+                <text x="110" y="175" text-anchor="middle" font-size="11" fill="${shieldColor}" font-weight="bold">${shieldPct}% أمان</text>
+                <!-- Password bar -->
+                <text x="185" y="45" text-anchor="middle" font-size="9" fill="#94a3b8">كلمة المرور</text>
+                <rect x="162" y="50" width="60" height="10" rx="5" fill="#1e293b"/>
+                <rect x="162" y="50" width="${Math.round(60 * pass / 100)}" height="10" rx="5" fill="${pass > 70 ? '#22c55e' : pass > 30 ? '#f97316' : '#ef4444'}" style="transition:width .6s ease"/>
+                <!-- Protection bar -->
+                <text x="185" y="78" text-anchor="middle" font-size="9" fill="#94a3b8">الحماية</text>
+                <rect x="162" y="83" width="60" height="10" rx="5" fill="#1e293b"/>
+                <rect x="162" y="83" width="${Math.round(60 * prot / 100)}" height="10" rx="5" fill="${prot > 70 ? '#22c55e' : prot > 30 ? '#f97316' : '#ef4444'}" style="transition:width .6s ease"/>
+                <!-- Backup bar -->
+                <text x="185" y="111" text-anchor="middle" font-size="9" fill="#94a3b8">النسخ الاحتياطي</text>
+                <rect x="162" y="116" width="60" height="10" rx="5" fill="#1e293b"/>
+                <rect x="162" y="116" width="${Math.round(60 * backup / 100)}" height="10" rx="5" fill="#3b82f6" style="transition:width .6s ease"/>
+                <!-- Vulnerability bugs -->
+                ${vuln > 60 ? `<text x="25" y="185" font-size="20">🐛</text><text x="55" y="195" font-size="16">🐛</text><text x="185" y="185" font-size="20">🐛</text>` : vuln > 30 ? `<text x="40" y="188" font-size="16">🐛</text>` : `<text x="40" y="188" font-size="16">✨</text>`}
+                <text x="110" y="210" text-anchor="middle" font-size="9" fill="#64748b">ثغرات: ${Math.round(vuln)}%</text>
+            </svg>`;
+        }
+        return `<div style="text-align:center;font-size:4rem;padding:40px">${LABS[labId]?.icon || "🔬"}</div>`;
+    };
+
     const renderLab = (labId) => {
         const lab = LABS[labId];
         if (!lab) return;
 
-        let metricsHtml = lab.metrics.map(m => {
-            const color = getMetricColor(state[m.id], m.good, m.bad, m.id === "fragmentation" || m.id === "dust" || m.id === "hardwareRisk" || m.id === "vulnerability");
-            const statusMsg = lab.statusMessages[m.id] ? lab.statusMessages[m.id](state[m.id]) : "";
-            return `
-                <div class="pg-metric">
-                    <div class="pg-metric-header">
-                        <span>${m.label}</span>
-                        <strong style="color: ${color}">${state[m.id]}${m.unit}</strong>
-                    </div>
-                    <div class="pg-metric-bar">
-                        <div class="pg-metric-fill" style="width: ${state[m.id]}%; background: ${color}"></div>
-                    </div>
-                    <span class="pg-metric-status">${statusMsg}</span>
-                </div>
-            `;
+        const metricsHtml = lab.metrics.map(m => {
+            const inv = INVERTED.has(m.id);
+            const color = getMetricColor(state[m.id], m.good, m.bad, inv);
+            const icon = METRIC_ICONS[m.id] || "📊";
+            return ringProgress(state[m.id], color, icon, m.label, m.unit);
         }).join("");
 
-        let actionsHtml = lab.actions.map(a => `
+        const actionsHtml = lab.actions.map(a => {
+            const effectBadges = Object.entries(a.effects)
+                .filter(([, v]) => v !== 0 && Math.abs(v) < 100)
+                .slice(0, 3)
+                .map(([k, v]) => {
+                    const inv = INVERTED.has(k);
+                    const good = inv ? v < 0 : v > 0;
+                    return `<span class="pg-eff ${good ? "pg-eff-good" : "pg-eff-bad"}">${v > 0 ? "+" : ""}${v}</span>`;
+                }).join("");
+            return `
             <button class="pg-action-btn" type="button" data-action="${a.id}">
                 <span class="pg-action-icon">${a.icon}</span>
-                <strong>${a.label}</strong>
-                <span>${a.desc}</span>
-            </button>
-        `).join("");
+                <div class="pg-action-body">
+                    <strong>${a.label}</strong>
+                    <span>${a.desc}</span>
+                </div>
+                ${effectBadges ? `<div class="pg-action-effects">${effectBadges}</div>` : ""}
+            </button>`;
+        }).join("");
 
         container.innerHTML = `
-            <div class="playground-lab" data-lab="${labId}">
-                <div class="pg-header">
-                    <span class="pg-lab-icon">${lab.icon}</span>
-                    <div>
-                        <h2>${lab.title}</h2>
-                        <p>${lab.description}</p>
+        <div class="playground-lab" data-lab="${labId}">
+            <div class="pg-top">
+                <div class="pg-visual-panel">${getLabSvg(labId)}</div>
+                <div class="pg-side">
+                    <div class="pg-lab-header">
+                        <span class="pg-lab-icon-badge">${lab.icon}</span>
+                        <div>
+                            <h2 class="pg-lab-title">${lab.title}</h2>
+                            <p class="pg-lab-desc">${lab.description}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="pg-body">
-                    <div class="pg-metrics">${metricsHtml}</div>
-                    <div class="pg-actions">${actionsHtml}</div>
-                </div>
-                <div class="pg-tip" id="pg-tip" hidden>
-                    <span>💡</span>
-                    <p id="pg-tip-text"></p>
+                    <div class="pg-metrics-ring">${metricsHtml}</div>
                 </div>
             </div>
-        `;
+            <div class="pg-actions-grid">${actionsHtml}</div>
+            <div class="pg-tip" id="pg-tip" hidden>
+                <span class="pg-tip-icon">💡</span>
+                <div><strong>نصيحة</strong><p id="pg-tip-text"></p></div>
+            </div>
+        </div>`;
 
         container.querySelectorAll(".pg-action-btn").forEach(btn => {
             btn.addEventListener("click", () => {
@@ -1652,6 +1896,9 @@ function setupPlaygroundLab() {
                     if (tip && tipText && action.tip) {
                         tip.hidden = false;
                         tipText.textContent = action.tip;
+                        tip.classList.remove("pg-tip-pop");
+                        void tip.offsetWidth;
+                        tip.classList.add("pg-tip-pop");
                     }
                 }
             });
