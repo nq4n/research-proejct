@@ -1,0 +1,46 @@
+{
+  "name": "virtual-lab-desktop",
+  "version": "1.0.0",
+  "description": "Desktop wrapper for the virtual computer maintenance lab.",
+  "main": "main.js",
+  "scripts": {
+    "app": "electron .",
+    "dev": "electron .",
+    "package": "electron-builder --win portable"
+  },
+  "dependencies": {
+    "three": "^0.164.1"
+  },
+  "devDependencies": {
+    "electron": "^32.2.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.virtual.lab.desktop",
+    "productName": "Virtual Lab Desktop",
+    "asar": true,
+    "files": [
+      "*.html",
+      "css/**/*",
+      "js/**/*",
+      "models/**/*",
+      "icon.ico",
+      "LOGO.png",
+      "main.js",
+      "app-server.js",
+      "launch-app.cmd",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "icon.ico",
+      "signAndEditExecutable": false,
+      "target": [
+        "portable"
+      ]
+    }
+  }
+}
