@@ -4,7 +4,8 @@ const PAGE_ROUTE_MAP = {
     intro: "intro.html",
     hardware: "hardware.html",
     software: "software.html",
-    security: "data-protection.html"
+    security: "data-protection.html",
+    practice: "practice-lab.html"
 };
 
 const DEFAULT_HARDWARE_ASSEMBLY_LAB = {
