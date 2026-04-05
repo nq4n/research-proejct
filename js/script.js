@@ -7,69 +7,106 @@ const PAGE_ROUTE_MAP = {
     security: "data-protection.html"
 };
 
-const MODEL_FOCUS_PRESETS = {
-    overview: {
-        title: "نظرة عامة",
-        text: "ابدأ هنا لتثبيت شكل الهيكل ومواقع التهوية واللوحة الأم ومزود الطاقة قبل الانتقال إلى أي قرار صيانة.",
-        points: [
-            "الفهم العام يسبق لمس القطع أو اقتراح الاستبدال.",
-            "هذه الزاوية تربط أسماء الدرس بشكل حقيقي داخل هيكل واحد.",
-            "استخدمها أولاً ثم انتقل إلى المنطقة التي يظهر فيها الخطر."
-        ],
-        position: [4, 3, 5],
-        target: [0, 0, 0],
-        hotspots: [
-            { meshName: "Case__Chassis", label: "هيكل الجهاز", color: 0x3a7bd5, concept: "case-def" },
-            { meshName: "Motherboard", label: "اللوحة الأم", color: 0x2ecc71, concept: "motherboard-def" }
-        ]
-    },
-    airflow: {
-        title: "مسار الهواء",
-        text: "ركز هنا على الفتحات والمراوح والطريق الذي يسلكه الهواء داخل الجهاز، لأن الغبار يسبب مشكلة حرارية قبل أن يبدو العطل واضحاً.",
-        points: [
-            "سد الفتحات أو تراكم الغبار يرفع الحرارة بسرعة.",
-            "تنظيم الداخل يحسن التهوية ولا يجعل المراوح تعمل تحت ضغط دائم.",
-            "هذه الزاوية تدعم فكرة الحرارة والغبار من المحور الأول."
-        ],
-        position: [5, 3, 4],
-        target: [0, 0, 0],
-        hotspots: [
-            { meshName: "FAN_Thermaltake_Blades", label: "مروحة أمامية", color: 0xf39c12, concept: "cooling-def" },
-            { meshName: "FAN_Thermaltake_Blades001", label: "مروحة علوية", color: 0xe67e22, concept: "cooling-def" },
-            { meshName: "FAN_Thermaltake_Blades002", label: "مروحة خلفية", color: 0xd35400, concept: "cooling-def" },
-            { meshName: "filter", label: "فلتر الهواء", color: 0x1abc9c, concept: "airflow-def" }
-        ]
-    },
-    power: {
-        title: "منطقة الطاقة",
-        text: "هذه الزاوية تربط مزود الطاقة بفكرة الانطفاء المفاجئ والتذبذب الكهربائي والحاجة إلى الوقاية عبر منظم أو UPS.",
-        points: [
-            "الانقطاع المفاجئ يقود أولاً إلى فحص مسار الطاقة لا إلى تنظيف الملفات.",
-            "مزود الطاقة جزء حاسم في استقرار التشغيل وسلامة المكونات.",
-            "الوقاية الكهربائية تقلل الخطر قبل أن يتحول إلى عطل مادي."
-        ],
-        position: [-4, 3, 5],
-        target: [0, 0, 0],
-        hotspots: [
-            { meshName: "Power_Supply_Unit", label: "مزود الطاقة", color: 0xe74c3c, concept: "psu-def" }
-        ]
-    },
-    upgrade: {
-        title: "منطقة الترقية",
-        text: "هنا تظهر المنطقة التي ترتبط باللوحة الأم والذاكرة والمنافذ، لذلك تبدأ الترقية الصحيحة من التوافق لا من شراء قطعة أقوى فقط.",
-        points: [
-            "افحص توافق القطعة مع اللوحة والمنافذ والطاقة قبل التركيب.",
-            "ارتدِ سواراً مضاداً للكهرباء الساكنة قبل التعامل مع القطع.",
-            "الترقية الجيدة تعالج الحاجة الفعلية ولا تكون قراراً عشوائياً."
-        ],
-        position: [4, 5, 3],
-        target: [0, 0, 0],
-        hotspots: [
-            { meshName: "Motherboard", label: "اللوحة الأم", color: 0x9b59b6, concept: "motherboard-def" },
-            { meshName: "RAM_Sticks", label: "الذاكرة RAM", color: 0x34495e, concept: "ram-def" },
-            { meshName: "GPU", label: "كرت الشاشة", color: 0x2c3e50, concept: "upgrade-decision" }
-        ]
-    }
+const DEFAULT_HARDWARE_ASSEMBLY_LAB = {
+    introTitle: "ابدأ بتجميع الجهاز من الهيكل حتى بطاقة الشاشة",
+    introText: "كل خطوة تقرّبك من فهم الجهاز كمنظومة مترابطة. اسحب القطعة إلى الإطار المتوهج المطابق لشكل موضعها، ثم راقب كيف تتحول إلى جزء فعلي داخل النموذج.",
+    feedbackTitle: "كيف يعمل المختبر؟",
+    feedbackText: "اسحب القطعة الصحيحة إلى الإطار المتوهج المطابق لشكلها، وكل تركيب صحيح سيكشف القطعة ويضيف بطاقة تعلّم جديدة إلى السجل الجانبي.",
+    completeTitle: "اكتمل التجميع الأساسي",
+    completeText: "جمعت الهيكل واللوحة الأم والطاقة والذاكرة وبطاقة الشاشة داخل نموذج واحد. الآن صار شكل الجهاز مرتبطاً بخطوات الصيانة والترقية لا بأسماء معزولة.",
+    selectHint: "على الشاشات اللمسية اختر القطعة أولاً ثم اضغط على الإطار المتوهج المطابق لشكل موضعها داخل النموذج.",
+    steps: [
+        {
+            id: "case",
+            label: "الهيكل",
+            inventoryLabel: "هيكل الجهاز",
+            meshNames: ["Case / Chassis"],
+            dropLabel: "ثبّت الهيكل أولاً",
+            instruction: "ابدأ بالهيكل لأنه الإطار الذي يحمي بقية القطع وينظم مسار الهواء داخل الجهاز.",
+            successText: "تم تثبيت الهيكل. الآن أصبح لديك إطار واضح تستقبل بداخله اللوحة الأم وبقية المكونات.",
+            facts: [
+                "الهيكل يحمي القطع الداخلية ويحدد مسار التهوية.",
+                "اختيار هيكل مناسب يساعد على خفض الحرارة وتنظيم الكابلات.",
+                "أي قرار صيانة يبدأ بفهم شكل الهيكل والوصول الآمن إلى الداخل."
+            ],
+            concept: "case-def",
+            color: "#3a7bd5",
+            position: [180, 120, 180],
+            target: [0, 45, 0]
+        },
+        {
+            id: "motherboard",
+            label: "اللوحة الأم",
+            inventoryLabel: "اللوحة الأم",
+            meshNames: ["Motherboard"],
+            dropLabel: "ضع اللوحة الأم في موضعها",
+            instruction: "ثبّت اللوحة الأم لأنها نقطة الربط بين المعالج والذاكرة والطاقة والمنافذ الداخلية.",
+            successText: "تم تثبيت اللوحة الأم في قلب الجهاز. من هنا تبدأ بقية القطع في الارتباط ببعضها بشكل منطقي.",
+            facts: [
+                "اللوحة الأم تربط جميع المكونات وتحدد منافذ التوسعة والتوافق.",
+                "أي ترقية ناجحة تعتمد على معرفة نوع اللوحة والمنافذ المتاحة فيها.",
+                "فحص اللوحة الأم خطوة أساسية قبل شراء RAM أو GPU جديد."
+            ],
+            concept: "motherboard-def",
+            color: "#2ecc71",
+            position: [130, 105, 165],
+            target: [0, 54, 0]
+        },
+        {
+            id: "psu",
+            label: "مزود الطاقة",
+            inventoryLabel: "مزود الطاقة",
+            meshNames: ["Power Supply Unit"],
+            dropLabel: "اربط مزود الطاقة بمكانه",
+            instruction: "أضف مزود الطاقة الآن لأن استقرار التشغيل يبدأ من مصدر الطاقة المناسب لكل القطع.",
+            successText: "تم تركيب مزود الطاقة. وهذا يربط خطوة التجميع مباشرة بفكرة الحماية من الانقطاع والتذبذب الكهربائي.",
+            facts: [
+                "مزود الطاقة يوزع الكهرباء على كل القطع الداخلية.",
+                "قدرة غير كافية أو غير مستقرة قد تسبب انطفاءً مفاجئاً أو تلفاً تدريجياً.",
+                "الحماية عبر UPS أو منظم فولتية تقلل مخاطر الأعطال الكهربائية."
+            ],
+            concept: "psu-def",
+            color: "#e74c3c",
+            position: [-190, 100, 155],
+            target: [0, 42, 0]
+        },
+        {
+            id: "ram",
+            label: "الذاكرة RAM",
+            inventoryLabel: "ذواكر RAM",
+            meshNames: ["RAM Sticks", "RAM Sticks.001"],
+            dropLabel: "ركّب الذواكر في الشقوق الصحيحة",
+            instruction: "ثبّت الذواكر بعد ذلك، لأنها مسؤولة عن سرعة تعدد المهام وسلاسة التشغيل.",
+            successText: "تم تركيب الذواكر معاً كوحدة تعليمية واحدة، وهذا يوضح أن الترقية الجيدة تعتمد على التوافق قبل السعة فقط.",
+            facts: [
+                "زيادة RAM تحسن تعدد المهام لكنها يجب أن توافق اللوحة الأم.",
+                "عدم التوافق في النوع أو السرعة قد يمنع الإقلاع أو يسبب عدم استقرار.",
+                "التعامل مع الذواكر يجب أن يتم بحذر ومع حماية من الكهرباء الساكنة."
+            ],
+            concept: "ram-def",
+            color: "#34495e",
+            position: [105, 150, 130],
+            target: [0, 68, 0]
+        },
+        {
+            id: "gpu",
+            label: "بطاقة الشاشة",
+            inventoryLabel: "بطاقة الشاشة GPU",
+            meshNames: ["GPU"],
+            dropLabel: "أدخل بطاقة الشاشة في المنفذ الصحيح",
+            instruction: "اختم التجميع ببطاقة الشاشة لأنها مثال واضح على أن كل ترقية يجب أن تراجع المنفذ والطاقة والحجم المتاح داخل الهيكل.",
+            successText: "تم تركيب بطاقة الشاشة. هكذا يكتمل خط التجميع الأساسي من الهيكل إلى قرار الترقية المدروس.",
+            facts: [
+                "بطاقة الشاشة تحتاج منفذ توسعة مناسباً وطاقة كافية من PSU.",
+                "ليست كل ترقية رسومية مناسبة لكل هيكل أو لوحة أم.",
+                "قرار الترقية الصحيح يعالج حاجة فعلية ولا يعتمد على القوة النظرية فقط."
+            ],
+            concept: "upgrade-decision",
+            color: "#2c3e50",
+            position: [170, 118, 80],
+            target: [0, 58, 0]
+        }
+    ]
 };
 
 const CONCEPT_POPUPS = {
@@ -240,7 +277,7 @@ const DEFAULT_SITE_CONFIG = {
                 focusTransitionMs: 760,
                 focusPulseMs: 480
             },
-            focusPresets: MODEL_FOCUS_PRESETS
+            assemblyLab: DEFAULT_HARDWARE_ASSEMBLY_LAB
         }
     }
 };
@@ -274,8 +311,28 @@ function getMotionConfig() {
     return SITE_CONFIG.global?.motion || {};
 }
 
+function getHardwareAssemblyConfig() {
+    return getPageConfig("hardware").assemblyLab || DEFAULT_HARDWARE_ASSEMBLY_LAB;
+}
+
+// Legacy compatibility for the retired focus-based viewer.
+const MODEL_FOCUS_PRESETS = {
+    overview: {
+        title: "",
+        text: "",
+        points: []
+    }
+};
+
 function getHardwareFocusPresets() {
-    return getPageConfig("hardware").focusPresets || MODEL_FOCUS_PRESETS;
+    return MODEL_FOCUS_PRESETS;
+}
+
+function normalizeMeshName(name = "") {
+    return String(name)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
 }
 
 const INTRO_SIMULATION_MODES = {
@@ -642,7 +699,6 @@ function setupHardwarePageConfig() {
     const hero = config.hero || {};
     const modelLab = config.modelLab || {};
     const tabs = config.visualTabs || {};
-    const focusPresets = getHardwareFocusPresets();
 
     Object.entries(config.visibleSections || {}).forEach(([sectionId, isVisible]) => {
         setSectionVisibility(sectionId, isVisible);
@@ -663,11 +719,6 @@ function setupHardwarePageConfig() {
     setElementContent("hardware-tab-power", tabs.power);
     setElementContent("hardware-tab-upgrade", tabs.upgrade);
     setElementContent("hardware-tab-disk", tabs.disk);
-
-    Object.entries(focusPresets).forEach(([focusId, preset]) => {
-        const button = document.querySelector(`[data-model-focus="${focusId}"]`);
-        if (button && typeof preset.buttonLabel === "string") button.textContent = preset.buttonLabel;
-    });
 }
 
 function setupPageConfig() {
@@ -798,7 +849,7 @@ function setupIntroSimulation() {
     render();
 }
 
-function setViewerFocusContent(focusId) {
+function setLegacyViewerFocusContent(focusId) {
     const presets = getHardwareFocusPresets();
     const preset = presets[focusId] ?? presets.overview ?? MODEL_FOCUS_PRESETS.overview;
     const title = document.getElementById("viewer-focus-title");
@@ -813,7 +864,7 @@ function setViewerFocusContent(focusId) {
     }
 }
 
-async function setupModelViewer() {
+async function setupLegacyModelViewer() {
     const mount = document.querySelector("[data-model-viewer]");
     
     if (!mount) {
@@ -822,7 +873,7 @@ async function setupModelViewer() {
     }
 
     mount.innerHTML = `<div class="viewer-loading">جارٍ تحميل النموذج ثلاثي الأبعاد...</div>`;
-    setViewerFocusContent("overview");
+    setLegacyViewerFocusContent("overview");
 
     const focusPresets = getHardwareFocusPresets();
 
@@ -1109,7 +1160,7 @@ async function setupModelViewer() {
             const c = b.getCenter(new THREE.Vector3());
             const nextPos = new THREE.Vector3(c.x + pos[0], c.y + pos[1], c.z + pos[2]);
             const nextTgt = new THREE.Vector3(c.x + tgt[0], c.y + tgt[1], c.z + tgt[2]);
-            setViewerFocusContent(focusId);
+            setLegacyViewerFocusContent(focusId);
             updateHotspots(focusId);
             
             if (immediate || prefersReducedMotion) {
@@ -1190,6 +1241,1157 @@ async function setupModelViewer() {
         console.error("3D viewer error:", error);
         const mount = document.querySelector("[data-model-viewer]");
         if (mount) mount.innerHTML = `<div class="viewer-loading">تعذر تحميل النموذج ثلاثي الأبعاد.<br><small style="color:var(--danger)">${error.message}</small></div>`;
+    }
+}
+
+function getAssemblyStepNumber(index) {
+    return String(index + 1).padStart(2, "0");
+}
+
+function getAssemblyPartVisualMarkup(step) {
+    const stepId = step?.id || "";
+
+    switch (stepId) {
+        case "case":
+            return `
+                <svg class="assembly-part-svg" viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="22" y="8" width="38" height="56" rx="10" fill="currentColor" opacity="0.16"></rect>
+                    <rect x="22" y="8" width="38" height="56" rx="10" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                    <circle cx="41" cy="27" r="10" fill="none" stroke="currentColor" stroke-width="3"></circle>
+                    <circle cx="41" cy="47" r="10" fill="none" stroke="currentColor" stroke-width="3"></circle>
+                    <path d="M64 20 H74 M64 30 H74 M64 40 H74 M64 50 H74" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+                </svg>
+            `;
+        case "motherboard":
+            return `
+                <svg class="assembly-part-svg" viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="14" y="12" width="68" height="48" rx="8" fill="currentColor" opacity="0.15"></rect>
+                    <rect x="14" y="12" width="68" height="48" rx="8" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                    <rect x="24" y="22" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                    <rect x="48" y="22" width="24" height="8" rx="3" fill="currentColor" opacity="0.28"></rect>
+                    <rect x="48" y="34" width="24" height="6" rx="3" fill="currentColor" opacity="0.22"></rect>
+                    <path d="M24 48 H72" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+                </svg>
+            `;
+        case "psu":
+            return `
+                <svg class="assembly-part-svg" viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="18" y="16" width="60" height="40" rx="8" fill="currentColor" opacity="0.15"></rect>
+                    <rect x="18" y="16" width="60" height="40" rx="8" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                    <circle cx="40" cy="36" r="12" fill="none" stroke="currentColor" stroke-width="3"></circle>
+                    <path d="M34 30 L46 42 M46 30 L34 42" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+                    <rect x="58" y="28" width="12" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                </svg>
+            `;
+        case "ram":
+            return `
+                <svg class="assembly-part-svg" viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="18" y="22" width="24" height="28" rx="6" fill="currentColor" opacity="0.14"></rect>
+                    <rect x="18" y="22" width="24" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                    <rect x="54" y="18" width="24" height="32" rx="6" fill="currentColor" opacity="0.18"></rect>
+                    <rect x="54" y="18" width="24" height="32" rx="6" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                    <path d="M22 54 H38 M58 54 H74" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+                </svg>
+            `;
+        case "gpu":
+            return `
+                <svg class="assembly-part-svg" viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="12" y="22" width="62" height="28" rx="8" fill="currentColor" opacity="0.14"></rect>
+                    <rect x="12" y="22" width="62" height="28" rx="8" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                    <circle cx="34" cy="36" r="8" fill="none" stroke="currentColor" stroke-width="3"></circle>
+                    <circle cx="56" cy="36" r="8" fill="none" stroke="currentColor" stroke-width="3"></circle>
+                    <path d="M78 28 V44 M84 28 V44" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+                </svg>
+            `;
+        default:
+            return `
+                <svg class="assembly-part-svg" viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="18" y="16" width="60" height="40" rx="10" fill="currentColor" opacity="0.14"></rect>
+                    <rect x="18" y="16" width="60" height="40" rx="10" fill="none" stroke="currentColor" stroke-width="3"></rect>
+                </svg>
+            `;
+    }
+}
+
+async function setupModelViewer() {
+    const mount = document.querySelector("[data-model-viewer]");
+    if (!mount) return;
+
+    const labSection = document.getElementById("hardware-model-lab");
+    const targetLayer = document.getElementById("assembly-target-layer");
+    const stepper = document.getElementById("assembly-stepper");
+    const currentTitle = document.getElementById("assembly-current-title");
+    const currentText = document.getElementById("assembly-current-text");
+    const feedbackBox = document.getElementById("assembly-feedback");
+    const feedbackTitle = document.getElementById("assembly-feedback-title");
+    const feedbackText = document.getElementById("assembly-feedback-text");
+    const partsList = document.getElementById("assembly-parts-list");
+    const learningCards = document.getElementById("assembly-learning-cards");
+    const mobileHint = document.getElementById("assembly-mobile-hint");
+    const resetStepButton = document.getElementById("assembly-reset-step");
+    const resetAllButton = document.getElementById("assembly-reset-all");
+    const stageElement = mount.closest(".assembly-stage");
+    const fullscreenToggles = Array.from(document.querySelectorAll("[data-assembly-fullscreen-toggle]")).filter((button, index, buttons) => {
+        return button instanceof HTMLElement && buttons.indexOf(button) === index;
+    });
+
+    if (!targetLayer || !stepper || !currentTitle || !currentText || !feedbackBox || !feedbackTitle || !feedbackText || !partsList || !learningCards) {
+        return;
+    }
+
+    const labConfig = getHardwareAssemblyConfig();
+    const initialFeedback = {
+        tone: "info",
+        title: labConfig.feedbackTitle || "كيف يعمل المختبر؟",
+        text: labConfig.feedbackText || "رتّب القطع بالترتيب، وكل تركيب صحيح سيكشف القطعة ويضيف بطاقة تعلّم جديدة إلى السجل الجانبي."
+    };
+
+    if (mobileHint && typeof labConfig.selectHint === "string") mobileHint.textContent = labConfig.selectHint;
+    if (resetStepButton && typeof labConfig.resetStepLabel === "string") resetStepButton.textContent = labConfig.resetStepLabel;
+    if (resetAllButton && typeof labConfig.resetAllLabel === "string") resetAllButton.textContent = labConfig.resetAllLabel;
+
+    mount.innerHTML = `<div class="viewer-loading">جارٍ تحميل مختبر التجميع ثلاثي الأبعاد...</div>`;
+    targetLayer.innerHTML = "";
+
+    let state = {
+        currentStepIndex: 0,
+        placedParts: new Set(),
+        selectedPartId: null,
+        collectedCards: [],
+        feedbackState: { ...initialFeedback },
+        isCompleted: false
+    };
+
+    try {
+        const THREE = await import("three");
+        const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
+        const { FBXLoader } = await import("three/addons/loaders/FBXLoader.js");
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color("#eef5fb");
+
+        const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 50000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setPixelRatio(window.devicePixelRatio || 1);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        mount.innerHTML = "";
+        mount.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.enablePan = false;
+        controls.rotateSpeed = 0.76;
+        controls.zoomSpeed = 0.9;
+        controls.minPolarAngle = Math.PI * 0.16;
+        controls.maxPolarAngle = Math.PI * 0.54;
+
+        scene.add(new THREE.AmbientLight("#ffffff", 1.5));
+        const keyLight = new THREE.DirectionalLight("#ffffff", 2.2);
+        keyLight.position.set(120, 220, 180);
+        scene.add(keyLight);
+        const fillLight = new THREE.DirectionalLight("#c9e4ff", 1.1);
+        fillLight.position.set(-120, 140, -120);
+        scene.add(fillLight);
+
+        const grid = new THREE.GridHelper(2000, 20, "#c8d8ea", "#e4edf6");
+        const gridMaterials = Array.isArray(grid.material) ? grid.material : [grid.material];
+        gridMaterials.forEach((material) => {
+            material.transparent = true;
+            material.opacity = 0.48;
+        });
+        scene.add(grid);
+
+        const loader = new FBXLoader();
+        const model = await new Promise((resolve, reject) => {
+            loader.load("models/PC.fbx", resolve, undefined, reject);
+        });
+
+        const wrapper = new THREE.Group();
+        wrapper.add(model);
+        scene.add(wrapper);
+
+        const initialBox = new THREE.Box3().setFromObject(wrapper);
+        const width = initialBox.max.x - initialBox.min.x;
+        const height = initialBox.max.y - initialBox.min.y;
+        const depth = initialBox.max.z - initialBox.min.z;
+        const maxDim = Math.max(width, height, depth) || 1;
+        const targetSize = 200;
+        const scale = targetSize / maxDim;
+
+        wrapper.position.set(-width / 2, -initialBox.min.y, -depth / 2);
+        wrapper.scale.setScalar(scale);
+
+        const wrapperBox = new THREE.Box3().setFromObject(wrapper);
+        const wrapperSize = wrapperBox.getSize(new THREE.Vector3());
+        const wrapperCenter = wrapperBox.getCenter(new THREE.Vector3());
+        const wrapperSphere = wrapperBox.getBoundingSphere(new THREE.Sphere());
+        const radius = Math.max(wrapperSphere.radius, 1);
+        grid.position.y = wrapperBox.min.y - 0.2;
+
+        camera.position.set(wrapperCenter.x + radius * 1.35, wrapperCenter.y + wrapperSize.y * 0.72, wrapperCenter.z + radius * 1.25);
+        camera.near = Math.max(0.1, radius * 0.01);
+        camera.far = Math.max(radius * 20, 2500);
+        camera.updateProjectionMatrix();
+        controls.target.set(wrapperCenter.x, wrapperCenter.y + wrapperSize.y * 0.16, wrapperCenter.z);
+        controls.minDistance = Math.max(45, radius * 0.45);
+        controls.maxDistance = Math.max(520, radius * 6);
+        controls.update();
+
+        const allMeshes = [];
+        model.traverse((child) => {
+            if (!child.isMesh) return;
+            child.userData.assemblyOriginalMaterial = child.material;
+            child.userData.assemblyOriginalVisible = child.visible;
+            allMeshes.push(child);
+        });
+
+        const resolveStepMeshes = (step) => {
+            const resolved = [];
+            const seen = new Set();
+            const queries = (Array.isArray(step.meshNames) ? step.meshNames : [])
+                .map((name) => normalizeMeshName(name))
+                .filter(Boolean);
+
+            allMeshes.forEach((mesh) => {
+                const meshName = normalizeMeshName(mesh.name);
+                if (!meshName) return;
+
+                const isMatch = queries.some((query) => {
+                    return meshName === query || meshName.startsWith(query) || meshName.includes(query) || query.includes(meshName);
+                });
+
+                if (isMatch && !seen.has(mesh.uuid)) {
+                    seen.add(mesh.uuid);
+                    resolved.push(mesh);
+                }
+            });
+
+            return resolved;
+        };
+
+        const steps = (Array.isArray(labConfig.steps) ? labConfig.steps : []).map((step, index) => {
+            const meshes = resolveStepMeshes(step);
+            if (!meshes.length) return null;
+
+            const box = new THREE.Box3();
+            meshes.forEach((mesh) => box.expandByObject(mesh));
+            const center = box.getCenter(new THREE.Vector3());
+            const size = box.getSize(new THREE.Vector3());
+            const anchor = center.clone();
+            anchor.y = box.max.y + Math.max(12, size.y * 0.18);
+
+            return {
+                ...step,
+                index,
+                badge: getAssemblyStepNumber(index),
+                meshes,
+                box: box.clone(),
+                center,
+                size,
+                anchor
+            };
+        }).filter(Boolean);
+
+        if (!steps.length) {
+            throw new Error("تعذر العثور على أجزاء التجميع داخل ملف PC.fbx.");
+        }
+
+        const stepById = new Map(steps.map((step) => [step.id, step]));
+        const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        const modelConfig = getPageConfig("hardware").modelLab || {};
+        const focusTransitionMs = Math.max(320, Number(modelConfig.focusTransitionMs) || 760);
+
+        let focusTransition = null;
+        let activeTargetElement = null;
+        let draggedPartId = null;
+        let targetTone = "ready";
+        let targetResetTimer = null;
+        let highlightResetTimer = null;
+        let dragPreviewElement = null;
+        let pointerDragState = null;
+        let suppressPartClickUntil = 0;
+        let suppressPartClickId = null;
+        let suppressTargetClickUntil = 0;
+
+        const raycaster = new THREE.Raycaster();
+        const pointer = new THREE.Vector2();
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const nowMs = () => (typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now());
+
+        const cloneMaterialWith = (material, mutator) => {
+            if (Array.isArray(material)) {
+                return material.map((part) => {
+                    const clone = part.clone();
+                    mutator(clone);
+                    return clone;
+                });
+            }
+
+            const clone = material.clone();
+            mutator(clone);
+            return clone;
+        };
+
+        const getActiveStep = () => state.isCompleted ? null : steps[state.currentStepIndex] || null;
+        const setFeedbackState = (tone, title, text) => {
+            state.feedbackState = { tone, title, text };
+        };
+        const setStageDropState = (isReady = false, isOver = false) => {
+            if (!stageElement) return;
+            stageElement.classList.toggle("is-drop-ready", isReady);
+            stageElement.classList.toggle("is-drop-over", isReady && isOver);
+        };
+
+        const restoreStepMeshes = (step) => {
+            step.meshes.forEach((mesh) => {
+                mesh.visible = mesh.userData.assemblyOriginalVisible ?? true;
+                mesh.material = mesh.userData.assemblyOriginalMaterial;
+                mesh.userData.concept = step.concept;
+            });
+        };
+
+        const ghostStepMeshes = (step, emphasis = false) => {
+            step.meshes.forEach((mesh) => {
+                const baseMaterial = mesh.userData.assemblyOriginalMaterial;
+                const tintColor = new THREE.Color(step.color || "#cad5df");
+                mesh.visible = true;
+                mesh.material = cloneMaterialWith(baseMaterial, (mat) => {
+                    if ("transparent" in mat) mat.transparent = true;
+                    if ("opacity" in mat) mat.opacity = emphasis ? 0.22 : 0.08;
+                    if ("depthWrite" in mat) mat.depthWrite = false;
+                    if ("color" in mat && mat.color) {
+                        const mixed = mat.color.clone().lerp(tintColor, emphasis ? 0.65 : 0.32);
+                        mat.color.copy(mixed);
+                    }
+                    if ("emissive" in mat && mat.emissive) {
+                        mat.emissive = tintColor.clone();
+                        mat.emissiveIntensity = emphasis ? 0.4 : 0.08;
+                    }
+                });
+                delete mesh.userData.concept;
+            });
+        };
+
+        const applyAssemblyVisibility = () => {
+            const activeStep = getActiveStep();
+
+            steps.forEach((step) => {
+                if (state.placedParts.has(step.id)) {
+                    restoreStepMeshes(step);
+                    return;
+                }
+
+                ghostStepMeshes(step, Boolean(activeStep && activeStep.id === step.id));
+            });
+        };
+
+        const highlightPlacedStep = (step) => {
+            if (!step) return;
+            if (highlightResetTimer) clearTimeout(highlightResetTimer);
+
+            step.meshes.forEach((mesh) => {
+                const baseMaterial = mesh.userData.assemblyOriginalMaterial;
+                mesh.material = cloneMaterialWith(baseMaterial, (mat) => {
+                    if ("emissive" in mat && mat.emissive) {
+                        mat.emissive = new THREE.Color(step.color || "#ffffff");
+                        mat.emissiveIntensity = 0.85;
+                    }
+                });
+            });
+
+            highlightResetTimer = window.setTimeout(() => {
+                applyAssemblyVisibility();
+            }, 900);
+        };
+
+        const moveCameraToStep = (step, immediate = false) => {
+            if (!step) return;
+            const pos = Array.isArray(step.position) ? step.position : [180, 120, 180];
+            const configuredTarget = Array.isArray(step.target) ? step.target : [0, 45, 0];
+            const baseTarget = (step.center || wrapperCenter).clone();
+            const targetLift = Math.max(6, (step.size?.y || 0) * 0.08);
+            const targetNudge = new THREE.Vector3(
+                (configuredTarget[0] || 0) * 0.1,
+                (configuredTarget[1] || 0) * 0.16,
+                (configuredTarget[2] || 0) * 0.1
+            );
+            const nextTarget = baseTarget.add(new THREE.Vector3(0, targetLift, 0)).add(targetNudge);
+            const nextPosition = nextTarget.clone().add(new THREE.Vector3(pos[0], pos[1], pos[2]));
+
+            if (immediate || prefersReducedMotion) {
+                camera.position.copy(nextPosition);
+                controls.target.copy(nextTarget);
+                controls.update();
+                focusTransition = null;
+                return;
+            }
+
+            focusTransition = {
+                startTime: performance.now(),
+                duration: focusTransitionMs,
+                fromPosition: camera.position.clone(),
+                fromTarget: controls.target.clone(),
+                toPosition: nextPosition,
+                toTarget: nextTarget
+            };
+        };
+
+        const resize = () => {
+            const width = mount.clientWidth;
+            const height = mount.clientHeight;
+            if (width <= 0 || height <= 0) return;
+            renderer.setSize(width, height, false);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        };
+
+        const projectWorldPoint = (worldPoint) => {
+            const projected = worldPoint.clone().project(camera);
+            const width = mount.clientWidth;
+            const height = mount.clientHeight;
+            if (!Number.isFinite(projected.x) || !Number.isFinite(projected.y) || !Number.isFinite(projected.z)) return null;
+            return {
+                x: (projected.x * 0.5 + 0.5) * width,
+                y: (-projected.y * 0.5 + 0.5) * height,
+                normalizedX: projected.x,
+                normalizedY: projected.y,
+                visible: projected.z > -1 && projected.z < 1
+            };
+        };
+
+        const projectStepBounds = (step) => {
+            if (!step?.box) return null;
+
+            const { min, max } = step.box;
+            const corners = [
+                new THREE.Vector3(min.x, min.y, min.z),
+                new THREE.Vector3(min.x, min.y, max.z),
+                new THREE.Vector3(min.x, max.y, min.z),
+                new THREE.Vector3(min.x, max.y, max.z),
+                new THREE.Vector3(max.x, min.y, min.z),
+                new THREE.Vector3(max.x, min.y, max.z),
+                new THREE.Vector3(max.x, max.y, min.z),
+                new THREE.Vector3(max.x, max.y, max.z)
+            ];
+
+            const points = corners
+                .map((corner) => projectWorldPoint(corner))
+                .filter((point) => point && point.visible);
+
+            const centerPoint = projectWorldPoint(step.center || step.anchor);
+            if (centerPoint && centerPoint.visible) points.push(centerPoint);
+            if (!points.length) return null;
+
+            const widthLimit = mount.clientWidth;
+            const heightLimit = mount.clientHeight;
+            const rawMinX = Math.min(...points.map((point) => point.x));
+            const rawMaxX = Math.max(...points.map((point) => point.x));
+            const rawMinY = Math.min(...points.map((point) => point.y));
+            const rawMaxY = Math.max(...points.map((point) => point.y));
+            const padding = Math.max(14, Math.min(widthLimit, heightLimit) * 0.025);
+            const preferredWidth = Math.max(132, rawMaxX - rawMinX + padding * 2);
+            const preferredHeight = Math.max(104, rawMaxY - rawMinY + padding * 2);
+            const left = clamp(rawMinX - padding, 10, Math.max(10, widthLimit - 134));
+            const top = clamp(rawMinY - padding, 10, Math.max(10, heightLimit - 106));
+            const width = clamp(preferredWidth, 132, Math.max(132, widthLimit - left - 10));
+            const height = clamp(preferredHeight, 104, Math.max(104, heightLimit - top - 10));
+
+            return {
+                left,
+                top,
+                width,
+                height
+            };
+        };
+
+        const updateActiveTargetPosition = () => {
+            const activeStep = getActiveStep();
+            if (!activeTargetElement || !activeStep) return;
+
+            const bounds = projectStepBounds(activeStep);
+            if (!bounds) {
+                activeTargetElement.style.opacity = "0";
+                return;
+            }
+
+            activeTargetElement.style.opacity = "1";
+            activeTargetElement.style.left = `${bounds.left}px`;
+            activeTargetElement.style.top = `${bounds.top}px`;
+            activeTargetElement.style.width = `${bounds.width}px`;
+            activeTargetElement.style.height = `${bounds.height}px`;
+        };
+
+        const updateFullscreenButton = () => {
+            if (!fullscreenToggles.length || !labSection) return;
+
+            const isFullscreen = document.fullscreenElement === labSection || labSection.classList.contains("is-fallback-fullscreen");
+
+            fullscreenToggles.forEach((button) => {
+                const enterLabel = button.dataset.enterLabel || "تفعيل ملء الشاشة";
+                const exitLabel = button.dataset.exitLabel || "الخروج من ملء الشاشة";
+                button.textContent = isFullscreen ? exitLabel : enterLabel;
+                button.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
+                button.classList.toggle("is-active", isFullscreen);
+            });
+        };
+
+        const syncImmersiveViewport = () => {
+            if (!labSection) return;
+
+            const isNativeFullscreen = document.fullscreenElement === labSection;
+            const isFallbackFullscreen = labSection.classList.contains("is-fallback-fullscreen");
+            const isFullscreenActive = isNativeFullscreen || isFallbackFullscreen;
+
+            labSection.classList.toggle("is-fullscreen-active", isFullscreenActive);
+            document.body.classList.toggle("lab-fullscreen-lock", isFallbackFullscreen);
+
+            updateFullscreenButton();
+            resize();
+            updateActiveTargetPosition();
+        };
+
+        const enterFallbackFullscreen = () => {
+            if (!labSection) return;
+            labSection.classList.add("is-fallback-fullscreen");
+            syncImmersiveViewport();
+        };
+
+        const exitFallbackFullscreen = () => {
+            if (!labSection) return;
+            labSection.classList.remove("is-fallback-fullscreen");
+            syncImmersiveViewport();
+        };
+
+        const toggleImmersiveViewport = async () => {
+            if (!labSection) return;
+
+            const isNativeFullscreen = document.fullscreenElement === labSection;
+            const isFallbackFullscreen = labSection.classList.contains("is-fallback-fullscreen");
+
+            try {
+                if (isNativeFullscreen) {
+                    if (typeof document.exitFullscreen === "function") {
+                        await document.exitFullscreen();
+                    }
+                } else if (isFallbackFullscreen) {
+                    exitFallbackFullscreen();
+                    return;
+                } else if (typeof labSection.requestFullscreen === "function") {
+                    await labSection.requestFullscreen();
+                } else {
+                    enterFallbackFullscreen();
+                    return;
+                }
+            } catch (error) {
+                console.warn("Immersive mode failed:", error);
+                if (!isNativeFullscreen && !isFallbackFullscreen) {
+                    enterFallbackFullscreen();
+                    return;
+                }
+            }
+
+            syncImmersiveViewport();
+        };
+
+        const setTargetTone = (tone, duration = 0) => {
+            if (targetTone === tone && duration <= 0) return;
+            targetTone = tone;
+            renderTarget();
+            if (targetResetTimer) clearTimeout(targetResetTimer);
+            if (duration > 0) {
+                targetResetTimer = window.setTimeout(() => {
+                    targetTone = "ready";
+                    renderTarget();
+                }, duration);
+            }
+        };
+
+        const buildDragPreviewMarkup = (step, label, status) => `
+            <span class="assembly-drag-preview-visual" style="color:${step?.color || "#255c75"}">
+                ${getAssemblyPartVisualMarkup(step)}
+            </span>
+            <span class="assembly-drag-preview-copy">
+                <strong>${label}</strong>
+                <span>${status}</span>
+            </span>
+        `;
+
+        const ensureDragPreviewElement = () => {
+            if (!dragPreviewElement) {
+                dragPreviewElement = document.createElement("div");
+                dragPreviewElement.className = "assembly-drag-preview";
+                document.body.appendChild(dragPreviewElement);
+            }
+            return dragPreviewElement;
+        };
+
+        const setDragPreviewPosition = (clientX, clientY) => {
+            if (!dragPreviewElement) return;
+            dragPreviewElement.style.left = `${clientX + 18}px`;
+            dragPreviewElement.style.top = `${clientY + 18}px`;
+        };
+
+        const showDragPreview = (step, label, status, clientX, clientY) => {
+            const preview = ensureDragPreviewElement();
+            preview.innerHTML = buildDragPreviewMarkup(step, label, status);
+            preview.classList.add("is-active");
+            setDragPreviewPosition(clientX, clientY);
+        };
+
+        const hideDragPreview = () => {
+            if (!dragPreviewElement) return;
+            dragPreviewElement.classList.remove("is-active");
+            dragPreviewElement.style.left = "-9999px";
+            dragPreviewElement.style.top = "-9999px";
+        };
+
+        const isPointOverActiveTarget = (clientX, clientY) => {
+            if (!activeTargetElement) return false;
+            const rect = activeTargetElement.getBoundingClientRect();
+            const insetX = Math.min(18, rect.width * 0.08);
+            const insetY = Math.min(18, rect.height * 0.08);
+            return (
+                clientX >= rect.left + insetX &&
+                clientX <= rect.right - insetX &&
+                clientY >= rect.top + insetY &&
+                clientY <= rect.bottom - insetY
+            );
+        };
+
+        const clearPointerDragTracking = () => {
+            document.removeEventListener("pointermove", handlePointerDragMove);
+            document.removeEventListener("pointerup", handlePointerDragEnd, true);
+            document.removeEventListener("pointercancel", handlePointerDragCancel, true);
+        };
+
+        const finishPointerDrag = (resetTone = true) => {
+            clearPointerDragTracking();
+            pointerDragState = null;
+            draggedPartId = null;
+            controls.enabled = true;
+            targetLayer.classList.remove("is-dragging");
+            document.body.classList.remove("assembly-drag-lock");
+            setStageDropState(false, false);
+            hideDragPreview();
+            if (resetTone && !state.isCompleted) setTargetTone("ready");
+        };
+
+        const handlePointerDragMove = (event) => {
+            if (!pointerDragState) return;
+            if (pointerDragState.pointerId != null && event.pointerId !== pointerDragState.pointerId) return;
+
+            const deltaX = event.clientX - pointerDragState.startX;
+            const deltaY = event.clientY - pointerDragState.startY;
+            const distance = Math.hypot(deltaX, deltaY);
+
+            if (!pointerDragState.active) {
+                if (distance < 8) return;
+
+                pointerDragState.active = true;
+                draggedPartId = pointerDragState.partId;
+                state.selectedPartId = pointerDragState.partId;
+                controls.enabled = false;
+                targetLayer.classList.add("is-dragging");
+                document.body.classList.add("assembly-drag-lock");
+                setStageDropState(true, false);
+
+                const draggedStep = stepById.get(pointerDragState.partId);
+                const label = pointerDragState.label || draggedStep?.inventoryLabel || draggedStep?.label || "قطعة";
+                const status = pointerDragState.status || "أفلتها فوق الشكل المطابق";
+                showDragPreview(draggedStep, label, status, event.clientX, event.clientY);
+                renderUI();
+            }
+
+            event.preventDefault();
+            setDragPreviewPosition(event.clientX, event.clientY);
+            const isOverTarget = isPointOverActiveTarget(event.clientX, event.clientY);
+            setStageDropState(true, isOverTarget);
+            setTargetTone(isOverTarget ? "over" : "ready");
+        };
+
+        const handlePointerDragEnd = (event) => {
+            if (!pointerDragState) return;
+            if (pointerDragState.pointerId != null && event.pointerId !== pointerDragState.pointerId) return;
+
+            const activeDrag = pointerDragState;
+            const wasDragging = activeDrag.active;
+            const droppedOnTarget = wasDragging && isPointOverActiveTarget(event.clientX, event.clientY);
+
+            if (!wasDragging) {
+                finishPointerDrag(false);
+                return;
+            }
+
+            event.preventDefault();
+            suppressPartClickId = activeDrag.partId;
+            suppressPartClickUntil = nowMs() + 280;
+            if (droppedOnTarget) suppressTargetClickUntil = nowMs() + 280;
+
+            finishPointerDrag(false);
+
+            if (droppedOnTarget) {
+                attemptPlacement(activeDrag.partId);
+                return;
+            }
+
+            state.selectedPartId = activeDrag.partId;
+            setFeedbackState(
+                "warning",
+                "أفلت القطعة داخل موضعها",
+                "يتم تثبيت القطعة فقط عندما تفلتها فوق الإطار المتوهج المطابق لشكل موضعها داخل النموذج."
+            );
+            setTargetTone("ready");
+            renderUI();
+        };
+
+        const handlePointerDragCancel = () => {
+            if (!pointerDragState) return;
+            const activeDrag = pointerDragState;
+            finishPointerDrag(false);
+            if (activeDrag.active) {
+                state.selectedPartId = activeDrag.partId;
+                setFeedbackState(
+                    "info",
+                    "تم إلغاء السحب",
+                    "اختر القطعة من جديد ثم اسحبها إلى الإطار المتوهج عندما تكون جاهزًا."
+                );
+                renderUI();
+            }
+        };
+
+        const attemptPlacement = (partId) => {
+            if (!partId) return;
+            const activeStep = getActiveStep();
+            if (!activeStep) return;
+
+            const pickedStep = stepById.get(partId);
+            if (!pickedStep || state.placedParts.has(partId)) return;
+
+            if (partId !== activeStep.id) {
+                state.selectedPartId = partId;
+                setFeedbackState(
+                    "error",
+                    "هذه ليست القطعة الصحيحة لهذه الخطوة",
+                    `الإطار المتوهج الحالي مخصص لـ ${activeStep.inventoryLabel || activeStep.label}. اختر القطعة الصحيحة ثم أعد الإسقاط فوق الشكل المطابق.`
+                );
+                setTargetTone("wrong", 900);
+                renderUI();
+                return;
+            }
+
+            state.placedParts.add(partId);
+            state.selectedPartId = null;
+            state.collectedCards = Array.from(state.placedParts);
+
+            if (state.currentStepIndex >= steps.length - 1) {
+                state.isCompleted = true;
+                setFeedbackState(
+                    "complete",
+                    labConfig.completeTitle || "اكتمل التجميع الأساسي",
+                    labConfig.completeText || "أكملت ربط القطع الأساسية داخل النموذج."
+                );
+            } else {
+                state.currentStepIndex += 1;
+                setFeedbackState("success", `تم تركيب ${pickedStep.label}`, pickedStep.successText);
+            }
+
+            applyAssemblyVisibility();
+            moveCameraToStep(state.isCompleted ? pickedStep : getActiveStep());
+            renderUI();
+            highlightPlacedStep(pickedStep);
+        };
+
+        const handleTargetActivation = () => {
+            if (nowMs() < suppressTargetClickUntil) {
+                suppressTargetClickUntil = 0;
+                return;
+            }
+
+            const activeStep = getActiveStep();
+            if (!activeStep) return;
+
+            if (!state.selectedPartId) {
+                setFeedbackState(
+                    "info",
+                    "اختر قطعة أولاً",
+                    `الخطوة الحالية تطلب ${activeStep.inventoryLabel || activeStep.label}. اخترها من لوحة الأجزاء ثم أسقطها فوق الإطار المتوهج المطابق لشكلها أو اضغط عليه.`
+                );
+                renderUI();
+                return;
+            }
+
+            attemptPlacement(state.selectedPartId);
+        };
+
+        const renderTarget = () => {
+            targetLayer.innerHTML = "";
+            activeTargetElement = null;
+
+            const activeStep = getActiveStep();
+            if (!activeStep) {
+                if (state.isCompleted) {
+                    targetLayer.innerHTML = `<div class="assembly-target-summary">اكتمل التجميع</div>`;
+                }
+                return;
+            }
+
+            const target = document.createElement("div");
+            target.className = `assembly-target is-${targetTone}`;
+            target.innerHTML = `
+                <button class="assembly-target-button" type="button" data-target-step="${activeStep.id}" aria-label="${activeStep.dropLabel}">
+                    <span class="assembly-target-frame"></span>
+                    <span class="assembly-target-ghost" aria-hidden="true" style="color:${activeStep.color || "#255c75"}">
+                        ${getAssemblyPartVisualMarkup(activeStep)}
+                    </span>
+                    <span class="assembly-target-chip">
+                        <span class="assembly-target-dot"></span>
+                        <span class="assembly-target-label">${activeStep.dropLabel}</span>
+                    </span>
+                </button>
+            `;
+
+            targetLayer.appendChild(target);
+            activeTargetElement = target;
+            bindTargetEvents(target.querySelector(".assembly-target-button"));
+            updateActiveTargetPosition();
+        };
+
+        const renderLearningCards = () => {
+            if (!state.collectedCards.length) {
+                learningCards.innerHTML = `
+                    <article class="assembly-card is-empty">
+                        <strong>لا توجد بطاقات بعد</strong>
+                        <p>ابدأ بتركيب أول قطعة حتى يبدأ السجل في جمع المعلومات التعليمية.</p>
+                    </article>
+                `;
+                return;
+            }
+
+            const cardsMarkup = state.collectedCards.map((stepId) => {
+                const step = stepById.get(stepId);
+                if (!step) return "";
+                const facts = (Array.isArray(step.facts) ? step.facts : [])
+                    .map((fact) => `<div class="assembly-card-point">${fact}</div>`)
+                    .join("");
+
+                return `
+                    <article class="assembly-card">
+                        <span class="assembly-card-tag">${step.badge}</span>
+                        <h4>${step.label}</h4>
+                        <div class="assembly-card-points">${facts}</div>
+                    </article>
+                `;
+            }).join("");
+
+            const completionCard = state.isCompleted ? `
+                <article class="assembly-card is-summary">
+                    <span class="assembly-card-tag">تم</span>
+                    <h4>${labConfig.completeTitle || "اكتمل التجميع الأساسي"}</h4>
+                    <div class="assembly-card-point">${labConfig.completeText || "أصبحت القطع الأساسية مجتمعة في نموذج واحد."}</div>
+                </article>
+            ` : "";
+
+            learningCards.innerHTML = `${cardsMarkup}${completionCard}`;
+        };
+
+        const renderUI = () => {
+            const activeStep = getActiveStep();
+
+            stepper.innerHTML = steps.map((step, index) => {
+                const classes = [
+                    "assembly-step",
+                    state.placedParts.has(step.id) ? "is-done" : "",
+                    !state.isCompleted && index === state.currentStepIndex ? "is-active" : "",
+                    !state.placedParts.has(step.id) && index > state.currentStepIndex ? "is-upcoming" : ""
+                ].filter(Boolean).join(" ");
+
+                return `
+                    <div class="${classes}">
+                        <span class="assembly-step-index">${step.badge}</span>
+                        <div class="assembly-step-copy">
+                            <strong>${step.label}</strong>
+                            <span>${state.placedParts.has(step.id) ? "تم تثبيته" : index === state.currentStepIndex && !state.isCompleted ? "الخطوة الحالية" : "بانتظارك"}</span>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            if (state.isCompleted) {
+                currentTitle.textContent = labConfig.completeTitle || "اكتمل التجميع الأساسي";
+                currentText.textContent = labConfig.completeText || "أكملت ربط القطع الأساسية داخل النموذج.";
+            } else if (activeStep) {
+                currentTitle.textContent = `${activeStep.badge} • ${activeStep.label}`;
+                currentText.textContent = activeStep.instruction || labConfig.introText || "";
+            }
+
+            feedbackBox.className = `assembly-feedback is-${state.feedbackState.tone || "info"}`;
+            feedbackTitle.textContent = state.feedbackState.title || "";
+            feedbackText.textContent = state.feedbackState.text || "";
+
+            partsList.innerHTML = steps.map((step) => {
+                const isPlaced = state.placedParts.has(step.id);
+                const isSelected = state.selectedPartId === step.id;
+                const isCurrent = !state.isCompleted && activeStep && activeStep.id === step.id;
+                const statusText = isPlaced ? "تم تركيبه" : isCurrent ? "القطعة المطلوبة الآن" : "قطعة جاهزة";
+
+                return `
+                    <button
+                        class="assembly-part ${isPlaced ? "is-placed" : ""} ${isCurrent ? "is-current" : ""} ${isSelected ? "is-selected" : ""}"
+                        type="button"
+                        data-part-id="${step.id}"
+                        draggable="false"
+                        ${isPlaced ? "disabled" : ""}
+                    >
+                        <span class="assembly-part-visual" aria-hidden="true" style="color:${step.color || "#255c75"}">
+                            ${getAssemblyPartVisualMarkup(step)}
+                            <span class="assembly-part-badge">${step.badge}</span>
+                        </span>
+                        <span class="assembly-part-meta">
+                            <strong>${step.inventoryLabel || step.label}</strong>
+                            <span>${statusText}</span>
+                        </span>
+                        <span class="assembly-part-grab">${isPlaced ? "تم" : "اسحب"}</span>
+                    </button>
+                `;
+            }).join("");
+
+            bindPartEvents();
+            renderLearningCards();
+            renderTarget();
+        };
+        const bindTargetEvents = (button) => {
+            if (!button) return;
+
+            button.addEventListener("click", handleTargetActivation);
+        };
+
+        const bindPartEvents = () => {
+            partsList.querySelectorAll("[data-part-id]").forEach((button) => {
+                if (button.disabled) return;
+
+                button.addEventListener("click", () => {
+                    if (button.dataset.partId === suppressPartClickId && nowMs() < suppressPartClickUntil) {
+                        suppressPartClickId = null;
+                        suppressPartClickUntil = 0;
+                        return;
+                    }
+
+                    state.selectedPartId = button.dataset.partId;
+                    const activeStep = getActiveStep();
+                    const selectedStep = stepById.get(state.selectedPartId);
+
+                    if (activeStep && selectedStep && selectedStep.id === activeStep.id) {
+                        setFeedbackState("info", "تم اختيار القطعة الصحيحة", `الآن اسحب ${selectedStep.label} إلى الإطار المتوهج المطابق لشكل موضعها أو اضغط عليه لتثبيتها داخل النموذج.`);
+                    } else if (activeStep && selectedStep) {
+                        setFeedbackState("warning", "تم اختيار قطعة مختلفة", `الخطوة الحالية تخص ${activeStep.label}. يمكنك تجربة الإسقاط فوق الإطار المتوهج لمعرفة لماذا لا يقبلها الشكل الحالي.`);
+                    }
+
+                    renderUI();
+                });
+
+                button.addEventListener("pointerdown", (event) => {
+                    if (event.button !== undefined && event.button !== 0) return;
+                    if (event.pointerType === "touch") return;
+                    if (pointerDragState) finishPointerDrag(false);
+
+                    const draggedStep = stepById.get(button.dataset.partId);
+                    pointerDragState = {
+                        partId: button.dataset.partId,
+                        pointerId: event.pointerId,
+                        startX: event.clientX,
+                        startY: event.clientY,
+                        active: false,
+                        label: button.querySelector("strong")?.textContent?.trim() || draggedStep?.inventoryLabel || draggedStep?.label || "قطعة",
+                        status: button.querySelector(".assembly-part-meta span")?.textContent?.trim() || "أفلتها فوق الشكل المطابق"
+                    };
+
+                    document.addEventListener("pointermove", handlePointerDragMove);
+                    document.addEventListener("pointerup", handlePointerDragEnd, true);
+                    document.addEventListener("pointercancel", handlePointerDragCancel, true);
+                });
+
+                button.addEventListener("dragstart", (event) => {
+                    draggedPartId = button.dataset.partId;
+                    state.selectedPartId = draggedPartId;
+                    controls.enabled = false;
+                    targetLayer.classList.add("is-dragging");
+                    setStageDropState(true, false);
+                    event.dataTransfer.effectAllowed = "move";
+                    event.dataTransfer.setData("text/plain", draggedPartId);
+
+                    const draggedStep = stepById.get(draggedPartId);
+                    const label = button.querySelector("strong")?.textContent?.trim() || button.textContent?.trim() || "قطعة";
+                    const status = button.querySelector(".assembly-part-meta span")?.textContent?.trim() || "اسقطها على الشكل المطابق";
+                    if (!dragPreviewElement) {
+                        dragPreviewElement = document.createElement("div");
+                        dragPreviewElement.className = "assembly-drag-preview";
+                        document.body.appendChild(dragPreviewElement);
+                    }
+                    dragPreviewElement.innerHTML = `
+                        <span class="assembly-drag-preview-visual" style="color:${draggedStep?.color || "#255c75"}">
+                            ${getAssemblyPartVisualMarkup(draggedStep)}
+                        </span>
+                        <span class="assembly-drag-preview-copy">
+                            <strong>${label}</strong>
+                            <span>${status}</span>
+                        </span>
+                    `;
+                    event.dataTransfer.setDragImage(dragPreviewElement, 44, 28);
+                });
+
+                button.addEventListener("dragend", () => {
+                    draggedPartId = null;
+                    controls.enabled = true;
+                    targetLayer.classList.remove("is-dragging");
+                    setStageDropState(false, false);
+                    if (!state.isCompleted) setTargetTone("ready");
+                });
+            });
+        };
+
+        const resetAttempt = () => {
+            if (state.isCompleted) {
+                setFeedbackState(
+                    "complete",
+                    labConfig.completeTitle || "اكتمل التجميع الأساسي",
+                    labConfig.completeText || "أكملت ربط القطع الأساسية داخل النموذج."
+                );
+                renderUI();
+                return;
+            }
+
+            const activeStep = getActiveStep();
+            finishPointerDrag(false);
+            state.selectedPartId = null;
+            setFeedbackState(
+                "info",
+                labConfig.feedbackTitle || "أعد المحاولة",
+                activeStep?.instruction || labConfig.introText || initialFeedback.text
+            );
+            setTargetTone("ready");
+            renderUI();
+        };
+
+        const resetAll = () => {
+            state = {
+                currentStepIndex: 0,
+                placedParts: new Set(),
+                selectedPartId: null,
+                collectedCards: [],
+                feedbackState: { ...initialFeedback },
+                isCompleted: false
+            };
+
+            finishPointerDrag(false);
+            suppressPartClickId = null;
+            suppressPartClickUntil = 0;
+            suppressTargetClickUntil = 0;
+            setStageDropState(false, false);
+            setTargetTone("ready");
+            applyAssemblyVisibility();
+            moveCameraToStep(steps[0], true);
+            renderUI();
+        };
+
+        resetStepButton?.addEventListener("click", resetAttempt);
+        resetAllButton?.addEventListener("click", resetAll);
+        fullscreenToggles.forEach((button) => {
+            button.addEventListener("click", () => {
+                toggleImmersiveViewport();
+            });
+        });
+
+        document.addEventListener("fullscreenchange", syncImmersiveViewport);
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && labSection?.classList.contains("is-fallback-fullscreen")) {
+                exitFallbackFullscreen();
+            }
+        });
+
+        resize();
+        applyAssemblyVisibility();
+        moveCameraToStep(steps[0], true);
+        syncImmersiveViewport();
+        renderUI();
+        mount.style.cursor = "grab";
+
+        const getClickableMeshes = () => {
+            const clickable = [];
+            steps.forEach((step) => {
+                if (!state.placedParts.has(step.id)) return;
+                clickable.push(...step.meshes);
+            });
+            return clickable;
+        };
+
+        mount.addEventListener("click", (event) => {
+            if (draggedPartId) return;
+            const rect = mount.getBoundingClientRect();
+            pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            raycaster.setFromCamera(pointer, camera);
+            const hits = raycaster.intersectObjects(getClickableMeshes(), false);
+
+            if (hits.length > 0) {
+                const conceptId = hits[0].object.userData.concept;
+                if (conceptId && typeof window.openConceptPopup === "function") {
+                    window.openConceptPopup(conceptId);
+                }
+            }
+        });
+
+        mount.addEventListener("mousemove", (event) => {
+            if (draggedPartId) {
+                mount.style.cursor = "grabbing";
+                return;
+            }
+
+            const rect = mount.getBoundingClientRect();
+            pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            raycaster.setFromCamera(pointer, camera);
+            const hits = raycaster.intersectObjects(getClickableMeshes(), false);
+            mount.style.cursor = hits.length > 0 ? "pointer" : "grab";
+        });
+
+        mount.addEventListener("mouseleave", () => {
+            if (!draggedPartId) mount.style.cursor = "grab";
+        });
+
+        const animate = (now = performance.now()) => {
+            requestAnimationFrame(animate);
+
+            if (focusTransition) {
+                const progress = Math.min(1, (now - focusTransition.startTime) / focusTransition.duration);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                camera.position.lerpVectors(focusTransition.fromPosition, focusTransition.toPosition, eased);
+                controls.target.lerpVectors(focusTransition.fromTarget, focusTransition.toTarget, eased);
+                if (progress >= 1) focusTransition = null;
+            }
+
+            controls.update();
+            updateActiveTargetPosition();
+            renderer.render(scene, camera);
+        };
+
+        animate();
+
+        if (typeof ResizeObserver !== "undefined") {
+            new ResizeObserver(() => {
+                resize();
+                updateActiveTargetPosition();
+            }).observe(mount);
+        } else {
+            window.addEventListener("resize", () => {
+                resize();
+                updateActiveTargetPosition();
+            });
+        }
+    } catch (error) {
+        console.error("3D viewer error:", error);
+        mount.innerHTML = `<div class="viewer-loading">تعذر تحميل مختبر التجميع ثلاثي الأبعاد.<br><small style="color:var(--danger)">${error.message}</small></div>`;
     }
 }
 

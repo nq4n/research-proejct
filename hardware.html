@@ -171,36 +171,72 @@
         </section>
 
         <section id="hardware-model-lab" class="section-block" data-reveal>
-            <div class="section-heading">
-                <span id="hardware-model-eyebrow" class="eyebrow">المختبر ثلاثي الأبعاد</span>
-                <h2 id="hardware-model-title">حرّك نموذج الجهاز الحقيقي قبل الانتقال إلى قرار الصيانة</h2>
-                <p id="hardware-model-description">استخدم نموذج <strong>PC.fbx</strong> لتثبيت صورة الهيكل، ثم بدّل التركيز بين الهواء والطاقة والترقية حتى ترتبط مفاهيم الدرس بالشكل الحقيقي للجهاز لا بالنص وحده.</p>
+            <div class="section-heading assembly-heading">
+                <div class="section-heading-copy">
+                    <span id="hardware-model-eyebrow" class="eyebrow">المختبر ثلاثي الأبعاد</span>
+                    <h2 id="hardware-model-title">جمّع الجهاز خطوة بخطوة داخل النموذج الحقيقي</h2>
+                    <p id="hardware-model-description">استخدم نموذج <strong>PC.fbx</strong> كمساحة تركيب تعليمية. اسحب كل قطعة إلى موضعها الصحيح، ثم اجمع بطاقات المعرفة التي تربط التركيب بمفهوم الصيانة والتعلّم.</p>
+                </div>
             </div>
 
-            <div class="model-lab">
-                <div class="model-stage">
-                    <div id="pc-model-viewer" class="model-viewer" data-model-viewer aria-label="عارض ثلاثي الأبعاد لجهاز الحاسوب"></div>
-                    <div class="model-overlay">
-                        <strong id="hardware-model-overlay-title">النموذج: PC.fbx</strong>
-                        <span id="hardware-model-overlay-hint">اسحب للدوران، ثم استخدم أزرار التركيز لربط كل منطقة بفكرة الصيانة المرتبطة بها.</span>
+            <div class="assembly-lab">
+                <div id="assembly-stepper" class="assembly-stepper" aria-label="خطوات التجميع"></div>
+
+                <div class="assembly-layout">
+                    <aside class="assembly-sidebar">
+                        <article class="assembly-brief">
+                            <span class="eyebrow">تعليمات الخطوة الحالية</span>
+                            <h3 id="assembly-current-title">ابدأ بتثبيت هيكل الجهاز</h3>
+                            <p id="assembly-current-text">اسحب بطاقة الهيكل إلى الإطار المتوهج المطابق لشكل موضعه داخل النموذج حتى تبدأ عملية التجميع من الإطار الخارجي للجهاز.</p>
+
+                            <div id="assembly-feedback" class="assembly-feedback is-info" aria-live="polite">
+                                <strong id="assembly-feedback-title">كيف يعمل المختبر؟</strong>
+                                <p id="assembly-feedback-text">رتّب القطع بالترتيب، وكل تركيب صحيح سيكشف القطعة ويضيف بطاقة تعلّم جديدة إلى السجل الجانبي.</p>
+                            </div>
+
+                            <div class="assembly-actions">
+                                <button id="assembly-reset-step" class="assembly-action-btn" type="button">إعادة المحاولة</button>
+                                <button id="assembly-reset-all" class="assembly-action-btn is-secondary" type="button">إعادة التهيئة</button>
+                            </div>
+                        </article>
+
+                        <article class="assembly-parts-panel">
+                            <div class="assembly-panel-head">
+                                <div>
+                                    <span class="eyebrow">لوحة الأجزاء</span>
+                                    <h3>اسحب القطعة إلى الإطار المتوهج المطابق لشكلها</h3>
+                                </div>
+                            </div>
+
+                            <div id="assembly-parts-list" class="assembly-parts-list" aria-live="polite"></div>
+                            <p id="assembly-mobile-hint" class="assembly-mobile-hint">على الشاشات اللمسية اختر القطعة أولاً ثم اضغط على الإطار المتوهج المطابق لشكل موضعها لتثبيتها.</p>
+                        </article>
+
+                        <article class="assembly-learning-panel">
+                            <div class="assembly-panel-head">
+                                <div>
+                                    <span class="eyebrow">سجل التعلّم</span>
+                                    <h3>بطاقات المعرفة التي تجمعها أثناء التركيب</h3>
+                                </div>
+                            </div>
+
+                            <div id="assembly-learning-cards" class="assembly-learning-cards" aria-live="polite"></div>
+                        </article>
+                    </aside>
+
+                    <div class="model-stage assembly-stage">
+                        <div class="assembly-stage-toolbar">
+                            <button class="assembly-stage-fullscreen-btn" type="button" data-assembly-fullscreen-toggle data-enter-label="ملء شاشة النشاط" data-exit-label="إغلاق ملء الشاشة" aria-pressed="false">ملء شاشة النشاط</button>
+                        </div>
+                        <div id="pc-model-viewer" class="model-viewer" data-model-viewer aria-label="عارض ثلاثي الأبعاد لجهاز الحاسوب"></div>
+                        <div id="assembly-target-layer" class="assembly-target-layer" aria-live="polite"></div>
+
+                        <div class="model-overlay assembly-overlay">
+                            <strong id="hardware-model-overlay-title">النموذج: PC.fbx</strong>
+                            <span id="hardware-model-overlay-hint">اسحب القطعة من بطاقات الأجزاء وأفلتها فوق الإطار المتوهج المطابق لشكلها؛ سيقوم المختبر بتثبيتها في الموضع الصحيح داخل النموذج.</span>
+                        </div>
                     </div>
                 </div>
-
-                <aside class="viewer-aside">
-                    <div class="focus-pills" aria-label="نقاط التركيز في النموذج">
-                        <button class="focus-pill is-active" type="button" data-model-focus="overview">نظرة عامة</button>
-                        <button class="focus-pill" type="button" data-model-focus="airflow">مسار الهواء</button>
-                        <button class="focus-pill" type="button" data-model-focus="power">الطاقة</button>
-                        <button class="focus-pill" type="button" data-model-focus="upgrade">الترقية</button>
-                    </div>
-
-                    <article class="viewer-info">
-                        <span class="eyebrow">منطقة التركيز</span>
-                        <h3 id="viewer-focus-title">نظرة عامة</h3>
-                        <p id="viewer-focus-text">ابدأ بهذه الزاوية لتكوين صورة ذهنية صحيحة عن شكل الجهاز ومواقع مناطقه قبل الحديث عن الحرارة أو الترقية أو الأعطال.</p>
-                        <div id="viewer-focus-points" class="mini-points"></div>
-                    </article>
-                </aside>
             </div>
         </section>
 
