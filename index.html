@@ -142,6 +142,51 @@
                 </article>
             </div>
         </section>
+
+        <section id="local-tracking" class="section-block" data-reveal>
+            <div class="section-heading">
+                <span class="eyebrow">التتبع المحلي</span>
+                <h2>أدخل رقم الطالب وسيُحفظ التقدم محليًا بصيغة JSON</h2>
+                <p>هذا المسار لا يستخدم أي خدمة سحابية. كل البيانات تُخزن داخل المتصفح على هذا الجهاز باستخدام <span class="student-local-inline">localStorage</span>.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <article class="panel-card">
+                    <h3>رقم الطالب</h3>
+                    <p>أدخل رقمًا ثابتًا من 1 إلى 35. بعد الحفظ سيُربط كل تنقل داخل المختبر بهذا الرقم.</p>
+
+                    <div class="student-local-form">
+                        <label class="student-local-label" for="student-number-input">رقم الطالب</label>
+                        <div class="student-local-row">
+                            <input id="student-number-input" class="student-local-input" type="number" min="1" max="35" inputmode="numeric" data-student-number-input>
+                            <button class="button" type="button" data-save-student-number>
+                                <span>حفظ الرقم</span>
+                            </button>
+                        </div>
+                        <p class="student-local-status" data-student-number-status>لم يتم اختيار رقم الطالب بعد.</p>
+                    </div>
+                </article>
+
+                <article class="panel-card">
+                    <h3>ملف JSON المحلي</h3>
+                    <p>يمكنك تصدير سجل الطالب الحالي أو كل السجلات المحلية من هذا الجهاز على هيئة JSON.</p>
+
+                    <div class="student-local-actions">
+                        <button class="button button-secondary" type="button" data-export-student-json>
+                            <span>تصدير الطالب الحالي</span>
+                        </button>
+                        <button class="button button-secondary" type="button" data-export-all-json>
+                            <span>تصدير كل السجلات</span>
+                        </button>
+                        <button class="button button-secondary" type="button" data-clear-student-json>
+                            <span>مسح بيانات الطالب</span>
+                        </button>
+                    </div>
+
+                    <pre class="student-local-json" data-student-json-preview>{}</pre>
+                </article>
+            </div>
+        </section>
     </main>
 
     <footer class="site-footer">

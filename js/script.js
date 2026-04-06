@@ -1,4 +1,10 @@
 const VISITED_PAGES_KEY = "pc_maintenance_lab_visited_pages";
+const STUDENT_NUMBER_KEY = "pc_maintenance_lab_student_number";
+const STUDENT_TRACKING_KEY = "pc_maintenance_lab_student_tracking";
+const MAX_STUDENT_NUMBER = 35;
+const LOCAL_TRACKING_HISTORY_LIMIT = 120;
+const LOCAL_TRACKING_SAMPLE_LIMIT = 12;
+const LOCAL_TRACKING_SESSION_TIMEOUT_MS = 30 * 60 * 1000;
 const PAGE_ROUTE_MAP = {
     home: "index.html",
     intro: "intro.html",
@@ -507,6 +513,1009 @@ function saveVisitedPages(pages) {
     localStorage.setItem(VISITED_PAGES_KEY, JSON.stringify(pages));
 }
 
+const LOCAL_TRACKING_PANEL_STATE = {
+    input: null,
+    status: null,
+    preview: null
+};
+
+function summarizeTrackingText(value, maxLength = 96) {
+    if (typeof value !== "string") return "";
+    const normalized = value.replace(/\s+/g, " ").trim();
+    if (!normalized) return "";
+    if (normalized.length <= maxLength) return normalized;
+    return `${normalized.slice(0, Math.max(0, maxLength - 1)).trim()}…`;
+}
+
+function getDefaultLessonProgressEntry() {
+    return {
+        visits: 0,
+        interactions: 0,
+        durationMs: 0,
+        completed: false,
+        lastVisitedAt: null,
+        lastInteractionAt: null
+    };
+}
+
+function createLessonProgressMap() {
+    const progress = {};
+    Object.keys(PAGE_ROUTE_MAP).forEach((pageId) => {
+        progress[pageId] = getDefaultLessonProgressEntry();
+    });
+    return progress;
+}
+
+function trimTrackingEntries(entries, limit = LOCAL_TRACKING_HISTORY_LIMIT) {
+    return entries.slice(-limit);
+}
+
+function cloneCounterMap(value) {
+    return isPlainObject(value) ? { ...value } : {};
+}
+
+function incrementCounterMap(counterMap, key, amount = 1) {
+    if (!key) return cloneCounterMap(counterMap);
+    const nextMap = cloneCounterMap(counterMap);
+    nextMap[key] = (Number(nextMap[key]) || 0) + amount;
+    return nextMap;
+}
+
+function updateLessonProgress(lessonProgress, pageId, updater) {
+    const nextProgress = mergeDeep(createLessonProgressMap(), isPlainObject(lessonProgress) ? lessonProgress : {});
+    if (!pageId) return nextProgress;
+
+    const previousEntry = isPlainObject(nextProgress[pageId])
+        ? { ...getDefaultLessonProgressEntry(), ...nextProgress[pageId] }
+        : getDefaultLessonProgressEntry();
+
+    nextProgress[pageId] = updater(previousEntry);
+    return nextProgress;
+}
+
+function loadStudentNumber() {
+    const raw = localStorage.getItem(STUDENT_NUMBER_KEY);
+    const parsed = Number(raw);
+
+    if (!Number.isInteger(parsed) || parsed < 1 || parsed > MAX_STUDENT_NUMBER) {
+        return null;
+    }
+
+    return parsed;
+}
+
+function saveStudentNumber(studentNumber) {
+    localStorage.setItem(STUDENT_NUMBER_KEY, String(studentNumber));
+}
+
+function loadStudentTrackingData() {
+    try {
+        const raw = localStorage.getItem(STUDENT_TRACKING_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return isPlainObject(parsed) ? parsed : {};
+    } catch (error) {
+        return {};
+    }
+}
+
+function saveStudentTrackingData(data) {
+    localStorage.setItem(STUDENT_TRACKING_KEY, JSON.stringify(data));
+}
+
+function getDefaultStudentRecord(studentNumber) {
+    const now = new Date().toISOString();
+    return {
+        studentNumber,
+        visitedPages: [],
+        pageVisits: {},
+        pageDurationsMs: {},
+        lastPage: null,
+        startedAt: now,
+        updatedAt: now,
+        lastInteractionAt: null,
+        sessionCount: 0,
+        lastSessionStartedAt: null,
+        totalInteractions: 0,
+        history: [],
+        lessonProgress: createLessonProgressMap(),
+        interactionCounts: {
+            pageVisits: 0,
+            pageSelections: 0,
+            switches: 0,
+            quizAttempts: 0,
+            conceptOpens: 0,
+            accordionOpens: 0,
+            passwordChecks: 0,
+            modelFocusChanges: 0,
+            introModeChanges: 0,
+            introActions: 0,
+            practiceTabChanges: 0,
+            practiceActions: 0,
+            assemblySelections: 0,
+            assemblyAttempts: 0,
+            assemblyResets: 0
+        },
+        quizzes: {},
+        concepts: {},
+        accordions: {},
+        switches: {},
+        modelFocus: {},
+        passwordChecks: {
+            totalChecks: 0,
+            strongestScore: 0,
+            latestScore: 0,
+            latestLabel: null,
+            lastCheckedAt: null,
+            samples: []
+        },
+        simulations: {
+            intro: {
+                modeSelections: {},
+                actionSelections: {},
+                lastMode: null,
+                lastAction: null,
+                snapshots: [],
+                lastUpdatedAt: null
+            },
+            playground: {
+                labSelections: {},
+                actionSelections: {},
+                lastLab: null,
+                lastAction: null,
+                snapshots: [],
+                lastUpdatedAt: null
+            },
+            assembly: {
+                selectedParts: {},
+                successfulPlacements: 0,
+                failedPlacements: 0,
+                completedSteps: [],
+                resetCurrentStepCount: 0,
+                resetAllCount: 0,
+                completedAt: null,
+                lastAction: null,
+                lastUpdatedAt: null
+            }
+        }
+    };
+}
+
+function normalizeStudentRecord(studentNumber, record) {
+    const defaults = getDefaultStudentRecord(studentNumber);
+    const merged = mergeDeep(defaults, isPlainObject(record) ? record : {});
+
+    return {
+        ...merged,
+        studentNumber,
+        visitedPages: Array.isArray(merged.visitedPages)
+            ? merged.visitedPages.filter((pageId) => typeof pageId === "string" && pageId)
+            : [],
+        pageVisits: cloneCounterMap(merged.pageVisits),
+        pageDurationsMs: cloneCounterMap(merged.pageDurationsMs),
+        history: trimTrackingEntries(Array.isArray(merged.history) ? merged.history : []),
+        lessonProgress: mergeDeep(defaults.lessonProgress, isPlainObject(merged.lessonProgress) ? merged.lessonProgress : {}),
+        interactionCounts: {
+            ...defaults.interactionCounts,
+            ...(isPlainObject(merged.interactionCounts) ? merged.interactionCounts : {})
+        },
+        quizzes: cloneCounterMap(merged.quizzes),
+        concepts: cloneCounterMap(merged.concepts),
+        accordions: cloneCounterMap(merged.accordions),
+        switches: cloneCounterMap(merged.switches),
+        modelFocus: cloneCounterMap(merged.modelFocus),
+        passwordChecks: {
+            ...defaults.passwordChecks,
+            ...(isPlainObject(merged.passwordChecks) ? merged.passwordChecks : {}),
+            samples: trimTrackingEntries(
+                Array.isArray(merged.passwordChecks?.samples) ? merged.passwordChecks.samples : [],
+                LOCAL_TRACKING_SAMPLE_LIMIT
+            )
+        },
+        simulations: {
+            intro: {
+                ...defaults.simulations.intro,
+                ...(isPlainObject(merged.simulations?.intro) ? merged.simulations.intro : {}),
+                modeSelections: cloneCounterMap(merged.simulations?.intro?.modeSelections),
+                actionSelections: cloneCounterMap(merged.simulations?.intro?.actionSelections),
+                snapshots: trimTrackingEntries(
+                    Array.isArray(merged.simulations?.intro?.snapshots) ? merged.simulations.intro.snapshots : [],
+                    LOCAL_TRACKING_SAMPLE_LIMIT
+                )
+            },
+            playground: {
+                ...defaults.simulations.playground,
+                ...(isPlainObject(merged.simulations?.playground) ? merged.simulations.playground : {}),
+                labSelections: cloneCounterMap(merged.simulations?.playground?.labSelections),
+                actionSelections: cloneCounterMap(merged.simulations?.playground?.actionSelections),
+                snapshots: trimTrackingEntries(
+                    Array.isArray(merged.simulations?.playground?.snapshots) ? merged.simulations.playground.snapshots : [],
+                    LOCAL_TRACKING_SAMPLE_LIMIT
+                )
+            },
+            assembly: {
+                ...defaults.simulations.assembly,
+                ...(isPlainObject(merged.simulations?.assembly) ? merged.simulations.assembly : {}),
+                selectedParts: cloneCounterMap(merged.simulations?.assembly?.selectedParts),
+                completedSteps: Array.isArray(merged.simulations?.assembly?.completedSteps)
+                    ? [...merged.simulations.assembly.completedSteps]
+                    : []
+            }
+        }
+    };
+}
+
+function getStudentRecord(studentNumber) {
+    const data = loadStudentTrackingData();
+    return normalizeStudentRecord(studentNumber, data[String(studentNumber)]);
+}
+
+function updateStudentRecord(studentNumber, updater) {
+    const data = loadStudentTrackingData();
+    const key = String(studentNumber);
+    const previousRecord = normalizeStudentRecord(studentNumber, data[key]);
+    const nextRecord = normalizeStudentRecord(studentNumber, updater(previousRecord) ?? previousRecord);
+
+    data[key] = nextRecord;
+    saveStudentTrackingData(data);
+    renderLocalTrackingPreview();
+    return nextRecord;
+}
+
+function renderLocalTrackingPreview() {
+    const { input, status, preview } = LOCAL_TRACKING_PANEL_STATE;
+    if (!input || !status || !preview) {
+        return;
+    }
+
+    const studentNumber = loadStudentNumber();
+    if (!studentNumber) {
+        input.value = "";
+        preview.textContent = "{}";
+        status.textContent = "لم يتم اختيار رقم الطالب بعد. أدخل رقمًا من 1 إلى 35 لتفعيل التخزين المحلي.";
+        return;
+    }
+
+    const record = getStudentRecord(studentNumber);
+    input.value = String(studentNumber);
+    preview.textContent = JSON.stringify(record, null, 2);
+    status.textContent = `الطالب الحالي هو رقم ${studentNumber}. تم حفظ ${record.totalInteractions || 0} تفاعلًا محليًا، وتشمل الزيارات والأسئلة والمفاهيم والمحاكاة.`;
+}
+
+function recordStudentInteraction(type, options = {}) {
+    const studentNumber = loadStudentNumber();
+    if (!studentNumber) {
+        return null;
+    }
+
+    const {
+        pageId = document.body?.dataset?.page || null,
+        interactionKey = null,
+        markCompleted = false,
+        details = {},
+        extraRecordUpdate = null
+    } = options;
+
+    return updateStudentRecord(studentNumber, (record) => {
+        const now = new Date().toISOString();
+        const interactionCounts = cloneCounterMap(record.interactionCounts);
+
+        if (interactionKey) {
+            interactionCounts[interactionKey] = (Number(interactionCounts[interactionKey]) || 0) + 1;
+        }
+
+        let nextRecord = {
+            ...record,
+            updatedAt: now,
+            lastInteractionAt: now,
+            lastPage: pageId || record.lastPage || null,
+            totalInteractions: (Number(record.totalInteractions) || 0) + 1,
+            interactionCounts,
+            history: trimTrackingEntries([
+                ...(Array.isArray(record.history) ? record.history : []),
+                {
+                    type,
+                    pageId,
+                    at: now,
+                    ...details
+                }
+            ])
+        };
+
+        if (pageId) {
+            nextRecord.lessonProgress = updateLessonProgress(record.lessonProgress, pageId, (lesson) => ({
+                ...lesson,
+                interactions: (Number(lesson.interactions) || 0) + 1,
+                lastInteractionAt: now,
+                completed: markCompleted ? true : Boolean(lesson.completed)
+            }));
+        }
+
+        if (typeof extraRecordUpdate === "function") {
+            nextRecord = extraRecordUpdate(nextRecord, { now, pageId });
+        }
+
+        return nextRecord;
+    });
+}
+
+function recordStudentPageVisit(pageId = document.body?.dataset?.page) {
+    const studentNumber = loadStudentNumber();
+    if (!studentNumber || !pageId) {
+        return null;
+    }
+
+    return updateStudentRecord(studentNumber, (record) => {
+        const now = new Date().toISOString();
+        const pageVisits = cloneCounterMap(record.pageVisits);
+        const visitedPages = Array.isArray(record.visitedPages) ? [...record.visitedPages] : [];
+        const updatedAtMs = Date.parse(record.updatedAt || "");
+        const shouldStartNewSession = !record.lastSessionStartedAt
+            || !Number.isFinite(updatedAtMs)
+            || Date.now() - updatedAtMs > LOCAL_TRACKING_SESSION_TIMEOUT_MS;
+
+        pageVisits[pageId] = (Number(pageVisits[pageId]) || 0) + 1;
+        if (!visitedPages.includes(pageId)) {
+            visitedPages.push(pageId);
+        }
+
+        return {
+            ...record,
+            studentNumber,
+            visitedPages,
+            pageVisits,
+            lastPage: pageId,
+            updatedAt: now,
+            lastInteractionAt: now,
+            sessionCount: (Number(record.sessionCount) || 0) + (shouldStartNewSession ? 1 : 0),
+            lastSessionStartedAt: shouldStartNewSession ? now : record.lastSessionStartedAt || now,
+            totalInteractions: (Number(record.totalInteractions) || 0) + 1,
+            interactionCounts: {
+                ...record.interactionCounts,
+                pageVisits: (Number(record.interactionCounts?.pageVisits) || 0) + 1
+            },
+            lessonProgress: updateLessonProgress(record.lessonProgress, pageId, (lesson) => ({
+                ...lesson,
+                visits: (Number(lesson.visits) || 0) + 1,
+                lastVisitedAt: now,
+                lastInteractionAt: now
+            })),
+            history: trimTrackingEntries([
+                ...(Array.isArray(record.history) ? record.history : []),
+                {
+                    type: "page_visit",
+                    pageId,
+                    at: now
+                }
+            ])
+        };
+    });
+}
+
+function recordStudentPageSelection(targetPageId) {
+    if (!targetPageId) {
+        return null;
+    }
+
+    return recordStudentInteraction("page_selection", {
+        pageId: document.body?.dataset?.page || "home",
+        interactionKey: "pageSelections",
+        details: { targetPageId }
+    });
+}
+
+function recordStudentSwitchSelection(groupKey, targetId, label = "") {
+    if (!groupKey || !targetId) {
+        return null;
+    }
+
+    return recordStudentInteraction("switch_selection", {
+        interactionKey: "switches",
+        details: {
+            groupKey,
+            targetId,
+            label: summarizeTrackingText(label, 72)
+        },
+        extraRecordUpdate: (record, { now }) => {
+            const switches = cloneCounterMap(record.switches);
+            const groupState = isPlainObject(switches[groupKey]) ? { ...switches[groupKey] } : {};
+            const targetState = isPlainObject(groupState[targetId]) ? { ...groupState[targetId] } : { count: 0, label: "", lastSelectedAt: null };
+
+            groupState[targetId] = {
+                count: (Number(targetState.count) || 0) + 1,
+                label: summarizeTrackingText(label, 72),
+                lastSelectedAt: now
+            };
+            switches[groupKey] = groupState;
+
+            return {
+                ...record,
+                switches
+            };
+        }
+    });
+}
+
+function recordStudentQuizAttempt(quizId, prompt, choiceIndex, answerText, isCorrect) {
+    if (!quizId) {
+        return null;
+    }
+
+    return recordStudentInteraction("quiz_attempt", {
+        interactionKey: "quizAttempts",
+        markCompleted: Boolean(isCorrect),
+        details: {
+            quizId,
+            choiceIndex,
+            answerText: summarizeTrackingText(answerText),
+            isCorrect: Boolean(isCorrect)
+        },
+        extraRecordUpdate: (record, { now, pageId }) => {
+            const quizzes = cloneCounterMap(record.quizzes);
+            const currentQuiz = isPlainObject(quizzes[quizId])
+                ? { ...quizzes[quizId] }
+                : {
+                    prompt: "",
+                    attempts: 0,
+                    correctAttempts: 0,
+                    wrongAttempts: 0,
+                    answers: {},
+                    lastAnsweredAt: null,
+                    lastAnswerText: "",
+                    lastChoiceIndex: null,
+                    lastResult: null
+                };
+            const answers = cloneCounterMap(currentQuiz.answers);
+            const answerKey = String(choiceIndex);
+
+            answers[answerKey] = {
+                count: (Number(answers[answerKey]?.count) || 0) + 1,
+                label: summarizeTrackingText(answerText)
+            };
+
+            quizzes[quizId] = {
+                ...currentQuiz,
+                prompt: summarizeTrackingText(prompt, 140),
+                attempts: (Number(currentQuiz.attempts) || 0) + 1,
+                correctAttempts: (Number(currentQuiz.correctAttempts) || 0) + (isCorrect ? 1 : 0),
+                wrongAttempts: (Number(currentQuiz.wrongAttempts) || 0) + (isCorrect ? 0 : 1),
+                answers,
+                lastAnsweredAt: now,
+                lastAnswerText: summarizeTrackingText(answerText),
+                lastChoiceIndex: choiceIndex,
+                lastResult: isCorrect ? "correct" : "wrong"
+            };
+
+            return {
+                ...record,
+                quizzes,
+                lessonProgress: pageId
+                    ? updateLessonProgress(record.lessonProgress, pageId, (lesson) => ({
+                        ...lesson,
+                        completed: isCorrect ? true : Boolean(lesson.completed)
+                    }))
+                    : record.lessonProgress
+            };
+        }
+    });
+}
+
+function recordStudentConceptOpen(conceptId, source = "button") {
+    if (!conceptId) {
+        return null;
+    }
+
+    const concept = CONCEPT_POPUPS[conceptId];
+    return recordStudentInteraction("concept_open", {
+        interactionKey: "conceptOpens",
+        details: {
+            conceptId,
+            source,
+            title: summarizeTrackingText(concept?.title || conceptId, 72)
+        },
+        extraRecordUpdate: (record, { now }) => {
+            const concepts = cloneCounterMap(record.concepts);
+            const currentConcept = isPlainObject(concepts[conceptId]) ? { ...concepts[conceptId] } : { opens: 0, title: "", lastOpenedAt: null, source: "" };
+
+            concepts[conceptId] = {
+                opens: (Number(currentConcept.opens) || 0) + 1,
+                title: summarizeTrackingText(concept?.title || conceptId, 72),
+                source,
+                lastOpenedAt: now
+            };
+
+            return {
+                ...record,
+                concepts
+            };
+        }
+    });
+}
+
+function recordStudentAccordionOpen(sectionId, itemIndex, title) {
+    const itemKey = `${sectionId || document.body?.dataset?.page || "page"}:${itemIndex}`;
+
+    return recordStudentInteraction("accordion_open", {
+        interactionKey: "accordionOpens",
+        details: {
+            itemKey,
+            title: summarizeTrackingText(title, 88)
+        },
+        extraRecordUpdate: (record, { now }) => {
+            const accordions = cloneCounterMap(record.accordions);
+            const currentItem = isPlainObject(accordions[itemKey]) ? { ...accordions[itemKey] } : { opens: 0, title: "", lastOpenedAt: null };
+
+            accordions[itemKey] = {
+                opens: (Number(currentItem.opens) || 0) + 1,
+                title: summarizeTrackingText(title, 88),
+                lastOpenedAt: now
+            };
+
+            return {
+                ...record,
+                accordions
+            };
+        }
+    });
+}
+
+function recordStudentPasswordCheck(sample, strengthLabel) {
+    if (!isPlainObject(sample) || !sample.length) {
+        return null;
+    }
+
+    return recordStudentInteraction("password_check", {
+        interactionKey: "passwordChecks",
+        details: {
+            score: sample.score,
+            length: sample.length,
+            strengthLabel
+        },
+        extraRecordUpdate: (record, { now }) => {
+            const passwordChecks = isPlainObject(record.passwordChecks)
+                ? { ...record.passwordChecks }
+                : getDefaultStudentRecord(record.studentNumber).passwordChecks;
+            const samples = Array.isArray(passwordChecks.samples) ? [...passwordChecks.samples] : [];
+
+            samples.push({
+                ...sample,
+                strengthLabel,
+                at: now
+            });
+
+            return {
+                ...record,
+                passwordChecks: {
+                    ...passwordChecks,
+                    totalChecks: (Number(passwordChecks.totalChecks) || 0) + 1,
+                    strongestScore: Math.max(Number(passwordChecks.strongestScore) || 0, Number(sample.score) || 0),
+                    latestScore: Number(sample.score) || 0,
+                    latestLabel: strengthLabel,
+                    lastCheckedAt: now,
+                    samples: trimTrackingEntries(samples, LOCAL_TRACKING_SAMPLE_LIMIT)
+                }
+            };
+        }
+    });
+}
+
+function recordStudentModelFocus(focusId) {
+    if (!focusId) {
+        return null;
+    }
+
+    return recordStudentInteraction("model_focus", {
+        interactionKey: "modelFocusChanges",
+        details: { focusId },
+        extraRecordUpdate: (record, { now }) => {
+            const modelFocus = cloneCounterMap(record.modelFocus);
+            const currentFocus = isPlainObject(modelFocus[focusId]) ? { ...modelFocus[focusId] } : { count: 0, lastSelectedAt: null };
+
+            modelFocus[focusId] = {
+                count: (Number(currentFocus.count) || 0) + 1,
+                lastSelectedAt: now
+            };
+
+            return {
+                ...record,
+                modelFocus
+            };
+        }
+    });
+}
+
+function recordIntroSimulationMode(modeId) {
+    if (!modeId) {
+        return null;
+    }
+
+    return recordStudentInteraction("intro_mode_change", {
+        interactionKey: "introModeChanges",
+        details: { modeId },
+        extraRecordUpdate: (record, { now }) => {
+            const intro = record.simulations?.intro || {};
+
+            return {
+                ...record,
+                simulations: {
+                    ...record.simulations,
+                    intro: {
+                        ...intro,
+                        modeSelections: incrementCounterMap(intro.modeSelections, modeId),
+                        actionSelections: cloneCounterMap(intro.actionSelections),
+                        lastMode: modeId,
+                        lastUpdatedAt: now,
+                        snapshots: Array.isArray(intro.snapshots) ? [...intro.snapshots] : []
+                    }
+                }
+            };
+        }
+    });
+}
+
+function recordIntroSimulationAction(modeId, action, metrics) {
+    if (!modeId || !action?.id) {
+        return null;
+    }
+
+    return recordStudentInteraction("intro_action", {
+        interactionKey: "introActions",
+        details: {
+            modeId,
+            actionId: action.id,
+            label: summarizeTrackingText(action.label, 72)
+        },
+        extraRecordUpdate: (record, { now }) => {
+            const introState = record.simulations?.intro || {};
+            const snapshots = Array.isArray(introState.snapshots) ? [...introState.snapshots] : [];
+
+            snapshots.push({
+                modeId,
+                actionId: action.id,
+                tone: action.resultTone || null,
+                metrics: Array.isArray(metrics)
+                    ? metrics.map((metric) => ({ id: metric.id, value: metric.value }))
+                    : [],
+                at: now
+            });
+
+            return {
+                ...record,
+                simulations: {
+                    ...record.simulations,
+                    intro: {
+                        ...introState,
+                        modeSelections: cloneCounterMap(introState.modeSelections),
+                        actionSelections: incrementCounterMap(introState.actionSelections, `${modeId}:${action.id}`),
+                        lastMode: modeId,
+                        lastAction: action.id,
+                        lastUpdatedAt: now,
+                        snapshots: trimTrackingEntries(snapshots, LOCAL_TRACKING_SAMPLE_LIMIT)
+                    }
+                }
+            };
+        }
+    });
+}
+
+function recordPlaygroundTabSelection(labId) {
+    if (!labId) {
+        return null;
+    }
+
+    return recordStudentInteraction("practice_tab_change", {
+        interactionKey: "practiceTabChanges",
+        details: { labId },
+        extraRecordUpdate: (record, { now }) => {
+            const playground = record.simulations?.playground || {};
+
+            return {
+                ...record,
+                simulations: {
+                    ...record.simulations,
+                    playground: {
+                        ...playground,
+                        labSelections: incrementCounterMap(playground.labSelections, labId),
+                        actionSelections: cloneCounterMap(playground.actionSelections),
+                        lastLab: labId,
+                        lastUpdatedAt: now,
+                        snapshots: Array.isArray(playground.snapshots) ? [...playground.snapshots] : []
+                    }
+                }
+            };
+        }
+    });
+}
+
+function recordPlaygroundAction(labId, action, stateSnapshot) {
+    if (!labId || !action?.id) {
+        return null;
+    }
+
+    return recordStudentInteraction("practice_action", {
+        interactionKey: "practiceActions",
+        details: {
+            labId,
+            actionId: action.id,
+            label: summarizeTrackingText(action.label, 72)
+        },
+        extraRecordUpdate: (record, { now }) => {
+            const playground = record.simulations?.playground || {};
+            const snapshots = Array.isArray(playground.snapshots) ? [...playground.snapshots] : [];
+
+            snapshots.push({
+                labId,
+                actionId: action.id,
+                metrics: Object.entries(stateSnapshot || {}).map(([metricId, value]) => ({ id: metricId, value })),
+                at: now
+            });
+
+            return {
+                ...record,
+                simulations: {
+                    ...record.simulations,
+                    playground: {
+                        ...playground,
+                        labSelections: cloneCounterMap(playground.labSelections),
+                        actionSelections: incrementCounterMap(playground.actionSelections, `${labId}:${action.id}`),
+                        lastLab: labId,
+                        lastAction: action.id,
+                        lastUpdatedAt: now,
+                        snapshots: trimTrackingEntries(snapshots, LOCAL_TRACKING_SAMPLE_LIMIT)
+                    }
+                }
+            };
+        }
+    });
+}
+
+function recordAssemblySelection(partId, expectedPartId, matched) {
+    if (!partId) {
+        return null;
+    }
+
+    return recordStudentInteraction("assembly_select_part", {
+        interactionKey: "assemblySelections",
+        details: {
+            partId,
+            expectedPartId,
+            matched: Boolean(matched)
+        },
+        extraRecordUpdate: (record, { now }) => {
+            const assembly = record.simulations?.assembly || {};
+
+            return {
+                ...record,
+                simulations: {
+                    ...record.simulations,
+                    assembly: {
+                        ...assembly,
+                        selectedParts: incrementCounterMap(assembly.selectedParts, partId),
+                        completedSteps: Array.isArray(assembly.completedSteps) ? [...assembly.completedSteps] : [],
+                        lastAction: "select_part",
+                        lastUpdatedAt: now
+                    }
+                }
+            };
+        }
+    });
+}
+
+function recordAssemblyPlacement(partId, expectedPartId, wasCorrect, completed) {
+    if (!partId) {
+        return null;
+    }
+
+    return recordStudentInteraction("assembly_attempt", {
+        interactionKey: "assemblyAttempts",
+        markCompleted: Boolean(completed),
+        details: {
+            partId,
+            expectedPartId,
+            wasCorrect: Boolean(wasCorrect),
+            completed: Boolean(completed)
+        },
+        extraRecordUpdate: (record, { now, pageId }) => {
+            const assembly = record.simulations?.assembly || {};
+            const completedSteps = new Set(Array.isArray(assembly.completedSteps) ? assembly.completedSteps : []);
+
+            if (wasCorrect) {
+                completedSteps.add(partId);
+            }
+
+            return {
+                ...record,
+                lessonProgress: completed
+                    ? updateLessonProgress(record.lessonProgress, pageId, (lesson) => ({
+                        ...lesson,
+                        completed: true
+                    }))
+                    : record.lessonProgress,
+                simulations: {
+                    ...record.simulations,
+                    assembly: {
+                        ...assembly,
+                        selectedParts: cloneCounterMap(assembly.selectedParts),
+                        successfulPlacements: (Number(assembly.successfulPlacements) || 0) + (wasCorrect ? 1 : 0),
+                        failedPlacements: (Number(assembly.failedPlacements) || 0) + (wasCorrect ? 0 : 1),
+                        completedSteps: Array.from(completedSteps),
+                        completedAt: completed ? now : assembly.completedAt || null,
+                        lastAction: wasCorrect ? "place_success" : "place_fail",
+                        lastUpdatedAt: now
+                    }
+                }
+            };
+        }
+    });
+}
+
+function recordAssemblyReset(kind) {
+    if (!kind) {
+        return null;
+    }
+
+    return recordStudentInteraction("assembly_reset", {
+        interactionKey: "assemblyResets",
+        details: { kind },
+        extraRecordUpdate: (record, { now }) => {
+            const assembly = record.simulations?.assembly || {};
+
+            return {
+                ...record,
+                simulations: {
+                    ...record.simulations,
+                    assembly: {
+                        ...assembly,
+                        selectedParts: cloneCounterMap(assembly.selectedParts),
+                        completedSteps: Array.isArray(assembly.completedSteps) ? [...assembly.completedSteps] : [],
+                        resetCurrentStepCount: (Number(assembly.resetCurrentStepCount) || 0) + (kind === "step" ? 1 : 0),
+                        resetAllCount: (Number(assembly.resetAllCount) || 0) + (kind === "all" ? 1 : 0),
+                        lastAction: `reset_${kind}`,
+                        lastUpdatedAt: now
+                    }
+                }
+            };
+        }
+    });
+}
+
+function recordStudentPageDuration(pageId, durationMs) {
+    const studentNumber = loadStudentNumber();
+    const roundedDurationMs = Math.round(Number(durationMs) || 0);
+
+    if (!studentNumber || !pageId || roundedDurationMs < 1000) {
+        return null;
+    }
+
+    return updateStudentRecord(studentNumber, (record) => {
+        const now = new Date().toISOString();
+        const pageDurationsMs = cloneCounterMap(record.pageDurationsMs);
+
+        pageDurationsMs[pageId] = (Number(pageDurationsMs[pageId]) || 0) + roundedDurationMs;
+
+        return {
+            ...record,
+            pageDurationsMs,
+            updatedAt: now,
+            lessonProgress: updateLessonProgress(record.lessonProgress, pageId, (lesson) => ({
+                ...lesson,
+                durationMs: (Number(lesson.durationMs) || 0) + roundedDurationMs
+            })),
+            history: trimTrackingEntries([
+                ...(Array.isArray(record.history) ? record.history : []),
+                {
+                    type: "page_duration",
+                    pageId,
+                    durationMs: roundedDurationMs,
+                    at: now
+                }
+            ])
+        };
+    });
+}
+
+function clearStudentRecord(studentNumber) {
+    const data = loadStudentTrackingData();
+    delete data[String(studentNumber)];
+    saveStudentTrackingData(data);
+    renderLocalTrackingPreview();
+}
+
+function downloadJsonFile(filename, data) {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json;charset=utf-8" });
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = objectUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(objectUrl);
+}
+
+function setupLocalTrackingPanelLegacy() {
+    const input = document.querySelector("[data-student-number-input]");
+    const saveButton = document.querySelector("[data-save-student-number]");
+    const exportButton = document.querySelector("[data-export-student-json]");
+    const exportAllButton = document.querySelector("[data-export-all-json]");
+    const clearButton = document.querySelector("[data-clear-student-json]");
+    const status = document.querySelector("[data-student-number-status]");
+    const preview = document.querySelector("[data-student-json-preview]");
+
+    if (!input || !saveButton || !status || !preview) {
+        return;
+    }
+
+    const setStatus = (message) => {
+        status.textContent = message;
+    };
+
+    const renderPreview = () => {
+        const studentNumber = loadStudentNumber();
+        if (!studentNumber) {
+            input.value = "";
+            preview.textContent = "{}";
+            setStatus("لم يتم اختيار رقم الطالب بعد. أدخل رقمًا من 1 إلى 35 لتفعيل التخزين المحلي.");
+            return;
+        }
+
+        input.value = String(studentNumber);
+        preview.textContent = JSON.stringify(getStudentRecord(studentNumber), null, 2);
+        setStatus(`الطالب الحالي هو رقم ${studentNumber}. سيتم حفظ كل الزيارات محليًا على هذا الجهاز بصيغة JSON.`);
+    };
+
+    saveButton.addEventListener("click", () => {
+        const studentNumber = Number(input.value);
+        if (!Number.isInteger(studentNumber) || studentNumber < 1 || studentNumber > MAX_STUDENT_NUMBER) {
+            setStatus("أدخل رقمًا صحيحًا بين 1 و35.");
+            return;
+        }
+
+        saveStudentNumber(studentNumber);
+        updateStudentRecord(studentNumber, (record) => ({
+            ...record,
+            studentNumber,
+            updatedAt: new Date().toISOString()
+        }));
+        recordStudentPageVisit(document.body?.dataset?.page);
+        renderPreview();
+    });
+
+    if (exportButton) {
+        exportButton.addEventListener("click", () => {
+            const studentNumber = loadStudentNumber();
+            if (!studentNumber) {
+                setStatus("اختر رقم الطالب أولًا قبل التصدير.");
+                return;
+            }
+
+            downloadJsonFile(`student-${String(studentNumber).padStart(2, "0")}-tracking.json`, getStudentRecord(studentNumber));
+        });
+    }
+
+    if (exportAllButton) {
+        exportAllButton.addEventListener("click", () => {
+            downloadJsonFile("all-students-local-tracking.json", loadStudentTrackingData());
+        });
+    }
+
+    if (clearButton) {
+        clearButton.addEventListener("click", () => {
+            const studentNumber = loadStudentNumber();
+            if (!studentNumber) {
+                setStatus("لا توجد بيانات لطالب محدد لمسحها.");
+                return;
+            }
+
+            clearStudentRecord(studentNumber);
+            renderPreview();
+            setStatus(`تم مسح بيانات الطالب رقم ${studentNumber} من التخزين المحلي.`);
+        });
+    }
+
+    renderPreview();
+}
+
 function setupNavigation() {
     const nav = document.querySelector(".main-nav");
     const toggle = document.querySelector(".nav-toggle");
@@ -558,7 +1567,7 @@ function markVisitedPage() {
     });
 }
 
-function setupSwitchGroup(groupSelector, triggerSelector, panelSelector, triggerAttr) {
+function setupSwitchGroup(groupSelector, triggerSelector, panelSelector, triggerAttr, trackingGroupKey = "") {
     document.querySelectorAll(groupSelector).forEach((group) => {
         const triggers = group.querySelectorAll(triggerSelector);
         const panels = group.querySelectorAll(panelSelector);
@@ -568,15 +1577,23 @@ function setupSwitchGroup(groupSelector, triggerSelector, panelSelector, trigger
                 const targetId = trigger.dataset[triggerAttr];
                 triggers.forEach((item) => item.classList.toggle("is-active", item === trigger));
                 panels.forEach((panel) => panel.classList.toggle("is-active", panel.id === targetId));
+                if (trackingGroupKey && targetId) {
+                    recordStudentSwitchSelection(trackingGroupKey, targetId, trigger.textContent || targetId);
+                }
             });
         });
     });
 }
 
 function setupAnswers() {
-    document.querySelectorAll(".quiz-card").forEach((quizCard) => {
-        const buttons = quizCard.querySelectorAll("[data-answer]");
+    const pageId = document.body?.dataset?.page || "page";
+
+    document.querySelectorAll(".quiz-card").forEach((quizCard, quizIndex) => {
+        const buttons = Array.from(quizCard.querySelectorAll("[data-answer]"));
         const feedback = quizCard.querySelector(".answer-feedback");
+        const sectionId = quizCard.closest("section")?.id || `${pageId}-quiz`;
+        const prompt = quizCard.querySelector("p")?.textContent || `quiz-${quizIndex + 1}`;
+        const quizId = `${sectionId}-${quizIndex + 1}`;
 
         buttons.forEach((button) => {
             const text = button.textContent;
@@ -585,6 +1602,7 @@ function setupAnswers() {
             button.addEventListener("click", () => {
                 const isCorrect = button.dataset.correct === "true";
                 const message = button.dataset.feedback || "";
+                const choiceIndex = buttons.indexOf(button) + 1;
 
                 buttons.forEach((item) => item.classList.remove("is-correct", "is-wrong"));
                 button.classList.add(isCorrect ? "is-correct" : "is-wrong");
@@ -593,6 +1611,8 @@ function setupAnswers() {
                     feedback.hidden = false;
                     feedback.textContent = message;
                 }
+
+                recordStudentQuizAttempt(quizId, prompt, choiceIndex, text, isCorrect);
             });
         });
     });
@@ -611,6 +1631,21 @@ function evaluatePasswordStrength(password) {
     if (weakPattern) score = Math.max(0, score - 25);
 
     return Math.min(100, score);
+}
+
+function getPasswordTrackingSample(password, score) {
+    const normalized = password.toLowerCase();
+    const weakPattern = ["123", "password", "admin", "school", "qwerty"].some((item) => normalized.includes(item));
+
+    return {
+        score,
+        length: password.length,
+        hasLower: /[a-z]/.test(password),
+        hasUpper: /[A-Z]/.test(password),
+        hasNumber: /\d/.test(password),
+        hasSymbol: /[!@#$%^&*()_\-+=[\]{};:'"\\|,.<>/?]/.test(password),
+        includesCommonPattern: weakPattern
+    };
 }
 
 function setupPasswordMeter() {
@@ -822,6 +1857,7 @@ function setupIntroSimulation() {
         const modeId = button.dataset.introMode;
         if (!INTRO_SIMULATION_MODES[modeId] || modeId === currentState.modeId) return;
         currentState = createIntroSimulationState(modeId);
+        recordIntroSimulationMode(modeId);
         render();
     });
 
@@ -844,6 +1880,7 @@ function setupIntroSimulation() {
                 value: clampMetricValue(metric.value + (action.effects[metric.id] ?? 0))
             }))
         };
+        recordIntroSimulationAction(currentState.modeId, action, currentState.metrics);
         render();
     });
 
@@ -1235,6 +2272,7 @@ async function setupLegacyModelViewer() {
             btn.addEventListener("click", () => {
                 document.querySelectorAll("[data-model-focus]").forEach(b => b.classList.toggle("is-active", b === btn));
                 applyFocus(btn.dataset.modelFocus);
+                recordStudentModelFocus(btn.dataset.modelFocus);
             });
         });
 
@@ -1971,6 +3009,7 @@ async function setupModelViewer() {
             if (!pickedStep || state.placedParts.has(partId)) return;
 
             if (partId !== activeStep.id) {
+                recordAssemblyPlacement(partId, activeStep.id, false, false);
                 state.selectedPartId = partId;
                 setFeedbackState(
                     "error",
@@ -1985,8 +3024,10 @@ async function setupModelViewer() {
             state.placedParts.add(partId);
             state.selectedPartId = null;
             state.collectedCards = Array.from(state.placedParts);
+            const completed = state.currentStepIndex >= steps.length - 1;
+            recordAssemblyPlacement(partId, activeStep.id, true, completed);
 
-            if (state.currentStepIndex >= steps.length - 1) {
+            if (completed) {
                 state.isCompleted = true;
                 setFeedbackState(
                     "complete",
@@ -2182,6 +3223,11 @@ async function setupModelViewer() {
                     state.selectedPartId = button.dataset.partId;
                     const activeStep = getActiveStep();
                     const selectedStep = stepById.get(state.selectedPartId);
+                    recordAssemblySelection(
+                        button.dataset.partId,
+                        activeStep?.id || null,
+                        Boolean(activeStep && selectedStep && selectedStep.id === activeStep.id)
+                    );
 
                     if (activeStep && selectedStep && selectedStep.id === activeStep.id) {
                         setFeedbackState("info", "تم اختيار القطعة الصحيحة", `الآن اسحب ${selectedStep.label} إلى الإطار المتوهج المطابق لشكل موضعها أو اضغط عليه لتثبيتها داخل النموذج.`);
@@ -2253,6 +3299,7 @@ async function setupModelViewer() {
         };
 
         const resetAttempt = () => {
+            recordAssemblyReset("step");
             if (state.isCompleted) {
                 setFeedbackState(
                     "complete",
@@ -2276,6 +3323,7 @@ async function setupModelViewer() {
         };
 
         const resetAll = () => {
+            recordAssemblyReset("all");
             state = {
                 currentStepIndex: 0,
                 placedParts: new Set(),
@@ -2473,7 +3521,7 @@ function setupConceptPopups() {
     const textEl = popup.querySelector("p");
     const tagsEl = popup.querySelector(".concept-tags");
 
-    const openPopup = (conceptId) => {
+    const openPopup = (conceptId, source = "button") => {
         const concept = CONCEPT_POPUPS[conceptId];
         if (!concept) return;
 
@@ -2484,6 +3532,7 @@ function setupConceptPopups() {
 
         overlay.classList.add("is-active");
         document.body.style.overflow = "hidden";
+        recordStudentConceptOpen(conceptId, source);
     };
 
     const closePopup = () => {
@@ -2502,7 +3551,7 @@ function setupConceptPopups() {
 
     document.querySelectorAll("[data-concept]").forEach((trigger) => {
         trigger.addEventListener("click", () => {
-            openPopup(trigger.dataset.concept);
+            openPopup(trigger.dataset.concept, "button");
         });
     });
 
@@ -2511,14 +3560,19 @@ function setupConceptPopups() {
 
 function setupAccordions() {
     document.querySelectorAll("[data-accordion]").forEach((accordion) => {
-        accordion.querySelectorAll(".accordion-header").forEach((header) => {
+        const sectionId = accordion.closest("section")?.id || document.body?.dataset?.page || "page";
+
+        accordion.querySelectorAll(".accordion-header").forEach((header, itemIndex) => {
             header.addEventListener("click", () => {
                 const item = header.closest(".accordion-item");
                 const isOpen = item.classList.contains("is-open");
 
                 accordion.querySelectorAll(".accordion-item").forEach((i) => i.classList.remove("is-open"));
 
-                if (!isOpen) item.classList.add("is-open");
+                if (!isOpen) {
+                    item.classList.add("is-open");
+                    recordStudentAccordionOpen(sectionId, itemIndex + 1, header.textContent || `accordion-${itemIndex + 1}`);
+                }
             });
         });
     });
@@ -2624,7 +3678,7 @@ function setupSVGExplorers() {
             el.addEventListener("click", () => {
                 const concept = el.dataset.concept;
                 if (concept && typeof window.openConceptPopup === "function") {
-                    window.openConceptPopup(concept);
+                    window.openConceptPopup(concept, "svg");
                 }
             });
         });
@@ -2764,11 +3818,14 @@ function setupPlaygroundLab() {
 
     let state = {};
 
-    const initLab = (labId) => {
+    const initLab = (labId, shouldTrack = false) => {
         const lab = LABS[labId];
         if (!lab) return;
         state = {};
         lab.metrics.forEach(m => { state[m.id] = m.value; });
+        if (shouldTrack) {
+            recordPlaygroundTabSelection(labId);
+        }
         renderLab(labId);
     };
 
@@ -2786,6 +3843,7 @@ function setupPlaygroundLab() {
                 }
             }
         });
+        recordPlaygroundAction(labId, action, state);
         renderLab(labId);
     };
 
@@ -3114,7 +4172,7 @@ function setupPlaygroundLab() {
                 tabsContainer.querySelectorAll(".practice-cat-tab").forEach(t => t.classList.remove("is-active"));
                 tab.classList.add("is-active");
                 currentLab = tab.dataset.playground;
-                initLab(currentLab);
+                initLab(currentLab, true);
             });
         });
     }
@@ -3122,15 +4180,174 @@ function setupPlaygroundLab() {
     initLab("heat");
 }
 
+function setupTopicLinkTracking() {
+    document.querySelectorAll("[data-topic-link]").forEach((card) => {
+        if (card.dataset.trackingBound === "true") {
+            return;
+        }
+
+        card.dataset.trackingBound = "true";
+        card.addEventListener("click", () => {
+            recordStudentPageSelection(card.dataset.topicLink);
+        });
+    });
+}
+
+function setupPasswordMeterTracking() {
+    const input = document.getElementById("password-input");
+    if (!input || input.dataset.trackingBound === "true") {
+        return;
+    }
+
+    input.dataset.trackingBound = "true";
+
+    let lastTrackedSignature = "";
+    const track = () => {
+        if (!input.value) {
+            lastTrackedSignature = "";
+            return;
+        }
+
+        const score = evaluatePasswordStrength(input.value);
+        const sample = getPasswordTrackingSample(input.value, score);
+        const signature = JSON.stringify(sample);
+        if (signature === lastTrackedSignature) {
+            return;
+        }
+
+        lastTrackedSignature = signature;
+        const strengthLabel = score >= 80 ? "strong" : score >= 55 ? "medium" : "weak";
+        recordStudentPasswordCheck(sample, strengthLabel);
+    };
+
+    input.addEventListener("input", track);
+    track();
+}
+
+function setupPageDurationTracking() {
+    const pageId = document.body?.dataset?.page;
+    if (!pageId) {
+        return;
+    }
+
+    let activeStartedAt = document.visibilityState === "hidden" ? null : Date.now();
+    let accumulatedMs = 0;
+    let committed = false;
+
+    const pauseTracking = () => {
+        if (activeStartedAt == null) {
+            return;
+        }
+
+        accumulatedMs += Date.now() - activeStartedAt;
+        activeStartedAt = null;
+    };
+
+    const resumeTracking = () => {
+        if (activeStartedAt != null || document.visibilityState === "hidden") {
+            return;
+        }
+
+        activeStartedAt = Date.now();
+    };
+
+    const commit = () => {
+        if (committed) {
+            return;
+        }
+
+        committed = true;
+        pauseTracking();
+        recordStudentPageDuration(pageId, accumulatedMs);
+    };
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+            pauseTracking();
+        } else {
+            resumeTracking();
+        }
+    });
+
+    window.addEventListener("pagehide", commit, { once: true });
+    window.addEventListener("beforeunload", commit, { once: true });
+}
+
+function setupLocalTrackingPanel() {
+    const input = document.querySelector("[data-student-number-input]");
+    const saveButton = document.querySelector("[data-save-student-number]");
+    const exportButton = document.querySelector("[data-export-student-json]");
+    const exportAllButton = document.querySelector("[data-export-all-json]");
+    const clearButton = document.querySelector("[data-clear-student-json]");
+    const status = document.querySelector("[data-student-number-status]");
+    const preview = document.querySelector("[data-student-json-preview]");
+
+    if (!input || !saveButton || !status || !preview) {
+        return;
+    }
+
+    LOCAL_TRACKING_PANEL_STATE.input = input;
+    LOCAL_TRACKING_PANEL_STATE.status = status;
+    LOCAL_TRACKING_PANEL_STATE.preview = preview;
+
+    saveButton.addEventListener("click", () => {
+        const studentNumber = Number(input.value);
+        if (!Number.isInteger(studentNumber) || studentNumber < 1 || studentNumber > MAX_STUDENT_NUMBER) {
+            status.textContent = "أدخل رقمًا صحيحًا بين 1 و35.";
+            return;
+        }
+
+        saveStudentNumber(studentNumber);
+        updateStudentRecord(studentNumber, (record) => ({
+            ...record,
+            studentNumber,
+            updatedAt: new Date().toISOString()
+        }));
+        recordStudentPageVisit(document.body?.dataset?.page);
+    });
+
+    exportButton?.addEventListener("click", () => {
+        const studentNumber = loadStudentNumber();
+        if (!studentNumber) {
+            status.textContent = "اختر رقم الطالب أولًا قبل التصدير.";
+            return;
+        }
+
+        downloadJsonFile(`student-${String(studentNumber).padStart(2, "0")}-tracking.json`, getStudentRecord(studentNumber));
+    });
+
+    exportAllButton?.addEventListener("click", () => {
+        downloadJsonFile("all-students-local-tracking.json", loadStudentTrackingData());
+    });
+
+    clearButton?.addEventListener("click", () => {
+        const studentNumber = loadStudentNumber();
+        if (!studentNumber) {
+            status.textContent = "لا توجد بيانات لطالب محدد لمسحها.";
+            return;
+        }
+
+        clearStudentRecord(studentNumber);
+        status.textContent = `تم مسح بيانات الطالب رقم ${studentNumber} من التخزين المحلي.`;
+    });
+
+    renderLocalTrackingPreview();
+}
+
 function startApp() {
     setupPageConfig();
     setupNavigation();
     markVisitedPage();
-    setupSwitchGroup("[data-scenario-group]", "[data-scenario-target]", ".scenario-panel", "scenarioTarget");
-    setupSwitchGroup("[data-visual-group]", "[data-visual-target]", ".visual-panel", "visualTarget");
+    recordStudentPageVisit();
+    setupPageDurationTracking();
+    setupLocalTrackingPanel();
+    setupTopicLinkTracking();
+    setupSwitchGroup("[data-scenario-group]", "[data-scenario-target]", ".scenario-panel", "scenarioTarget", "scenario");
+    setupSwitchGroup("[data-visual-group]", "[data-visual-target]", ".visual-panel", "visualTarget", "visual");
     setupAnswers();
     setupIntroSimulation();
     setupPasswordMeter();
+    setupPasswordMeterTracking();
     setupRevealAnimation();
     setupModelViewer();
     setupParticles();
