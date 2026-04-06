@@ -21,6 +21,7 @@
     "asar": true,
     "files": [
       "*.html",
+      "lesson-system-config.json",
       "css/**/*",
       "js/**/*",
       "models/**/*",

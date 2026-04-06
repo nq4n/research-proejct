@@ -45,6 +45,30 @@ Use `npm.cmd` and not `npm`.
 
 On this Windows setup, PowerShell blocks `npm.ps1`, but `npm.cmd` works correctly.
 
+## Cloudflare Lesson Access Config
+
+The app is now ready for a Cloudflare R2 lesson-access setup.
+
+Edit:
+
+`js\lesson-access-config.js`
+
+Then set:
+
+- `enabled = true`
+- `cloudflare.customDomain` or `cloudflare.publicBaseUrl`
+- `pages.<lesson>.remoteConfigPath` for any lesson config JSON stored in the bucket
+
+The current system JSON file is:
+
+`lesson-system-config.json`
+
+It is stored in the project root and is already connected through:
+
+`js\lesson-access-config.js`
+
+Right now the app loads that root JSON locally. Later, you can move the same JSON file to Cloudflare R2 and only change the base URL settings.
+
 ## If You Copy The App To Another Windows PC
 
 You can copy either:

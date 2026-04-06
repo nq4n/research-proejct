@@ -307,7 +307,252 @@ function mergeDeep(baseValue, overrideValue) {
     return overrideValue ?? baseValue;
 }
 
-const SITE_CONFIG = mergeDeep(DEFAULT_SITE_CONFIG, window.LESSON_CONFIG || {});
+const DEFAULT_LESSON_ACCESS_CONFIG = {
+    enabled: false,
+    provider: "cloudflare-r2",
+    strategy: "local-first",
+    fetchTimeoutMs: 6000,
+    cloudflare: {
+        publicBaseUrl: "",
+        customDomain: "",
+        bucketName: "",
+        accountId: "",
+        basePrefix: "virtual-lab",
+        configPrefix: "lesson-config",
+        assetPrefix: "",
+        manifestPath: "lesson-access/manifest.json"
+    },
+    pages: {
+        home: { remoteConfigPath: "", assetPrefix: "" },
+        intro: { remoteConfigPath: "", assetPrefix: "" },
+        hardware: { remoteConfigPath: "", assetPrefix: "" },
+        software: { remoteConfigPath: "", assetPrefix: "" },
+        security: { remoteConfigPath: "", assetPrefix: "" },
+        practice: { remoteConfigPath: "", assetPrefix: "" }
+    }
+};
+
+let SITE_CONFIG = mergeDeep(DEFAULT_SITE_CONFIG, window.LESSON_CONFIG || {});
+const LESSON_ACCESS_CONFIG = mergeDeep(DEFAULT_LESSON_ACCESS_CONFIG, window.LESSON_ACCESS_CONFIG || {});
+const LESSON_ACCESS_RUNTIME = {
+    manifest: null,
+    source: "local",
+    pageId: null,
+    remoteConfigUrl: "",
+    manifestUrl: "",
+    lastError: null
+};
+
+function trimSlashEdges(value = "") {
+    return String(value).replace(/^\/+|\/+$/g, "");
+}
+
+function hasRemoteProtocol(value = "") {
+    return /^https?:\/\//i.test(String(value));
+}
+
+function joinUrlParts(...parts) {
+    return parts
+        .map((part) => trimSlashEdges(part))
+        .filter(Boolean)
+        .join("/");
+}
+
+function getLessonAccessConfig() {
+    return LESSON_ACCESS_CONFIG;
+}
+
+function getLessonAccessPageConfig(pageId = document.body?.dataset.page) {
+    if (!pageId) return {};
+    return LESSON_ACCESS_CONFIG.pages?.[pageId] || {};
+}
+
+function getLessonAccessBaseUrl() {
+    const cloudflareConfig = LESSON_ACCESS_CONFIG.cloudflare || {};
+    const rawBaseUrl = cloudflareConfig.customDomain || cloudflareConfig.publicBaseUrl || "";
+    const baseUrl = String(rawBaseUrl).replace(/\/+$/g, "");
+    const basePrefix = trimSlashEdges(cloudflareConfig.basePrefix || "");
+
+    if (!baseUrl) {
+        return "";
+    }
+
+    return basePrefix ? `${baseUrl}/${basePrefix}` : baseUrl;
+}
+
+function buildLessonAccessUrl(resourcePath = "") {
+    if (!resourcePath) {
+        return "";
+    }
+
+    if (hasRemoteProtocol(resourcePath)) {
+        return resourcePath;
+    }
+
+    const baseUrl = getLessonAccessBaseUrl();
+    const normalizedResourcePath = trimSlashEdges(resourcePath);
+    if (!baseUrl) {
+        return normalizedResourcePath || String(resourcePath);
+    }
+
+    return normalizedResourcePath ? `${baseUrl}/${normalizedResourcePath}` : baseUrl;
+}
+
+function getLessonManifestUrl() {
+    const cloudflareConfig = LESSON_ACCESS_CONFIG.cloudflare || {};
+    return buildLessonAccessUrl(cloudflareConfig.manifestPath || "");
+}
+
+function resolveRemoteConfigUrl(pageId = document.body?.dataset.page, manifest = LESSON_ACCESS_RUNTIME.manifest) {
+    const pageConfig = getLessonAccessPageConfig(pageId);
+    const configPrefix = trimSlashEdges(LESSON_ACCESS_CONFIG.cloudflare?.configPrefix || "");
+
+    if (pageConfig.remoteConfigUrl) {
+        return pageConfig.remoteConfigUrl;
+    }
+
+    if (pageConfig.remoteConfigPath) {
+        const resolvedPath = configPrefix
+            ? joinUrlParts(configPrefix, pageConfig.remoteConfigPath)
+            : trimSlashEdges(pageConfig.remoteConfigPath);
+        return buildLessonAccessUrl(resolvedPath);
+    }
+
+    const manifestPageConfig = manifest?.pages?.[pageId];
+    if (!isPlainObject(manifestPageConfig)) {
+        return "";
+    }
+
+    if (manifestPageConfig.remoteConfigUrl) {
+        return manifestPageConfig.remoteConfigUrl;
+    }
+
+    if (manifestPageConfig.remoteConfigPath) {
+        const resolvedPath = configPrefix
+            ? joinUrlParts(configPrefix, manifestPageConfig.remoteConfigPath)
+            : trimSlashEdges(manifestPageConfig.remoteConfigPath);
+        return buildLessonAccessUrl(resolvedPath);
+    }
+
+    return "";
+}
+
+function getLessonAssetUrl(assetPath = "", options = {}) {
+    if (!assetPath) {
+        return "";
+    }
+
+    if (!LESSON_ACCESS_CONFIG.enabled || hasRemoteProtocol(assetPath)) {
+        return assetPath;
+    }
+
+    const pageId = options.pageId || document.body?.dataset.page || "";
+    const pageAccessConfig = getLessonAccessPageConfig(pageId);
+    const configuredAssetPrefix = trimSlashEdges(options.assetPrefix || pageAccessConfig.assetPrefix || LESSON_ACCESS_CONFIG.cloudflare?.assetPrefix || "");
+    const normalizedAssetPath = trimSlashEdges(assetPath);
+    const remotePath = configuredAssetPrefix
+        ? joinUrlParts(configuredAssetPrefix, normalizedAssetPath)
+        : normalizedAssetPath;
+
+    return buildLessonAccessUrl(remotePath) || assetPath;
+}
+
+function exposeLessonAccessApi() {
+    window.VirtualLabAccess = {
+        config: LESSON_ACCESS_CONFIG,
+        runtime: LESSON_ACCESS_RUNTIME,
+        getBaseUrl: getLessonAccessBaseUrl,
+        getManifestUrl: getLessonManifestUrl,
+        getRemoteConfigUrl: resolveRemoteConfigUrl,
+        getAssetUrl: getLessonAssetUrl
+    };
+}
+
+async function fetchJsonWithTimeout(url, timeoutMs = LESSON_ACCESS_CONFIG.fetchTimeoutMs) {
+    const controller = typeof AbortController === "function" ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            cache: "no-store",
+            signal: controller?.signal
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} while loading ${url}`);
+        }
+
+        return await response.json();
+    } finally {
+        if (timer) {
+            clearTimeout(timer);
+        }
+    }
+}
+
+function normalizeFetchedLessonConfig(pageId, remoteConfig) {
+    if (!isPlainObject(remoteConfig)) {
+        return {};
+    }
+
+    if (isPlainObject(remoteConfig.pages) || isPlainObject(remoteConfig.global)) {
+        return remoteConfig;
+    }
+
+    return {
+        pages: {
+            [pageId]: remoteConfig
+        }
+    };
+}
+
+async function bootstrapLessonAccess(pageId = document.body?.dataset.page) {
+    LESSON_ACCESS_RUNTIME.pageId = pageId || null;
+    LESSON_ACCESS_RUNTIME.lastError = null;
+    LESSON_ACCESS_RUNTIME.remoteConfigUrl = "";
+    LESSON_ACCESS_RUNTIME.manifestUrl = "";
+    exposeLessonAccessApi();
+
+    if (!LESSON_ACCESS_CONFIG.enabled) {
+        return;
+    }
+
+    const manifestUrl = getLessonManifestUrl();
+    if (manifestUrl) {
+        LESSON_ACCESS_RUNTIME.manifestUrl = manifestUrl;
+        try {
+            const manifest = await fetchJsonWithTimeout(manifestUrl);
+            if (isPlainObject(manifest)) {
+                LESSON_ACCESS_RUNTIME.manifest = manifest;
+            }
+        } catch (error) {
+            LESSON_ACCESS_RUNTIME.lastError = error instanceof Error ? error.message : String(error);
+            console.warn("Lesson access manifest could not be loaded:", error);
+        }
+    }
+
+    const remoteConfigUrl = resolveRemoteConfigUrl(pageId, LESSON_ACCESS_RUNTIME.manifest);
+    if (!remoteConfigUrl) {
+        exposeLessonAccessApi();
+        return;
+    }
+
+    LESSON_ACCESS_RUNTIME.remoteConfigUrl = remoteConfigUrl;
+
+    try {
+        const remoteConfig = await fetchJsonWithTimeout(remoteConfigUrl);
+        const normalizedConfig = normalizeFetchedLessonConfig(pageId, remoteConfig);
+        SITE_CONFIG = mergeDeep(SITE_CONFIG, normalizedConfig);
+        window.LESSON_CONFIG = SITE_CONFIG;
+        LESSON_ACCESS_RUNTIME.source = "remote";
+    } catch (error) {
+        LESSON_ACCESS_RUNTIME.lastError = error instanceof Error ? error.message : String(error);
+        console.warn("Remote lesson config could not be loaded, local config will be used:", error);
+    }
+
+    exposeLessonAccessApi();
+}
 
 function getPageConfig(pageId = document.body?.dataset.page) {
     if (!pageId) return {};
@@ -1949,7 +2194,7 @@ async function setupLegacyModelViewer() {
 
         let loadingDone = false;
         const model = await new Promise((resolve, reject) => {
-            loader.load("models/PC.fbx",
+            loader.load(getLessonAssetUrl("models/PC.fbx", { pageId: "hardware" }),
                 (obj) => { loadingDone = true; resolve(obj); },
                 (prog) => {
                     if (loadingDone) return;
@@ -2444,7 +2689,7 @@ async function setupModelViewer() {
 
         const loader = new FBXLoader();
         const model = await new Promise((resolve, reject) => {
-            loader.load("models/PC.fbx", resolve, undefined, reject);
+            loader.load(getLessonAssetUrl("models/PC.fbx", { pageId: "hardware" }), resolve, undefined, reject);
         });
 
         const wrapper = new THREE.Group();
@@ -4273,6 +4518,24 @@ function setupPageDurationTracking() {
     window.addEventListener("beforeunload", commit, { once: true });
 }
 
+function setupConfiguredStaticAssets() {
+    document.querySelectorAll("[data-config-asset]").forEach((element) => {
+        const assetPath = element.dataset.configAsset;
+        const pageId = element.dataset.assetPage || document.body?.dataset.page || "";
+        const resolvedUrl = getLessonAssetUrl(assetPath, { pageId });
+
+        if (!resolvedUrl || resolvedUrl === assetPath) {
+            return;
+        }
+
+        if ("src" in element) {
+            element.src = resolvedUrl;
+        } else if ("href" in element) {
+            element.href = resolvedUrl;
+        }
+    });
+}
+
 function setupLocalTrackingPanel() {
     const input = document.querySelector("[data-student-number-input]");
     const saveButton = document.querySelector("[data-save-student-number]");
@@ -4334,8 +4597,10 @@ function setupLocalTrackingPanel() {
     renderLocalTrackingPreview();
 }
 
-function startApp() {
+async function startApp() {
+    await bootstrapLessonAccess();
     setupPageConfig();
+    setupConfiguredStaticAssets();
     setupNavigation();
     markVisitedPage();
     recordStudentPageVisit();
@@ -4360,4 +4625,6 @@ function startApp() {
     setupPlaygroundLab();
 }
 
-startApp();
+startApp().catch((error) => {
+    console.error("Application bootstrap failed:", error);
+});
