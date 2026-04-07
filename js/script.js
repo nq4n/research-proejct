@@ -761,7 +761,23 @@ function saveVisitedPages(pages) {
 const LOCAL_TRACKING_PANEL_STATE = {
     input: null,
     status: null,
-    preview: null
+    preview: null,
+    location: null,
+    fileLink: null,
+    openFolderButton: null,
+    switchButton: null
+};
+
+const DESKTOP_TRACKING_STATE = {
+    available: false,
+    storageDir: "",
+    stateFile: "",
+    currentStudentFilePath: "",
+    lastSavedAt: "",
+    saveTimer: null,
+    savePromise: null,
+    initialized: false,
+    errorMessage: ""
 };
 
 function summarizeTrackingText(value, maxLength = 96) {
@@ -820,7 +836,7 @@ function updateLessonProgress(lessonProgress, pageId, updater) {
 
 function loadStudentNumber() {
     const raw = localStorage.getItem(STUDENT_NUMBER_KEY);
-    const parsed = Number(raw);
+    const parsed = parseStudentNumberValue(raw);
 
     if (!Number.isInteger(parsed) || parsed < 1 || parsed > MAX_STUDENT_NUMBER) {
         return null;
@@ -829,8 +845,29 @@ function loadStudentNumber() {
     return parsed;
 }
 
+function normalizeLocalizedDigits(value) {
+    if (typeof value !== "string") {
+        return "";
+    }
+
+    return value
+        .trim()
+        .replace(/[٠-٩]/g, (digit) => String(digit.charCodeAt(0) - 1632))
+        .replace(/[۰-۹]/g, (digit) => String(digit.charCodeAt(0) - 1776));
+}
+
+function parseStudentNumberValue(value) {
+    const normalized = normalizeLocalizedDigits(String(value ?? ""));
+    if (!/^\d+$/.test(normalized)) {
+        return null;
+    }
+
+    return Number(normalized);
+}
+
 function saveStudentNumber(studentNumber) {
     localStorage.setItem(STUDENT_NUMBER_KEY, String(studentNumber));
+    queueDesktopTrackingSave({ immediate: true });
 }
 
 function loadStudentTrackingData() {
@@ -845,6 +882,155 @@ function loadStudentTrackingData() {
 
 function saveStudentTrackingData(data) {
     localStorage.setItem(STUDENT_TRACKING_KEY, JSON.stringify(data));
+    queueDesktopTrackingSave();
+}
+
+function getDesktopTrackingBridge() {
+    if (typeof window === "undefined") {
+        return null;
+    }
+
+    const bridge = window.desktopTracking;
+    if (!bridge || bridge.isAvailable !== true) {
+        return null;
+    }
+
+    return bridge;
+}
+
+function setDesktopTrackingState(patch) {
+    Object.assign(DESKTOP_TRACKING_STATE, patch || {});
+}
+
+function updateTrackingUiMeta() {
+    const { status, location, fileLink } = LOCAL_TRACKING_PANEL_STATE;
+    const studentNumber = loadStudentNumber();
+
+    if (location) {
+        if (DESKTOP_TRACKING_STATE.available && DESKTOP_TRACKING_STATE.storageDir) {
+            const parts = [`Auto-save folder: ${DESKTOP_TRACKING_STATE.storageDir}`];
+            if (DESKTOP_TRACKING_STATE.lastSavedAt) {
+                parts.push(`Last save: ${new Date(DESKTOP_TRACKING_STATE.lastSavedAt).toLocaleString()}`);
+            }
+            if (DESKTOP_TRACKING_STATE.errorMessage) {
+                parts.push(`Sync issue: ${DESKTOP_TRACKING_STATE.errorMessage}`);
+            }
+            location.textContent = parts.join(" | ");
+        } else {
+            location.textContent = "Desktop file saving is not available in this browser session.";
+        }
+    }
+
+    if (fileLink) {
+        const canReveal = Boolean(studentNumber && DESKTOP_TRACKING_STATE.currentStudentFilePath);
+        fileLink.hidden = !canReveal;
+        fileLink.disabled = !canReveal;
+    }
+
+    if (status && DESKTOP_TRACKING_STATE.errorMessage && studentNumber) {
+        status.textContent = `Student ${studentNumber} is active, but file sync needs attention: ${DESKTOP_TRACKING_STATE.errorMessage}`;
+    }
+
+    renderStudentStatusBanner();
+}
+
+async function persistTrackingToDesktop() {
+    const bridge = getDesktopTrackingBridge();
+    if (!bridge) {
+        return null;
+    }
+
+    try {
+        const result = await bridge.saveState({
+            currentStudentNumber: loadStudentNumber(),
+            trackingData: loadStudentTrackingData()
+        });
+
+        setDesktopTrackingState({
+            available: true,
+            initialized: true,
+            storageDir: result?.storageDir || DESKTOP_TRACKING_STATE.storageDir,
+            stateFile: result?.stateFile || DESKTOP_TRACKING_STATE.stateFile,
+            currentStudentFilePath: result?.currentStudentFilePath || "",
+            lastSavedAt: result?.savedAt || new Date().toISOString(),
+            errorMessage: ""
+        });
+        updateTrackingUiMeta();
+        return result;
+    } catch (error) {
+        setDesktopTrackingState({
+            available: true,
+            initialized: true,
+            errorMessage: error?.message || "Unable to write tracking files."
+        });
+        updateTrackingUiMeta();
+        return null;
+    }
+}
+
+function queueDesktopTrackingSave({ immediate = false } = {}) {
+    if (!getDesktopTrackingBridge()) {
+        return Promise.resolve(null);
+    }
+
+    if (DESKTOP_TRACKING_STATE.saveTimer) {
+        clearTimeout(DESKTOP_TRACKING_STATE.saveTimer);
+        DESKTOP_TRACKING_STATE.saveTimer = null;
+    }
+
+    if (immediate) {
+        const promise = persistTrackingToDesktop();
+        setDesktopTrackingState({ savePromise: promise });
+        return promise;
+    }
+
+    const promise = new Promise((resolve) => {
+        DESKTOP_TRACKING_STATE.saveTimer = window.setTimeout(async () => {
+            DESKTOP_TRACKING_STATE.saveTimer = null;
+            resolve(await persistTrackingToDesktop());
+        }, 250);
+    });
+
+    setDesktopTrackingState({ savePromise: promise });
+    return promise;
+}
+
+async function initializeDesktopTrackingState() {
+    const bridge = getDesktopTrackingBridge();
+    if (!bridge) {
+        updateTrackingUiMeta();
+        return;
+    }
+
+    try {
+        const result = await bridge.loadState();
+        if (result?.currentStudentNumber) {
+            localStorage.setItem(STUDENT_NUMBER_KEY, String(result.currentStudentNumber));
+        }
+
+        if (result?.trackingData && isPlainObject(result.trackingData)) {
+            localStorage.setItem(STUDENT_TRACKING_KEY, JSON.stringify(result.trackingData));
+        }
+
+        setDesktopTrackingState({
+            available: true,
+            initialized: true,
+            storageDir: result?.storageDir || "",
+            stateFile: result?.stateFile || "",
+            currentStudentFilePath: result?.currentStudentNumber && result?.storageDir
+                ? `${result.storageDir}\\students\\student-${String(result.currentStudentNumber).padStart(2, "0")}-tracking.json`
+                : "",
+            errorMessage: ""
+        });
+    } catch (error) {
+        setDesktopTrackingState({
+            available: true,
+            initialized: true,
+            errorMessage: error?.message || "Unable to load tracking files."
+        });
+    }
+
+    updateTrackingUiMeta();
 }
 
 function getDefaultStudentRecord(studentNumber) {
@@ -1003,12 +1189,14 @@ function updateStudentRecord(studentNumber, updater) {
     data[key] = nextRecord;
     saveStudentTrackingData(data);
     renderLocalTrackingPreview();
+    updateTrackingUiMeta();
     return nextRecord;
 }
 
 function renderLocalTrackingPreview() {
     const { input, status, preview } = LOCAL_TRACKING_PANEL_STATE;
     if (!input || !status || !preview) {
+        updateTrackingUiMeta();
         return;
     }
 
@@ -1662,7 +1850,9 @@ function clearStudentRecord(studentNumber) {
     const data = loadStudentTrackingData();
     delete data[String(studentNumber)];
     saveStudentTrackingData(data);
+    getDesktopTrackingBridge()?.clearStudentRecord?.(studentNumber).catch(() => {});
     renderLocalTrackingPreview();
+    updateTrackingUiMeta();
 }
 
 function downloadJsonFile(filename, data) {
@@ -1684,6 +1874,9 @@ function setupLocalTrackingPanelLegacy() {
     const exportButton = document.querySelector("[data-export-student-json]");
     const exportAllButton = document.querySelector("[data-export-all-json]");
     const clearButton = document.querySelector("[data-clear-student-json]");
+    const openFolderButton = document.querySelector("[data-open-tracking-folder]");
+    const fileLink = document.querySelector("[data-open-student-file]");
+    const location = document.querySelector("[data-tracking-storage-location]");
     const status = document.querySelector("[data-student-number-status]");
     const preview = document.querySelector("[data-student-json-preview]");
 
@@ -1710,7 +1903,7 @@ function setupLocalTrackingPanelLegacy() {
     };
 
     saveButton.addEventListener("click", () => {
-        const studentNumber = Number(input.value);
+        const studentNumber = parseStudentNumberValue(input.value);
         if (!Number.isInteger(studentNumber) || studentNumber < 1 || studentNumber > MAX_STUDENT_NUMBER) {
             setStatus("أدخل رقمًا صحيحًا بين 1 و35.");
             return;
@@ -2161,9 +2354,9 @@ async function setupLegacyModelViewer() {
     const focusPresets = getHardwareFocusPresets();
 
     try {
-        const THREE = await import("three");
-        const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
-        const { FBXLoader } = await import("three/addons/loaders/FBXLoader.js");
+        const THREE = await import("./vendor/three/three.module.js");
+        const { OrbitControls } = await import("./vendor/three/addons/controls/OrbitControls.js");
+        const { FBXLoader } = await import("./vendor/three/addons/loaders/FBXLoader.js");
 
         const scene = new THREE.Scene();
         scene.background = new THREE.Color("#eef5fb");
@@ -2647,9 +2840,9 @@ async function setupModelViewer() {
     };
 
     try {
-        const THREE = await import("three");
-        const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
-        const { FBXLoader } = await import("three/addons/loaders/FBXLoader.js");
+        const THREE = await import("./vendor/three/three.module.js");
+        const { OrbitControls } = await import("./vendor/three/addons/controls/OrbitControls.js");
+        const { FBXLoader } = await import("./vendor/three/addons/loaders/FBXLoader.js");
 
         const scene = new THREE.Scene();
         scene.background = new THREE.Color("#eef5fb");
@@ -4542,6 +4735,9 @@ function setupLocalTrackingPanel() {
     const exportButton = document.querySelector("[data-export-student-json]");
     const exportAllButton = document.querySelector("[data-export-all-json]");
     const clearButton = document.querySelector("[data-clear-student-json]");
+    const openFolderButton = document.querySelector("[data-open-tracking-folder]");
+    const fileLink = document.querySelector("[data-open-student-file]");
+    const location = document.querySelector("[data-tracking-storage-location]");
     const status = document.querySelector("[data-student-number-status]");
     const preview = document.querySelector("[data-student-json-preview]");
 
@@ -4552,6 +4748,9 @@ function setupLocalTrackingPanel() {
     LOCAL_TRACKING_PANEL_STATE.input = input;
     LOCAL_TRACKING_PANEL_STATE.status = status;
     LOCAL_TRACKING_PANEL_STATE.preview = preview;
+    LOCAL_TRACKING_PANEL_STATE.location = location;
+    LOCAL_TRACKING_PANEL_STATE.fileLink = fileLink;
+    LOCAL_TRACKING_PANEL_STATE.openFolderButton = openFolderButton;
 
     saveButton.addEventListener("click", () => {
         const studentNumber = Number(input.value);
@@ -4567,6 +4766,7 @@ function setupLocalTrackingPanel() {
             updatedAt: new Date().toISOString()
         }));
         recordStudentPageVisit(document.body?.dataset?.page);
+        queueDesktopTrackingSave({ immediate: true });
     });
 
     exportButton?.addEventListener("click", () => {
@@ -4583,6 +4783,25 @@ function setupLocalTrackingPanel() {
         downloadJsonFile("all-students-local-tracking.json", loadStudentTrackingData());
     });
 
+    openFolderButton?.addEventListener("click", async () => {
+        const bridge = getDesktopTrackingBridge();
+        if (!bridge) {
+            status.textContent = "Desktop file saving is only available inside the Electron app.";
+            return;
+        }
+
+        await bridge.openStorageFolder();
+    });
+
+    fileLink?.addEventListener("click", async () => {
+        const bridge = getDesktopTrackingBridge();
+        if (!bridge || !DESKTOP_TRACKING_STATE.currentStudentFilePath) {
+            return;
+        }
+
+        await bridge.revealFile(DESKTOP_TRACKING_STATE.currentStudentFilePath);
+    });
+
     clearButton?.addEventListener("click", () => {
         const studentNumber = loadStudentNumber();
         if (!studentNumber) {
@@ -4595,15 +4814,191 @@ function setupLocalTrackingPanel() {
     });
 
     renderLocalTrackingPreview();
+    updateTrackingUiMeta();
+}
+
+function getTrackingStorageSummary() {
+    if (!DESKTOP_TRACKING_STATE.available || !DESKTOP_TRACKING_STATE.storageDir) {
+        return "Tracking is stored in browser storage for this session.";
+    }
+
+    return `Tracking files are stored in: ${DESKTOP_TRACKING_STATE.storageDir}`;
+}
+
+function logoutStudent() {
+    localStorage.removeItem(STUDENT_NUMBER_KEY);
+    setDesktopTrackingState({
+        currentStudentFilePath: ""
+    });
+    renderLocalTrackingPreview();
+    renderStudentStatusBanner();
+    queueDesktopTrackingSave({ immediate: true }).catch((error) => {
+        console.error("Desktop tracking save failed during logout:", error);
+    });
+    openStudentLoginModal();
+}
+
+function renderStudentStatusBanner() {
+    const main = document.querySelector("main");
+    if (!main) {
+        return;
+    }
+
+    let banner = document.querySelector("[data-student-status-banner]");
+    if (!banner) {
+        banner = document.createElement("section");
+        banner.className = "student-status-banner";
+        banner.setAttribute("data-student-status-banner", "true");
+        main.prepend(banner);
+    }
+
+    const studentNumber = loadStudentNumber();
+    banner.innerHTML = `
+        <div class="student-status-copy">
+            <span class="eyebrow">Student Access</span>
+            <h2>${studentNumber ? `Student ${studentNumber} is active` : "Student login is required"}</h2>
+            <p>${getTrackingStorageSummary()}</p>
+        </div>
+        ${studentNumber ? `
+        <div class="student-status-actions">
+            <button class="button button-secondary" type="button" data-student-logout>Log Out</button>
+        </div>` : ""}
+    `;
+
+    banner.querySelector("[data-student-logout]")?.addEventListener("click", () => {
+        logoutStudent();
+    });
+}
+
+function ensureStudentLoginModal() {
+    let modal = document.getElementById("student-login-modal");
+    if (modal) {
+        return modal;
+    }
+
+    modal = document.createElement("div");
+    modal.id = "student-login-modal";
+    modal.className = "student-login-modal";
+    modal.hidden = true;
+    modal.innerHTML = `
+        <div class="student-login-dialog" role="dialog" aria-modal="true" aria-labelledby="student-login-title">
+            <span class="eyebrow">First Login</span>
+            <h2 id="student-login-title">Enter the student number before using the lab</h2>
+            <p>The app will use this number for progress tracking and will save the record as JSON.</p>
+            <label class="student-local-label" for="student-login-input">Student number</label>
+            <input id="student-login-input" class="student-local-input" type="text" inputmode="numeric" pattern="[0-9٠-٩۰-۹]+">
+            <p class="student-login-message" data-student-login-message>Choose a number from 1 to 35.</p>
+            <div class="student-login-actions">
+                <button class="button" type="button" data-student-login-save>Continue</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const submitStudentLogin = () => {
+        const input = modal.querySelector("#student-login-input");
+        const message = modal.querySelector("[data-student-login-message]");
+        const submitButton = modal.querySelector("[data-student-login-save]");
+        const studentNumber = parseStudentNumberValue(input?.value);
+
+        if (!Number.isInteger(studentNumber) || studentNumber < 1 || studentNumber > MAX_STUDENT_NUMBER) {
+            if (message) {
+                message.textContent = "Enter a valid student number from 1 to 35.";
+            }
+            return;
+        }
+
+        try {
+            if (message) {
+                message.textContent = "Signing in...";
+            }
+            if (submitButton) {
+                submitButton.disabled = true;
+            }
+
+            saveStudentNumber(studentNumber);
+            updateStudentRecord(studentNumber, (record) => ({
+                ...record,
+                studentNumber,
+                updatedAt: new Date().toISOString()
+            }));
+            closeStudentLoginModal();
+            recordStudentPageVisit(document.body?.dataset?.page);
+            renderLocalTrackingPreview();
+            renderStudentStatusBanner();
+            queueDesktopTrackingSave({ immediate: true }).catch((error) => {
+                console.error("Desktop tracking save failed:", error);
+            });
+        } catch (error) {
+            console.error("Student login failed:", error);
+            if (message) {
+                message.textContent = error?.message || "Login failed. Try again.";
+            }
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+            }
+        }
+    };
+
+    modal.querySelector("[data-student-login-save]")?.addEventListener("click", submitStudentLogin);
+    modal.querySelector("#student-login-input")?.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            submitStudentLogin();
+        }
+    });
+
+    return modal;
+}
+
+function openStudentLoginModal() {
+    const modal = ensureStudentLoginModal();
+    const input = modal.querySelector("#student-login-input");
+    const message = modal.querySelector("[data-student-login-message]");
+
+    modal.hidden = false;
+    document.body.classList.add("student-login-open");
+    if (input) {
+        input.value = loadStudentNumber() ? String(loadStudentNumber()) : "";
+        window.setTimeout(() => input.focus(), 0);
+    }
+    if (message) {
+        message.textContent = "Choose a number from 1 to 35.";
+    }
+}
+
+function closeStudentLoginModal() {
+    const modal = document.getElementById("student-login-modal");
+    if (!modal) {
+        return;
+    }
+
+    modal.hidden = true;
+    document.body.classList.remove("student-login-open");
+}
+
+function setupStudentAccessFlow() {
+    ensureStudentLoginModal();
+    renderStudentStatusBanner();
+
+    if (!loadStudentNumber()) {
+        openStudentLoginModal();
+    }
 }
 
 async function startApp() {
     await bootstrapLessonAccess();
     setupPageConfig();
     setupConfiguredStaticAssets();
+    await initializeDesktopTrackingState();
     setupNavigation();
+    setupStudentAccessFlow();
     markVisitedPage();
-    recordStudentPageVisit();
+    if (loadStudentNumber()) {
+        recordStudentPageVisit();
+    }
     setupPageDurationTracking();
     setupLocalTrackingPanel();
     setupTopicLinkTracking();

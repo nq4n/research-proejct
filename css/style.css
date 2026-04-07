@@ -4933,6 +4933,89 @@ body[data-page="security"] .topic-state {
     font-size: 0.98rem;
 }
 
+.student-local-location {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+.student-status-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding: 18px 22px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--line-strong);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(255, 255, 255, 0.92));
+    box-shadow: 0 10px 28px rgba(24, 36, 39, 0.05);
+}
+
+.student-status-copy h2 {
+    margin-top: 0.4rem;
+    font-size: 1.2rem;
+    color: var(--accent-strong);
+}
+
+.student-status-copy p {
+    margin-top: 0.45rem;
+    color: var(--muted);
+    font-size: 0.96rem;
+}
+
+.student-status-actions,
+.student-login-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.student-login-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.student-login-modal[hidden] {
+    display: none !important;
+}
+
+.student-login-dialog {
+    width: min(520px, calc(100vw - 32px));
+    padding: 26px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--line-strong);
+    background: var(--paper-strong);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+}
+
+.student-login-dialog h2 {
+    margin-top: 0.7rem;
+    font-size: 1.45rem;
+    color: var(--accent-strong);
+}
+
+.student-login-dialog p {
+    margin-top: 0.8rem;
+    color: var(--muted);
+}
+
+.student-login-message {
+    min-height: 1.7em;
+}
+
+body.student-login-open {
+    overflow: hidden;
+}
+
 .student-local-actions {
     margin-top: 16px;
 }
@@ -4952,6 +5035,11 @@ body[data-page="security"] .topic-state {
 }
 
 @media (max-width: 720px) {
+    .student-status-banner {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     .student-local-row,
     .student-local-actions {
         flex-direction: column;
