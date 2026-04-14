@@ -29,13 +29,14 @@
                 <span></span>
             </button>
 
+            <div class="nav-student-badge" id="header-student-badge" hidden aria-label="رقم الطالب الحالي"></div>
             <nav id="site-nav" class="main-nav" aria-label="التنقل الرئيسي">
-                <a href="index.html"><span>اللوحة</span></a>
-                <a href="intro.html"><span>الدرس 01</span></a>
-                <a href="hardware.html"><span>الدرس 02</span></a>
-                <a href="software.html"><span>الدرس 03</span></a>
-                <a href="data-protection.html"><span>الدرس 04</span></a>
-                <a href="practice-lab.html"><span>التدريب</span></a>
+                <a href="index.html"><span>الرئيسية</span></a>
+                <a href="intro.html"><b>01</b><span>المقدمة</span></a>
+                <a href="hardware.html"><b>02</b><span>العتاد</span></a>
+                <a href="software.html"><b>03</b><span>البرمجيات</span></a>
+                <a href="data-protection.html"><b>04</b><span>الحماية</span></a>
+                <a href="practice-lab.html"><span>المختبر</span></a>
             </nav>
         </div>
     </header>
@@ -44,10 +45,10 @@
         <section class="hero hero-home dashboard-hero" data-reveal>
             <div class="hero-copy">
                 <span class="eyebrow">لوحة الوحدة</span>
-                <h1>اختر الدرس الذي تحتاجه ثم ابدأ من صفحة واضحة لا تعرض كل شيء دفعة واحدة.</h1>
+                <h1>ابدأ رحلة صيانة الكمبيوتر بطريقة سهلة وممتعة.</h1>
                 <p>
-                    هذه الصفحة ليست درسًا. هي لوحة دخول تعرض هدف الوحدة، ترتيب الدروس، والغرض من كل موضوع ثم تنقلك
-                    مباشرة إلى صفحة التعلم المناسبة.
+                    هذه الصفحة تعرض لك الدروس بشكل بسيط ومرتب. اختر الدرس المناسب ثم استعد لتعلم خطوة بخطوة
+                    دون تشتيت.
                 </p>
                 <div class="hero-actions">
                     <a class="button" href="#start"><span>اعرض الدروس</span></a>
@@ -143,57 +144,6 @@
             </div>
         </section>
 
-        <section id="local-tracking" class="section-block" data-reveal>
-            <div class="section-heading">
-                <span class="eyebrow">التتبع المحلي</span>
-                <h2>أدخل رقم الطالب وسيُحفظ التقدم محليًا بصيغة JSON</h2>
-                <p>هذا المسار لا يستخدم أي خدمة سحابية. كل البيانات تُخزن داخل المتصفح على هذا الجهاز باستخدام <span class="student-local-inline">localStorage</span>.</p>
-            </div>
-
-            <div class="comparison-grid">
-                <article class="panel-card">
-                    <h3>رقم الطالب</h3>
-                    <p>أدخل رقمًا ثابتًا من 1 إلى 35. بعد الحفظ سيُربط كل تنقل داخل المختبر بهذا الرقم.</p>
-
-                    <div class="student-local-form">
-                        <label class="student-local-label" for="student-number-input">رقم الطالب</label>
-                        <div class="student-local-row">
-                            <input id="student-number-input" class="student-local-input" type="text" inputmode="numeric" pattern="[0-9٠-٩۰-۹]+" data-student-number-input>
-                            <button class="button" type="button" data-save-student-number>
-                                <span>حفظ الرقم</span>
-                            </button>
-                        </div>
-                        <p class="student-local-status" data-student-number-status>لم يتم اختيار رقم الطالب بعد.</p>
-                    </div>
-                </article>
-
-                <article class="panel-card">
-                    <h3>ملف JSON المحلي</h3>
-                    <p>يمكنك تصدير سجل الطالب الحالي أو كل السجلات المحلية من هذا الجهاز على هيئة JSON.</p>
-
-                    <div class="student-local-actions">
-                        <button class="button button-secondary" type="button" data-export-student-json>
-                            <span>تصدير الطالب الحالي</span>
-                        </button>
-                        <button class="button button-secondary" type="button" data-export-all-json>
-                            <span>تصدير كل السجلات</span>
-                        </button>
-                        <button class="button button-secondary" type="button" data-open-tracking-folder>
-                            <span>Open save folder</span>
-                        </button>
-                        <button class="button button-secondary" type="button" data-open-student-file hidden>
-                            <span>Show student file</span>
-                        </button>
-                        <button class="button button-secondary" type="button" data-clear-student-json>
-                            <span>مسح بيانات الطالب</span>
-                        </button>
-                    </div>
-
-                    <p class="student-local-location" data-tracking-storage-location>Tracking files will appear here after the first save.</p>
-                    <pre class="student-local-json" data-student-json-preview>{}</pre>
-                </article>
-            </div>
-        </section>
     </main>
 
     <footer class="site-footer">

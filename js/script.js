@@ -174,7 +174,7 @@ const CONCEPT_POPUPS = {
     "disk-maintenance": {
         icon: "💾",
         title: "صيانة الأقراص",
-        text: "تشمل Defragmentation (إعادة تنظيم الملفات)، Disk Cleanup (حذف غير المهم)، وأدوات مثل CCleaner. الهدف: مساحة أفضل وأداء أسرع.",
+        text: "تشمل إعادة التجزئة (إعادة تنظيم الملفات)، تنظيف القرص (حذف غير المهم)، وأدوات مثل CCleaner. الهدف: مساحة أفضل وأداء أسرع.",
         tags: ["تجزئة", "تنظيف", "تنظيم"]
     },
     "software-license": {
@@ -186,13 +186,13 @@ const CONCEPT_POPUPS = {
     "restore-point": {
         icon: "🔄",
         title: "نقطة الاستعادة",
-        text: "شبكة أمان تسجل حالة النظام قبل التغييرات الكبيرة. أنشئها قبل التحديث أو تثبيت التعريفات. المسار: Control Panel → System Protection.",
-        tags: ["System Protection", "رجوع آمن", "قبل التحديث"]
+        text: "شبكة أمان تسجل حالة النظام قبل التغييرات الكبيرة. أنشئها قبل التحديث أو تثبيت التعريفات. المسار: لوحة التحكم → حماية النظام.",
+        tags: ["حماية النظام", "رجوع آمن", "قبل التحديث"]
     },
     "case-def": {
         icon: "🖥️",
         title: "هيكل الجهاز",
-        text: "الهيكل (Case) يحمي المكونات الداخلية ويوفر التهوية. اختيار هيكل جيد يحسن airflow ويخفض الحرارة.",
+        text: "الهيكل (Case) يحمي المكونات الداخلية ويوفر التهوية. اختيار هيكل جيد يحسن تدفق الهواء ويخفض الحرارة.",
         tags: ["هيكل", "تبريد", "تهوية"]
     },
     "motherboard-def": {
@@ -204,7 +204,7 @@ const CONCEPT_POPUPS = {
     "cooling-def": {
         icon: "❄️",
         title: "نظام التبريد",
-        text: "يختلف بينair cooling و water cooling. المراوح تسحب الهواء الساخن خارج الهيكل.",
+        text: "يختلف بين التبريد بالهواء والتبريد بالماء. المراوح تسحب الهواء الساخن خارج الهيكل.",
         tags: ["مروحة", "مشتت", "حرارة"]
     },
     "airflow-def": {
@@ -234,7 +234,7 @@ const CONCEPT_POPUPS = {
     "performance-tips": {
         icon: "🚀",
         title: "تحسين الكفاءة",
-        text: "حدّث عبر Windows Update، راجع عناصر الإقلاع في Task Manager، واحذف التطبيقات غير المستخدمة عبر Uninstall a program.",
+        text: "حدّث عبر تحديث Windows، راجع عناصر الإقلاع في مدير المهام، واحذف التطبيقات غير المستخدمة عبر إزالة برنامج.",
         tags: ["تحديث", "إقلاع", "إزالة تطبيقات"]
     },
     "system-security": {
@@ -246,14 +246,14 @@ const CONCEPT_POPUPS = {
     "password-setup": {
         icon: "🔑",
         title: "إعداد كلمة المرور",
-        text: "المسار: Settings → Accounts → Sign-in Options. أضف تلميحاً يساعد على التذكر من غير كشف كلمة المرور نفسها.",
-        tags: ["Settings", "Accounts", "تلميح"]
+        text: "المسار: الإعدادات → الحسابات → خيارات تسجيل الدخول. أضف تلميحاً يساعد على التذكر من غير كشف كلمة المرور نفسها.",
+        tags: ["الإعدادات", "الحسابات", "تلميح"]
     },
     "backup-strategy": {
         icon: "☁️",
         title: "النسخ الاحتياطي",
-        text: "اجمع بين نسخة محلية (قرص خارجي، File History) ونسخة سحابية (Google Drive، OneDrive، Dropbox). نسختان في مكانين أفضل من واحدة.",
-        tags: ["محلي", "سحابي", "File History"]
+        text: "اجمع بين نسخة محلية (قرص خارجي، سجل الملفات) ونسخة سحابية (Google Drive، OneDrive، Dropbox). نسختان في مكانين أفضل من واحدة.",
+        tags: ["محلي", "سحابي", "سجل الملفات"]
     }
 };
 
@@ -917,7 +917,7 @@ function updateTrackingUiMeta() {
             }
             location.textContent = parts.join(" | ");
         } else {
-            location.textContent = "Desktop file saving is not available in this browser session.";
+            location.textContent = "حفظ الملفات على سطح المكتب غير متاح في جلسة المتصفح هذه.";
         }
     }
 
@@ -928,7 +928,7 @@ function updateTrackingUiMeta() {
     }
 
     if (status && DESKTOP_TRACKING_STATE.errorMessage && studentNumber) {
-        status.textContent = `Student ${studentNumber} is active, but file sync needs attention: ${DESKTOP_TRACKING_STATE.errorMessage}`;
+        status.textContent = `الطالب رقم ${studentNumber} نشط، لكن مزامنة الملفات تحتاج إلى اهتمام: ${DESKTOP_TRACKING_STATE.errorMessage}`;
     }
 
     renderStudentStatusBanner();
@@ -4767,6 +4767,7 @@ function setupLocalTrackingPanel() {
         }));
         recordStudentPageVisit(document.body?.dataset?.page);
         queueDesktopTrackingSave({ immediate: true });
+        updateHeaderStudentBadge();
     });
 
     exportButton?.addEventListener("click", () => {
@@ -4786,7 +4787,7 @@ function setupLocalTrackingPanel() {
     openFolderButton?.addEventListener("click", async () => {
         const bridge = getDesktopTrackingBridge();
         if (!bridge) {
-            status.textContent = "Desktop file saving is only available inside the Electron app.";
+            status.textContent = "حفظ الملفات على سطح المكتب متاح فقط داخل تطبيق Electron.";
             return;
         }
 
@@ -4819,10 +4820,10 @@ function setupLocalTrackingPanel() {
 
 function getTrackingStorageSummary() {
     if (!DESKTOP_TRACKING_STATE.available || !DESKTOP_TRACKING_STATE.storageDir) {
-        return "Tracking is stored in browser storage for this session.";
+        return "يتم حفظ بيانات التتبع في ذاكرة المتصفح لهذه الجلسة.";
     }
 
-    return `Tracking files are stored in: ${DESKTOP_TRACKING_STATE.storageDir}`;
+    return `ملفات التتبع محفوظة في: ${DESKTOP_TRACKING_STATE.storageDir}`;
 }
 
 function logoutStudent() {
@@ -4836,6 +4837,21 @@ function logoutStudent() {
         console.error("Desktop tracking save failed during logout:", error);
     });
     openStudentLoginModal();
+}
+
+function updateHeaderStudentBadge() {
+    const badge = document.getElementById("header-student-badge");
+    if (!badge) {
+        return;
+    }
+
+    const studentNumber = loadStudentNumber();
+    if (studentNumber) {
+        badge.textContent = `طالب ${studentNumber}`;
+        badge.hidden = false;
+    } else {
+        badge.hidden = true;
+    }
 }
 
 function renderStudentStatusBanner() {
@@ -4855,19 +4871,21 @@ function renderStudentStatusBanner() {
     const studentNumber = loadStudentNumber();
     banner.innerHTML = `
         <div class="student-status-copy">
-            <span class="eyebrow">Student Access</span>
-            <h2>${studentNumber ? `Student ${studentNumber} is active` : "Student login is required"}</h2>
+            <span class="eyebrow">وصول الطالب</span>
+            <h2>${studentNumber ? `الطالب ${studentNumber} نشط` : "يجب تسجيل الدخول أولاً"}</h2>
             <p>${getTrackingStorageSummary()}</p>
         </div>
         ${studentNumber ? `
         <div class="student-status-actions">
-            <button class="button button-secondary" type="button" data-student-logout>Log Out</button>
+            <button class="button button-secondary" type="button" data-student-logout>تسجيل الخروج</button>
         </div>` : ""}
     `;
 
     banner.querySelector("[data-student-logout]")?.addEventListener("click", () => {
         logoutStudent();
     });
+
+    updateHeaderStudentBadge();
 }
 
 function ensureStudentLoginModal() {
@@ -4882,14 +4900,14 @@ function ensureStudentLoginModal() {
     modal.hidden = true;
     modal.innerHTML = `
         <div class="student-login-dialog" role="dialog" aria-modal="true" aria-labelledby="student-login-title">
-            <span class="eyebrow">First Login</span>
-            <h2 id="student-login-title">Enter the student number before using the lab</h2>
-            <p>The app will use this number for progress tracking and will save the record as JSON.</p>
-            <label class="student-local-label" for="student-login-input">Student number</label>
+            <span class="eyebrow">تسجيل الدخول الأول</span>
+            <h2 id="student-login-title">أدخل رقم الطالب قبل استخدام المختبر</h2>
+            <p>سيستخدم التطبيق هذا الرقم لتتبع التقدم وسيحفظ السجل بصيغة JSON.</p>
+            <label class="student-local-label" for="student-login-input">رقم الطالب</label>
             <input id="student-login-input" class="student-local-input" type="text" inputmode="numeric" pattern="[0-9٠-٩۰-۹]+">
-            <p class="student-login-message" data-student-login-message>Choose a number from 1 to 35.</p>
+            <p class="student-login-message" data-student-login-message>اختر رقماً من 1 إلى 35.</p>
             <div class="student-login-actions">
-                <button class="button" type="button" data-student-login-save>Continue</button>
+                <button class="button" type="button" data-student-login-save>متابعة</button>
             </div>
         </div>
     `;
@@ -4904,14 +4922,14 @@ function ensureStudentLoginModal() {
 
         if (!Number.isInteger(studentNumber) || studentNumber < 1 || studentNumber > MAX_STUDENT_NUMBER) {
             if (message) {
-                message.textContent = "Enter a valid student number from 1 to 35.";
+                message.textContent = "أدخل رقم طالب صحيح من 1 إلى 35.";
             }
             return;
         }
 
         try {
             if (message) {
-                message.textContent = "Signing in...";
+                message.textContent = "جاري تسجيل الدخول...";
             }
             if (submitButton) {
                 submitButton.disabled = true;
@@ -4933,7 +4951,7 @@ function ensureStudentLoginModal() {
         } catch (error) {
             console.error("Student login failed:", error);
             if (message) {
-                message.textContent = error?.message || "Login failed. Try again.";
+                message.textContent = error?.message || "فشل تسجيل الدخول. حاول مرة أخرى.";
             }
         } finally {
             if (submitButton) {
@@ -4965,7 +4983,7 @@ function openStudentLoginModal() {
         window.setTimeout(() => input.focus(), 0);
     }
     if (message) {
-        message.textContent = "Choose a number from 1 to 35.";
+        message.textContent = "اختر رقماً من 1 إلى 35.";
     }
 }
 

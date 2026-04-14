@@ -119,7 +119,7 @@ function registerTrackingHandlers() {
   ipcMain.handle("tracking:clear-student-record", async (_event, studentNumberInput) => {
     const studentNumber = normalizeStudentNumber(Number(studentNumberInput));
     if (!studentNumber) {
-      throw new Error("Invalid student number.");
+      throw new Error("رقم طالب غير صحيح.");
     }
 
     const existingState = await loadTrackingStateFromDisk();
@@ -169,7 +169,7 @@ async function createMainWindow() {
     minHeight: 720,
     autoHideMenuBar: true,
     backgroundColor: "#f0f5ff",
-    title: "Virtual Lab Desktop",
+    title: "المختبر الافتراضي",
     icon: path.join(app.getAppPath(), "icon.ico"),
     webPreferences: {
       preload: path.join(app.getAppPath(), "preload.js"),
